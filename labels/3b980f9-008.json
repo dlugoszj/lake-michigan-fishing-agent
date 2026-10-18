@@ -1,0 +1,39 @@
+{
+  "chunk_id": "3b980f9-008",
+  "port": "Black River",
+  "date": "2024-10-02",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3b980f9",
+  "split": "dev",
+  "text": [
+    "Anglers reported slow fishing for salmon.",
+    "There were a few fish in the river, but anglers had a hard time getting them to bite."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "river",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

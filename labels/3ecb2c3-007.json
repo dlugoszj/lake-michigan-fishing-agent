@@ -1,0 +1,59 @@
+{
+  "chunk_id": "3ecb2c3-007",
+  "port": "Muskegon",
+  "date": "2025-08-06",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3ecb2c3",
+  "split": "dev",
+  "text": [
+    "Salmon action slowed down slightly compared to the previous week.",
+    "Anglers found fair numbers of salmon in 50 to 120 feet of water.",
+    "Green and blue glow spoons worked well along with glow plugs.",
+    "Pier anglers tried casting spoons for salmon but were unsuccessful."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 50,
+        "max_ft": 120
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons",
+        "plugs"
+      ],
+      "lure_details": "green and blue glow spoons; glow plugs",
+      "catch_quality": 2,
+      "notes": "slowed slightly from the previous week"
+    },
+    {
+      "species": "salmon_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": "casting; unsuccessful"
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

@@ -1,0 +1,82 @@
+{
+  "chunk_id": "42c1dbe-008",
+  "port": "Black River",
+  "date": "2026-09-23",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/42c1dbe",
+  "split": "dev",
+  "text": [
+    "Shore anglers caught Chinook salmon and coho salmon while casting spoons.",
+    "A few fish were also taken by anglers trolling."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "shore",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "coho",
+      "method": "shore",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

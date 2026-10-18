@@ -1,0 +1,110 @@
+{
+  "chunk_id": "3df50cf-010",
+  "port": "St. Joseph",
+  "date": "2025-05-07",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3df50cf",
+  "split": "dev",
+  "text": [
+    "Anglers had another pretty good week of fishing.",
+    "Boat anglers had fishing slow slightly from last week.",
+    "The Chinook salmon and coho salmon have spread out a little bit.",
+    "Boat anglers have been fishing in 45ft out past 100ft of water.",
+    "There are also some coho salmon still yet along the beach.",
+    "Anglers caught mostly Chinook salmon and coho salmon.",
+    "Small flashers and flies and spoons have caught most of the fish.",
+    "Pier fishing has slowed.",
+    "Coho salmon and a few steelhead were still being caught.",
+    "Shrimp fished under bobbers caught most of the fish.",
+    "No perch reports."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 45,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "flasher/fly",
+        "spoons"
+      ],
+      "lure_details": "small flashers and flies",
+      "catch_quality": [
+        2,
+        3
+      ],
+      "notes": "spread out"
+    },
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 45,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "flasher/fly",
+        "spoons"
+      ],
+      "lure_details": "small flashers and flies",
+      "catch_quality": [
+        2,
+        3
+      ],
+      "notes": "spread out; some coho still along the beach"
+    },
+    {
+      "species": "coho",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "shrimp"
+      ],
+      "lure_details": "shrimp fished under bobbers",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "shrimp"
+      ],
+      "lure_details": "shrimp fished under bobbers",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "yellow_perch",
+      "method": "unknown",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": "No perch reports"
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

@@ -1,0 +1,68 @@
+{
+  "chunk_id": "3f7335a-010",
+  "port": "St. Joseph River",
+  "date": "2025-10-15",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3f7335a",
+  "split": "dev",
+  "text": [
+    "Decent numbers of salmon continue to be reported.",
+    "Anglers casting or trolling the river had the most success."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 2,
+      "notes": "casting; trolling"
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

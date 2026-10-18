@@ -1,0 +1,87 @@
+{
+  "chunk_id": "3f1ef58-003",
+  "port": "South Haven",
+  "date": "2025-09-10",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3f1ef58",
+  "split": "test",
+  "text": [
+    "The lake was very rough last week.",
+    "Very few boats made it out onto the water.",
+    "The rough weather made it difficult for any boats that ventured out.",
+    "Pier fishing was also hampered by the lake conditions.",
+    "There were a couple of days when anglers managed to get out.",
+    "A few kings and steelhead were caught, but overall, fishing was slow.",
+    "Most of the fish were caught by casting spoons.",
+    "No perch boats made it out during the week."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [
+    "rough_water"
+  ],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "unknown",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "unknown",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": ""
+    },
+    {
+      "species": "fish_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "optional": true,
+      "notes": "optional: 'Pier fishing was also hampered by the lake conditions' reads as a poor result or as effort/conditions (rule 11)"
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

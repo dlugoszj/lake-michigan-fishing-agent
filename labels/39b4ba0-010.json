@@ -1,0 +1,85 @@
+{
+  "chunk_id": "39b4ba0-010",
+  "port": "Muskegon",
+  "date": "2024-05-08",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/39b4ba0",
+  "split": "dev",
+  "text": [
+    "Boat anglers found Chinook salmon along with a few coho salmon 30 to 90 feet down in 50 to 100 feet of water.",
+    "Blue, green and orange spoons worked well for salmon.",
+    "The fish cleaning station is now open at the Snug Harbor boat launch on Muskegon Lake."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 50,
+        "max_ft": 100
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 90
+      },
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "blue, green, orange spoons",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 50,
+        "max_ft": 100
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 90
+      },
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "blue, green, orange spoons",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "Fish cleaning station is open at Snug Harbor boat launch on Muskegon Lake",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

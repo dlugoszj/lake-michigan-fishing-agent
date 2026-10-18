@@ -1,0 +1,75 @@
+{
+  "chunk_id": "3b7fd3a-008",
+  "port": "South Haven",
+  "date": "2024-09-25",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3b7fd3a",
+  "split": "dev",
+  "text": [
+    "Fishing pressure was reported as low for the week, and salmon fishing was slow.",
+    "Most boat anglers were fishing around the piers.",
+    "Some anglers reported catching a few perch in 40 feet of water.",
+    "Pier fishing was also slow.",
+    "Anglers fishing the Black River saw slow fishing for salmon."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": "boats mostly fishing around the piers"
+    },
+    {
+      "species": "yellow_perch",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 40,
+        "max_ft": 40
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "fish_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "salmon_unspecified",
+      "method": "river",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": "Black River"
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

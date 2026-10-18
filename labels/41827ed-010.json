@@ -1,0 +1,122 @@
+{
+  "chunk_id": "41827ed-010",
+  "port": "Muskegon",
+  "date": "2026-05-20",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/41827ed",
+  "split": "test",
+  "text": [
+    "Boat anglers found good numbers of Chinook salmon, along with a few steelhead, lake trout, and coho salmon.",
+    "The best depths were 30 to 90 feet down in 90 to 180 feet of water.",
+    "The most effective baits were a mix of green and orange spoons, green meat rigs, and white flasher-fly combinations.",
+    "Pier fishing was slow for anglers casting spoons targeting freshwater drum."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 90,
+        "max_ft": 180
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 90
+      },
+      "lures": [
+        "spoons",
+        "meat rigs",
+        "flasher/fly"
+      ],
+      "lure_details": "green and orange spoons; green meat rigs; white flasher-fly combinations",
+      "catch_quality": 3,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 90,
+        "max_ft": 180
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 90
+      },
+      "lures": [
+        "spoons",
+        "meat rigs",
+        "flasher/fly"
+      ],
+      "lure_details": "green and orange spoons; green meat rigs; white flasher-fly combinations",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "lake_trout",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 90,
+        "max_ft": 180
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 90
+      },
+      "lures": [
+        "spoons",
+        "meat rigs",
+        "flasher/fly"
+      ],
+      "lure_details": "green and orange spoons; green meat rigs; white flasher-fly combinations",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 90,
+        "max_ft": 180
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 90
+      },
+      "lures": [
+        "spoons",
+        "meat rigs",
+        "flasher/fly"
+      ],
+      "lure_details": "green and orange spoons; green meat rigs; white flasher-fly combinations",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "freshwater_drum",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

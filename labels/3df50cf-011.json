@@ -1,0 +1,129 @@
+{
+  "chunk_id": "3df50cf-011",
+  "port": "Grand Haven",
+  "date": "2025-05-07",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3df50cf",
+  "split": "dev",
+  "text": [
+    "Pier fishing remained relatively slow with a few coho salmon being caught.",
+    "Anglers reported that the catch improved around mid-day to the afternoon when water temps are in the high 40 to 50 degrees Fahrenheit.",
+    "Fish were caught on shrimp and minnows successfully.",
+    "Perch fishing out of Grand Haven has picked up.",
+    "Boats have had success both south out of Grand Haven in 50-70 feet of water, and straight out of Grand Haven in 55 feet of water using spikes, wigglers, and minnows.",
+    "The Chinook salmon catch has been good, with some coho salmon and brown trout mixed in.",
+    "Success was found fishing the mudline from the Grand River in 40 to 55 feet of water; fish were found 30 to 40 feet deep pulling meat rigs and spoons.",
+    "Good colors have been black with white, greens, and oranges.",
+    "Boats going south towards Port Sheldon also found king salmon in 65 to 75 feet of water."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "coho",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "shrimp",
+        "minnows"
+      ],
+      "lure_details": "",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": "better mid-day/afternoon, water high 40s-50F"
+    },
+    {
+      "species": "yellow_perch",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 50,
+        "max_ft": 70
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spikes",
+        "wigglers",
+        "minnows"
+      ],
+      "lure_details": "",
+      "catch_quality": [
+        2,
+        3
+      ],
+      "notes": "south of Grand Haven and straight out"
+    },
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 40,
+        "max_ft": 75
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 40
+      },
+      "lures": [
+        "meat rigs",
+        "spoons"
+      ],
+      "lure_details": "black with white, greens, oranges",
+      "catch_quality": 3,
+      "notes": "mudline off the Grand River + Port Sheldon (65-75); fish depth from mudline only"
+    },
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 40,
+        "max_ft": 55
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 40
+      },
+      "lures": [
+        "meat rigs",
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": "some coho mixed in"
+    },
+    {
+      "species": "brown_trout",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 40,
+        "max_ft": 55
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 40
+      },
+      "lures": [
+        "meat rigs",
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": "brown trout mixed in"
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

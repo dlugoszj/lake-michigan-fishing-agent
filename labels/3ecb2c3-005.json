@@ -1,0 +1,64 @@
+{
+  "chunk_id": "3ecb2c3-005",
+  "port": "South Haven",
+  "date": "2025-08-06",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3ecb2c3",
+  "split": "dev",
+  "text": [
+    "Boat anglers targeting salmon reported success.",
+    "The fish spread out significantly.",
+    "Salmon were caught from 45 feet of water out to well beyond 120 feet of water.",
+    "The most productive water appeared to be around 70 feet, with most of the boats fishing north of the piers.",
+    "Spoons caught most of the fish.",
+    "Pier anglers caught steelhead using shrimp.",
+    "Water temperatures rose, and fishing was a bit inconsistent."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 45,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": [
+        2,
+        3
+      ],
+      "notes": "spread out; most productive ~70 ft; most boats north of the piers"
+    },
+    {
+      "species": "steelhead",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "shrimp"
+      ],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

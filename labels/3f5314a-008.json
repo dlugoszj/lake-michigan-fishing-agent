@@ -1,0 +1,89 @@
+{
+  "chunk_id": "3f5314a-008",
+  "port": "South Haven",
+  "date": "2025-10-01",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3f5314a",
+  "split": "dev",
+  "text": [
+    "Boat anglers reported fair fishing.",
+    "Some fish were caught, but they were very scattered.",
+    "Anglers fished from 50 to around 100 feet of water, with some boats fishing well beyond that.",
+    "The best bite was still with spoons.",
+    "Anglers mostly caught Chinook salmon, with some steelhead mixed in.",
+    "Pier fishing was a little slow.",
+    "There were a couple of salmon caught by anglers casting spoons.",
+    "Perch fishing was slow."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 50,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 2,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 50,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "salmon_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": ""
+    },
+    {
+      "species": "yellow_perch",
+      "method": "unknown",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

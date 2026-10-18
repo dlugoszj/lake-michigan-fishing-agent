@@ -1,0 +1,9 @@
+beautifulsoup4
+requests
+pydantic
+anthropic
+python-dotenv
+numpy
+xarray
+h5netcdf
+h5py

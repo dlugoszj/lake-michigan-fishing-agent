@@ -1,0 +1,54 @@
+{
+  "chunk_id": "3e16c3f-009",
+  "port": "South Haven",
+  "date": "2025-05-21",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e16c3f",
+  "split": "test",
+  "text": [
+    "Boat anglers reported a good number of catches for Chinook salmon and coho salmon.",
+    "Anglers reported 120 feet of water and deeper as the most successful."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 120,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": ""
+    },
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 120,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

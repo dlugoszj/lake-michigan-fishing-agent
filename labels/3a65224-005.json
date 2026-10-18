@@ -1,0 +1,62 @@
+{
+  "chunk_id": "3a65224-005",
+  "port": "Muskegon",
+  "date": "2024-07-03",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3a65224",
+  "split": "dev",
+  "text": [
+    "Salmon were caught 30 to 90 feet down in 70 to 130 feet of water.",
+    "Orange spoons and white flasher/fly combinations were reported to have worked well.",
+    "Pier anglers were catching a few freshwater drum when casting spoons or crankbaits."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 70,
+        "max_ft": 130
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 90
+      },
+      "lures": [
+        "spoons",
+        "flasher/fly"
+      ],
+      "lure_details": "orange spoons; white flasher/fly combinations",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "freshwater_drum",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons",
+        "crankbaits"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

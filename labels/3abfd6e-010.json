@@ -1,0 +1,114 @@
+{
+  "chunk_id": "3abfd6e-010",
+  "port": "South Haven",
+  "date": "2024-07-31",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3abfd6e",
+  "split": "dev",
+  "text": [
+    "Boat anglers were reporting successful salmon fishing trips.",
+    "Mixed bags of Chinook salmon, coho salmon and some steelhead were caught.",
+    "Most fish were caught on spoons, but a few big Chinook were caught on meat rigs.",
+    "The most productive water seemed to be between 80 and 90 feet.",
+    "Pier fishing was slow for all species, but there were a couple freshwater drum caught on live bait.",
+    "Perch fishing was also reported as slow; however, the best water was south of the piers in around 30 feet of water."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 80,
+        "max_ft": 90
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons",
+        "meat rigs"
+      ],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": ""
+    },
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 80,
+        "max_ft": 90
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 80,
+        "max_ft": 90
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "fish_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "freshwater_drum",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "live bait"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "yellow_perch",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 30
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

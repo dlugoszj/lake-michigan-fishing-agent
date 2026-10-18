@@ -1,0 +1,71 @@
+{
+  "chunk_id": "39cb2bc-012",
+  "port": "South Haven",
+  "date": "2024-05-15",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/39cb2bc",
+  "split": "dev",
+  "text": [
+    "Very few boat anglers made it out on the big lake.",
+    "Pier fishing was on the slow side for all species; however, there were a few steelhead caught.",
+    "These fish were caught on shrimp."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "fish_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "shrimp"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "chunk_id": "3eab77c-008",
+  "port": "St. Joseph",
+  "date": "2025-07-23",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3eab77c",
+  "split": "dev",
+  "text": [
+    "Salmon fishing was a little slow.",
+    "The fish were spread from 65 feet of water to over 120 feet.",
+    "The best fishing seemed to depend on the day.",
+    "Large rotators with meat rigs or flies caught the bigger Chinook salmon, while spoons caught most of the other fish.",
+    "Pier fishing was slow for all species except freshwater drum.",
+    "Shrimp fished on the bottom caught most of these fish.",
+    "Perch fishing was very inconsistent."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 65,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": "best fishing depended on the day"
+    },
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 65,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "rotators",
+        "meat rigs",
+        "flies"
+      ],
+      "lure_details": "large rotators with meat rigs or flies",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": "bigger Chinook"
+    },
+    {
+      "species": "fish_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": "all species except drum"
+    },
+    {
+      "species": "freshwater_drum",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "shrimp"
+      ],
+      "lure_details": "shrimp fished on the bottom",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "yellow_perch",
+      "method": "unknown",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": "very inconsistent"
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

@@ -1,0 +1,68 @@
+{
+  "chunk_id": "3fa205d-001",
+  "port": "Muskegon",
+  "date": "2025-11-05",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3fa205d",
+  "split": "test",
+  "text": [
+    "Pier and surf anglers targeting steelhead found the action to be slow.",
+    "No lake whitefish have been reported from the channel."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "steelhead",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "lake_whitefish",
+      "method": "unknown",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "shore",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": "surf anglers"
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

@@ -1,0 +1,113 @@
+"""Salmon fishing agent: answers questions from DNR weekly reports through read-only SQL tools.
+
+Usage:
+  python agent.py "Where should I fish for salmon out of Holland this weekend?"
+  python agent.py --today 2025-09-12 "..."     # pretend it's another date (backtesting; no future data visible)
+
+No framework: a plain tool-use loop. The model decides which tools to call and when it has enough
+to answer; this code runs the tools and feeds results back. Every step is printed.
+"""
+import argparse
+import json
+import sys
+import textwrap
+import time
+from datetime import date
+
+import anthropic
+from dotenv import load_dotenv
+
+from tools import TOOLS, run_tool
+
+load_dotenv()
+
+MODEL = "claude-opus-5"
+MAX_TURNS = 8
+PRICE_IN, PRICE_OUT = 5.0, 25.0  # $ per 1M tokens, claude-opus-5
+
+SYSTEM = """You help an angler decide where to fish for salmon (Chinook and coho) on Lake Michigan in Southwest Michigan, \
+using Michigan DNR weekly fishing reports that have been extracted into a database you query with tools.
+
+Ports from north to south: Muskegon, Grand Haven, Holland, South Haven, St. Joseph. Holland sits between Grand Haven \
+(to the north) and South Haven (to the south), each roughly 20-25 miles away. The DNR rarely reports on Holland, so for \
+Holland questions use Grand Haven and South Haven and say that you did.
+
+How to answer:
+- Ground every claim in the tool results. After each claim, cite the report date and port, e.g. (Grand Haven, 2026-09-23). \
+Never state fishing details the reports don't contain.
+- Say how old the newest report is. Reports are weekly and often weeks old, and the season changes fast in the fall, \
+so treat old reports as a guide, not as current conditions.
+- Recent reports are the strongest signal. Use earlier seasons at the same time of year to fill gaps and to say what \
+usually happens next, and label that clearly as history.
+- Catch quality runs 0 (slow) to 4 (excellent). "Not rated" means the fish were reported but the report didn't say how \
+well fishing went: treat it as a weak positive, not as bad fishing.
+- Water depth ("in 120 feet of water") and fish depth ("55 feet down") are different; give both when you have them.
+- Mention any access issue (closed pier or launch) in the reports.
+- Water and weather: call get_current_conditions for the ports you recommend (and when the question is about now or this weekend). Surface water temperature comes from buoys and is MEASURED; the cold-layer depth is MODELED by NOAA (LMHOFS) and approximate (its surface was ~2 C off the buoys in testing), so give it as a range and call it modeled. Report weeks come with that week's buoy surface temperature, so you can compare this year's reports and earlier seasons with today's water; find_similar_weeks can match on surface temperature as well as calendar.
+- Be concise: a recommendation first (where, how, what depth, what lures), then the evidence, then caveats. \
+End with the bulletin links you relied on.
+- Keep three kinds of statements apart: what the reports say (cite them), general guidance from the reference (name the \
+source), and your own inferences from combining them. Put your own inferences under a short "My read" heading, phrased as \
+expectations ("I'd expect..."), never as facts.
+- Use the reference below for what conditions mean. Label anything from it as general guidance, separate from the reports, and never present general guidance as something a report said.
+
+Reference (general guidance, cite the source when you use it):
+- Preferred water temperature (NY DEC, "Trolling for Lake Ontario trout and salmon"): Chinook and coho 52-58 F (optimum 53), steelhead 55-65 F, brown trout 54-63 F, lake trout 42-52 F. Salmon hold at whatever depth gives them that temperature, which is why the cold-layer depth matters more than the surface.
+- Michigan Sea Grant / MSU Extension: mature Chinook in early fall hold in or near water of 55 F or less. North or east winds push warm surface water offshore and cold water wells up along Michigan's shore (upwelling), which brings salmon toward pierheads and river mouths. A sharp drop in buoy surface temperature is the sign of an upwelling.
+- When the lake is stratified (roughly June-September) the thermocline is a narrow band of fast-dropping temperature (NY DEC: often only 5-15 ft thick); in spring and late fall the lake mixes and depth matters less.
+- Wind and waves: for small boats, say so plainly when the forecast is strong (e.g. sustained 20+ mph or high waves) and suggest the pier or river as the alternative; safety comes before the bite."""
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("question")
+    ap.add_argument("--today", default=date.today().isoformat(), help="treat this as today; later reports are invisible")
+    args = ap.parse_args()
+
+    client = anthropic.Anthropic()
+    system = SYSTEM + f"\n\nToday is {args.today}."
+    messages = [{"role": "user", "content": args.question}]
+    in_tok = out_tok = 0
+    t0 = time.monotonic()
+
+    for turn in range(1, MAX_TURNS + 1):
+        resp = client.beta.messages.create(
+            model=MODEL, max_tokens=16000, system=system, tools=TOOLS, messages=messages,
+            betas=["server-side-fallback-2026-07-01"], fallbacks="default",  # retry on a fallback model if declined
+        )
+        in_tok += resp.usage.input_tokens
+        out_tok += resp.usage.output_tokens
+
+        if resp.stop_reason == "refusal":
+            print("\n[the request was declined]")
+            break
+        if resp.stop_reason == "max_tokens":
+            print("\n[answer cut off at max_tokens]")
+        tool_calls = [b for b in resp.content if b.type == "tool_use"]
+        if resp.stop_reason != "tool_use" or not tool_calls:
+            answer = "\n".join(b.text for b in resp.content if b.type == "text")
+            print("\n" + "=" * 80 + "\n" + answer)
+            break
+
+        messages.append({"role": "assistant", "content": resp.content})  # includes thinking + tool_use blocks
+        results = []
+        for call in tool_calls:
+            print(f"\n→ turn {turn}: {call.name}({json.dumps(call.input)})")
+            try:
+                out, is_error = run_tool(call.name, call.input, args.today), False
+            except Exception as e:  # report tool failures to the model instead of crashing
+                out, is_error = f"Tool error: {e}", True
+            preview = textwrap.shorten(out.replace("\n", " | "), 160)
+            print(f"  ← {len(out):,} chars: {preview}")
+            results.append({"type": "tool_result", "tool_use_id": call.id, "content": out, "is_error": is_error})
+        messages.append({"role": "user", "content": results})  # all results for this turn in one message
+    else:
+        print(f"\n[stopped after {MAX_TURNS} turns without a final answer]")
+
+    cost = (in_tok * PRICE_IN + out_tok * PRICE_OUT) / 1e6
+    print(f"\n[{turn} model calls · {in_tok:,} in / {out_tok:,} out tokens · ${cost:.3f} · {time.monotonic() - t0:.0f}s]",
+          file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()

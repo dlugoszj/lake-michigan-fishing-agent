@@ -1,0 +1,70 @@
+{
+  "chunk_id": "41827ed-009",
+  "port": "St. Joseph River",
+  "date": "2026-05-20",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/41827ed",
+  "split": "dev",
+  "text": [
+    "Anglers fishing the lower St. Joseph River reported good catches of walleye.",
+    "Anglers caught fish when trolling and drifting crawlers."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "walleye",
+      "method": "boat",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "nightcrawlers"
+      ],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

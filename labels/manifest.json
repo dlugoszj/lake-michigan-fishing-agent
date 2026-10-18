@@ -1,0 +1,242 @@
+[
+ {
+  "chunk_id": "39b4ba0-010",
+  "port": "Muskegon",
+  "date": "2024-05-08",
+  "season": "spring",
+  "split": "dev",
+  "why": "stratum Muskegon / spring"
+ },
+ {
+  "chunk_id": "39cb2bc-012",
+  "port": "South Haven",
+  "date": "2024-05-15",
+  "season": "spring",
+  "split": "dev",
+  "why": "stratum South Haven / spring"
+ },
+ {
+  "chunk_id": "39e2127-014",
+  "port": "St. Joseph",
+  "date": "2024-05-22",
+  "season": "spring",
+  "split": "dev",
+  "why": "stratum St. Joseph / spring"
+ },
+ {
+  "chunk_id": "3a65224-005",
+  "port": "Muskegon",
+  "date": "2024-07-03",
+  "season": "summer",
+  "split": "dev",
+  "why": "stratum Muskegon / summer"
+ },
+ {
+  "chunk_id": "3abfd6e-010",
+  "port": "South Haven",
+  "date": "2024-07-31",
+  "season": "summer",
+  "split": "dev",
+  "why": "stratum South Haven / summer"
+ },
+ {
+  "chunk_id": "3b2f6aa-007",
+  "port": "Muskegon",
+  "date": "2024-09-04",
+  "season": "fall",
+  "split": "dev",
+  "why": "stratum Muskegon / fall"
+ },
+ {
+  "chunk_id": "3b7fd3a-006",
+  "port": "Grand Haven",
+  "date": "2024-09-25",
+  "season": "fall",
+  "split": "dev",
+  "why": "stratum Grand Haven / fall"
+ },
+ {
+  "chunk_id": "3b7fd3a-008",
+  "port": "South Haven",
+  "date": "2024-09-25",
+  "season": "fall",
+  "split": "dev",
+  "why": "stratum South Haven / fall"
+ },
+ {
+  "chunk_id": "3b980f9-008",
+  "port": "Black River",
+  "date": "2024-10-02",
+  "season": "fall",
+  "split": "dev",
+  "why": "Word-pasted HTML, un-bolded port name"
+ },
+ {
+  "chunk_id": "3df50cf-011",
+  "port": "Grand Haven",
+  "date": "2025-05-07",
+  "season": "spring",
+  "split": "dev",
+  "why": "stratum Grand Haven / spring"
+ },
+ {
+  "chunk_id": "3df50cf-008",
+  "port": "Muskegon Lake",
+  "date": "2025-05-07",
+  "season": "spring",
+  "split": "dev",
+  "why": "inland lake, perch only"
+ },
+ {
+  "chunk_id": "3df50cf-010",
+  "port": "St. Joseph",
+  "date": "2025-05-07",
+  "season": "spring",
+  "split": "dev",
+  "why": "stratum St. Joseph / spring"
+ },
+ {
+  "chunk_id": "3eab77c-008",
+  "port": "St. Joseph",
+  "date": "2025-07-23",
+  "season": "summer",
+  "split": "dev",
+  "why": "stratum St. Joseph / summer"
+ },
+ {
+  "chunk_id": "3ecb2c3-007",
+  "port": "Muskegon",
+  "date": "2025-08-06",
+  "season": "summer",
+  "split": "dev",
+  "why": "stratum Muskegon / summer"
+ },
+ {
+  "chunk_id": "3ecb2c3-005",
+  "port": "South Haven",
+  "date": "2025-08-06",
+  "season": "summer",
+  "split": "dev",
+  "why": "stratum South Haven / summer"
+ },
+ {
+  "chunk_id": "3f0b284-007",
+  "port": "South Haven",
+  "date": "2025-09-03",
+  "season": "fall",
+  "split": "dev",
+  "why": "'fish' with no species named"
+ },
+ {
+  "chunk_id": "3f5314a-008",
+  "port": "South Haven",
+  "date": "2025-10-01",
+  "season": "fall",
+  "split": "dev",
+  "why": "stratum South Haven / fall"
+ },
+ {
+  "chunk_id": "3f7335a-010",
+  "port": "St. Joseph River",
+  "date": "2025-10-15",
+  "season": "fall",
+  "split": "dev",
+  "why": "river salmon, short"
+ },
+ {
+  "chunk_id": "41827ed-009",
+  "port": "St. Joseph River",
+  "date": "2026-05-20",
+  "season": "spring",
+  "split": "dev",
+  "why": "walleye only, river"
+ },
+ {
+  "chunk_id": "41a3a94-007",
+  "port": "St. Joseph River",
+  "date": "2026-06-03",
+  "season": "summer",
+  "split": "dev",
+  "why": "stratum St. Joseph River / summer"
+ },
+ {
+  "chunk_id": "425abbc-004",
+  "port": "Grand Haven",
+  "date": "2026-08-19",
+  "season": "summer",
+  "split": "dev",
+  "why": "stratum Grand Haven / summer"
+ },
+ {
+  "chunk_id": "42c1dbe-008",
+  "port": "Black River",
+  "date": "2026-09-23",
+  "season": "fall",
+  "split": "dev",
+  "why": "stratum Black River / fall"
+ },
+ {
+  "chunk_id": "42c1dbe-007",
+  "port": "St. Joseph River",
+  "date": "2026-09-23",
+  "season": "fall",
+  "split": "dev",
+  "why": "stratum St. Joseph River / fall"
+ },
+ {
+  "chunk_id": "39e2127-012",
+  "port": "Grand Haven",
+  "date": "2024-05-22",
+  "season": "spring",
+  "split": "test",
+  "why": "stratum Grand Haven / spring"
+ },
+ {
+  "chunk_id": "3b2f6aa-009",
+  "port": "St. Joseph",
+  "date": "2024-09-04",
+  "season": "fall",
+  "split": "test",
+  "why": "stratum St. Joseph / fall"
+ },
+ {
+  "chunk_id": "3e16c3f-009",
+  "port": "South Haven",
+  "date": "2025-05-21",
+  "season": "spring",
+  "split": "test",
+  "why": "stratum South Haven / spring"
+ },
+ {
+  "chunk_id": "3f1ef58-003",
+  "port": "South Haven",
+  "date": "2025-09-10",
+  "season": "fall",
+  "split": "test",
+  "why": "rough lake, few boats out"
+ },
+ {
+  "chunk_id": "3f5314a-010",
+  "port": "St. Joseph River",
+  "date": "2025-10-01",
+  "season": "fall",
+  "split": "test",
+  "why": "stratum St. Joseph River / fall"
+ },
+ {
+  "chunk_id": "3fa205d-001",
+  "port": "Muskegon",
+  "date": "2025-11-05",
+  "season": "fall",
+  "split": "test",
+  "why": "steelhead only, end of season"
+ },
+ {
+  "chunk_id": "41827ed-010",
+  "port": "Muskegon",
+  "date": "2026-05-20",
+  "season": "spring",
+  "split": "test",
+  "why": "stratum Muskegon / spring"
+ }
+]

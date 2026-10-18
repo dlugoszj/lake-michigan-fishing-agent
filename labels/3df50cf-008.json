@@ -1,0 +1,53 @@
+{
+  "chunk_id": "3df50cf-008",
+  "port": "Muskegon Lake",
+  "date": "2025-05-07",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3df50cf",
+  "split": "dev",
+  "text": [
+    "There were reports of decent catches of yellow perch.",
+    "Anglers had success in shallower water using minnows.",
+    "A lot of sorting through smaller fish was necessary, though.",
+    "Nice catches of panfish were also reported."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "yellow_perch",
+      "method": "unknown",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "minnows"
+      ],
+      "lure_details": "",
+      "catch_quality": 2,
+      "notes": "shallower water; lots of small fish to sort through"
+    },
+    {
+      "species": "other",
+      "method": "unknown",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": "panfish"
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

@@ -1,0 +1,81 @@
+{
+  "chunk_id": "3b2f6aa-009",
+  "port": "St. Joseph",
+  "date": "2024-09-04",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3b2f6aa",
+  "split": "test",
+  "text": [
+    "Salmon fishing was on the slower side.",
+    "The best water was well beyond 100 feet of water.",
+    "Perch fishing was slow, but there were a couple good catches reported.",
+    "The best depth was found to be around 40 feet of water.",
+    "The fish seemed to be very spread out.",
+    "Pier fishing was slow for all species except freshwater drum."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 100,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "yellow_perch",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 40,
+        "max_ft": 40
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": ""
+    },
+    {
+      "species": "fish_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "freshwater_drum",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "chunk_id": "425abbc-004",
+  "port": "Grand Haven",
+  "date": "2026-08-19",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/425abbc",
+  "split": "dev",
+  "text": [
+    "Boat anglers found decent numbers of salmon 55 to 100 feet down in 90 to 120 feet of water.",
+    "Anglers venturing offshore found a mix of steelhead and coho salmon in 200 to 250 feet of water.",
+    "The morning bite was very good compared to the evening bite.",
+    "Glow plugs worked well in low-light conditions.",
+    "Pier anglers caught a few bass and freshwater drum on ned rigs, with no salmon reported from the piers."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 90,
+        "max_ft": 120
+      },
+      "fish_depth_ft": {
+        "min_ft": 55,
+        "max_ft": 100
+      },
+      "lures": [
+        "plugs"
+      ],
+      "lure_details": "glow plugs",
+      "catch_quality": [
+        2,
+        3
+      ],
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 200,
+        "max_ft": 250
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "plugs"
+      ],
+      "lure_details": "glow plugs",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 200,
+        "max_ft": 250
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "plugs"
+      ],
+      "lure_details": "glow plugs",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "salmon_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "freshwater_drum",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "ned rigs"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "other",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "ned rigs"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": "bass"
+    }
+  ],
+  "notes": "Morning fishing was better than evening fishing",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

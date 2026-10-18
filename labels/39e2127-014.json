@@ -1,0 +1,110 @@
+{
+  "chunk_id": "39e2127-014",
+  "port": "St. Joseph",
+  "date": "2024-05-22",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/39e2127",
+  "split": "dev",
+  "text": [
+    "Boat anglers targeting salmon had decent fishing.",
+    "Anglers were catching mostly coho salmon, with few Chinook salmon and steelhead as well.",
+    "The best water seemed to be from 65 to 90 feet deep.",
+    "There were a few boats fishing very deep also.",
+    "Pier fishing was on the slow side.",
+    "When the weather allowed, anglers caught a few steelhead on shrimp.",
+    "Lots of drum and catfish were being caught on nightcrawlers and alewife."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "coho",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 65,
+        "max_ft": 90
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 2,
+      "notes": ""
+    },
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 65,
+        "max_ft": 90
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 65,
+        "max_ft": 90
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "shrimp"
+      ],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "freshwater_drum",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "nightcrawlers",
+        "alewife"
+      ],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": ""
+    },
+    {
+      "species": "catfish",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "nightcrawlers",
+        "alewife"
+      ],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

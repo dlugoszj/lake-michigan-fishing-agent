@@ -1,0 +1,86 @@
+{
+  "chunk_id": "39e2127-012",
+  "port": "Grand Haven",
+  "date": "2024-05-22",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/39e2127",
+  "split": "test",
+  "text": [
+    "Boat anglers caught Chinook salmon 25 to 100 feet down in 45 to 120 feet of water.",
+    "Orange, blue and green spoons were reported to have worked well.",
+    "Flasher-fly combinations caught a few salmon deeper in the water column.",
+    "Pier anglers did well casting spoons for freshwater drum.",
+    "A few steelhead were caught using shrimp under a bobber.",
+    "Be sure to check your lines often.",
+    "Salmon anglers targeting waters shallower than 80 feet found high numbers of small Chinook less than 18 inches."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": null,
+        "max_ft": 120
+      },
+      "fish_depth_ft": {
+        "min_ft": 25,
+        "max_ft": 100
+      },
+      "lures": [
+        "spoons",
+        "flasher/fly"
+      ],
+      "lure_details": "orange, blue, and green spoons",
+      "catch_quality": 3,
+      "notes": "Salmon angler targeting waters less than 80ft found chinook less than 18 inches"
+    },
+    {
+      "species": "freshwater_drum",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 3,
+      "notes": ""
+    },
+    {
+      "species": "steelhead",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "shrimp"
+      ],
+      "lure_details": "shrimp under bobber",
+      "catch_quality": 1,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

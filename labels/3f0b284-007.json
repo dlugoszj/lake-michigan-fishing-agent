@@ -1,0 +1,84 @@
+{
+  "chunk_id": "3f0b284-007",
+  "port": "South Haven",
+  "date": "2025-09-03",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3f0b284",
+  "split": "dev",
+  "text": [
+    "Boat anglers had a tough week.",
+    "Some fish were caught, but overall, the fishing was slow.",
+    "A few fish were caught in 95 feet of water, but the best action was beyond 100 feet.",
+    "Most of the fish were caught on spoons.",
+    "Pier fishing was very slow for all species.",
+    "Perch fishing was good for one day, but the rest of the week was challenging.",
+    "Anglers were fishing around 30 feet of water."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "fish_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 95,
+        "max_ft": null
+      },
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "yellow_perch",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 30
+      },
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": ""
+    },
+    {
+      "species": "fish_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 0,
+      "notes": ""
+    },
+    {
+      "species": "",
+      "method": "",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": null,
+      "notes": ""
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  }
+}

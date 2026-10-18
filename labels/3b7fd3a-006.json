@@ -1,0 +1,81 @@
+{
+  "chunk_id": "3b7fd3a-006",
+  "port": "Grand Haven",
+  "date": "2024-09-25",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3b7fd3a",
+  "split": "dev",
+  "text": [
+    "Steelhead and immature Chinook salmon were caught 40 to 100 down in 140 to 220 feet of water.",
+    "Spoons worked best in the colors of green and orange.",
+    "Pier anglers found the salmon action to be slow, however a few were caught casting glow spoons in low light conditions."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "steelhead",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 140,
+        "max_ft": 220
+      },
+      "fish_depth_ft": {
+        "min_ft": 40,
+        "max_ft": 100
+      },
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "spoons in green and orange",
+      "catch_quality": null,
+      "notes": ""
+    },
+    {
+      "species": "chinook",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 140,
+        "max_ft": 220
+      },
+      "fish_depth_ft": {
+        "min_ft": 40,
+        "max_ft": 100
+      },
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "spoons in green and orange",
+      "catch_quality": null,
+      "notes": "immature"
+    },
+    {
+      "species": "salmon_unspecified",
+      "method": "pier",
+      "bottom_depth_ft": null,
+      "fish_depth_ft": null,
+      "lures": [
+        "spoons"
+      ],
+      "lure_details": "glow spoons",
+      "catch_quality": [
+        0,
+        1
+      ],
+      "notes": "low light conditions"
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}

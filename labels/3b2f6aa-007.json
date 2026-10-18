@@ -1,0 +1,64 @@
+{
+  "chunk_id": "3b2f6aa-007",
+  "port": "Muskegon",
+  "date": "2024-09-04",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3b2f6aa",
+  "split": "dev",
+  "text": [
+    "A few mature salmon were caught when trolling the channel and outside the break walls.",
+    "Chrome or glow j-plugs were found to be productive.",
+    "Anglers venturing offshore found some salmon and steelhead 30 to 70 down in 150 to 250 feet of water."
+  ],
+  "status": "done",
+  "no_fishing_info": false,
+  "conditions": [],
+  "access_issues": false,
+  "observations": [
+    {
+      "species": "salmon_unspecified",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 150,
+        "max_ft": 250
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 70
+      },
+      "lures": [
+        "plugs"
+      ],
+      "lure_details": "chrome or glow j-plugs",
+      "catch_quality": 1,
+      "notes": "depths are offshore only; channel/break wall fish had no depth. J-plugs mentioned for channel fish."
+    },
+    {
+      "species": "steelhead",
+      "method": "boat",
+      "bottom_depth_ft": {
+        "min_ft": 150,
+        "max_ft": 250
+      },
+      "fish_depth_ft": {
+        "min_ft": 30,
+        "max_ft": 70
+      },
+      "lures": [],
+      "lure_details": "",
+      "catch_quality": 1,
+      "notes": "offshore"
+    }
+  ],
+  "notes": "",
+  "_observation_template": {
+    "species": "",
+    "method": "",
+    "bottom_depth_ft": null,
+    "fish_depth_ft": null,
+    "lures": [],
+    "lure_details": "",
+    "catch_quality": null,
+    "notes": ""
+  },
+  "labeled_by": "claude_draft_reviewed"
+}
