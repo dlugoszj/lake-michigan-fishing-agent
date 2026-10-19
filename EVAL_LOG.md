@@ -132,3 +132,16 @@ Scores are as measured at the time; `review_page.py` recomputes all versions aga
 
 > **Caveat:** The test set has now been seen and its labels revised, so these aligned numbers are no longer a clean held-out measurement. A clean number needs fresh chunks labeled under the current rules before any model runs on them.
 
+
+## 2026-10-18 · v11-def · Haiku 5.5: Cheap-model check
+
+**Ran:** v11-def, claude-haiku-5-5, all 30 labeled chunks, run once ($0.035, $0.0012/chunk vs Opus 5 $0.043). Same prompt, no changes for the new model.
+
+**Scores:** Dev (23 chunks), salmon only (42 rows): Haiku 5.5 recall 95.2%, precision 97.6%, water depth 92.5%, lures exact 92.5%, catch quality 90.0%. Opus 5 100% on all (dev is fit to Opus, see caveat above); Haiku 4.5 95.2% / 93.0% / 95.0% / 92.5% / 87.5%. All species: Haiku 5.5 90.1% recall / 91.4% precision (Opus 100/100, Haiku 4.5 88.7/87.5). Test (7 chunks, already seen), salmon: Haiku 5.5 recall 100% (10/10), precision 83.3%, catch quality 100%; Opus 90.0% / 81.8% / 88.9%.
+
+**Found:**
+- Most dev misses are method from context: 'Lots of drum and catfish' and 'Perch fishing ... picked up' → unknown instead of pier/boat; 'salmon fishing was slow' → unknown instead of boat; walleye 'in the lower river' trolling → river instead of boat. Same family Haiku 4.5 missed.
+- Real mistakes: perch bait (spikes, wigglers, minnows) carried onto the Chinook/coho/brown rows in 3df50cf-011; the perch '30 feet of water' sentence used as the boat fish_unspecified depth in 3f0b284-007; 'slow slightly from last week' rated 1 where the label says 2-3.
+- Outputs ~1,380 tokens/chunk vs Opus ~750 (adaptive thinking is on by default); still 37x cheaper per chunk.
+
+> **Caveat:** 7 test chunks can't separate the models; dev favors Opus because the rules were written from Opus's dev errors. Use Haiku 5.5 for cheap iteration; decide the final extraction model on fresh labeled chunks.
