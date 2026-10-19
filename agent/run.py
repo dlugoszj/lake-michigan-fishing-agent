@@ -58,17 +58,25 @@ Reference (general guidance, cite the source when you use it):
 - Wind and waves: for small boats, say so plainly when the forecast is strong (e.g. sustained 20+ mph or high waves) and suggest the pier or river as the alternative; safety comes before the bite."""
 
 
-def run_agent(question: str, today: str, model: str = AGENT_DEFAULT_CLI):
-    """The agent loop. Yields one event dict per step, so the CLI can print them and the web page can stream them."""
+NO_REPORTS_NOTE = ("\n\nNo DNR fishing reports are available for this question, and the report tools are switched off. "
+                   "Base your answer on the current conditions and the reference above, and say so.")
+
+
+def run_agent(question: str, today: str, model: str = AGENT_DEFAULT_CLI, report_tools: bool = True):
+    """The agent loop. Yields one event dict per step, so the CLI can print them and the web page can stream them.
+
+    report_tools=False leaves only get_current_conditions (used by the agent eval to test conditions alone).
+    """
     client = anthropic.Anthropic()
-    system = SYSTEM + f"\n\nToday is {today}."
+    tools = TOOLS if report_tools else [t for t in TOOLS if t["name"] == "get_current_conditions"]
+    system = SYSTEM + f"\n\nToday is {today}." + ("" if report_tools else NO_REPORTS_NOTE)
     messages = [{"role": "user", "content": question}]
     total = {"input_tokens": 0, "output_tokens": 0, "cache_write_tokens": 0, "cache_read_tokens": 0}
     t0 = time.monotonic()
 
     for turn in range(1, MAX_TURNS + 1):
         resp = client.beta.messages.create(
-            model=model, max_tokens=16000, system=system, tools=TOOLS, messages=messages,
+            model=model, max_tokens=16000, system=system, tools=tools, messages=messages,
             betas=["server-side-fallback-2026-07-01"], fallbacks="default",  # retry on a fallback model if declined
         )
         tok = usage_tokens(resp.usage)

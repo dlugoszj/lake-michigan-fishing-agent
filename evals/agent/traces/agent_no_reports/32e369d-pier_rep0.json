@@ -1,0 +1,92 @@
+{
+ "case": {
+  "case_id": "32e369d-pier",
+  "method": "pier",
+  "as_of": "2022-09-20",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 0,
+   "South Haven": 0,
+   "Grand Haven": 0,
+   "Muskegon": 0
+  },
+  "report_id": "32e369d",
+  "report_date": "2022-09-21",
+  "prev_report_id": "32cff90",
+  "prev_date": "2022-09-14",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 78,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005052,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2022-09-20): live data is unavailable; buoy summary for the week before 2022-09-20:\n- St. Joseph: surface water that week (buoy 45026): avg 70 F, -1 F over the week\n- South Haven: surface water that week (buoy 45168): avg 71 F, +0 F over the week\n- Grand Haven: surface water that week (buoy 45029): avg 71 F, -0 F over the week\n- Muskegon: surface water that week (buoy 45029): avg 71 F, -0 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1153,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01634,
+   "thinking_chars": 0,
+   "text_chars": 2289
+  },
+  {
+   "type": "answer",
+   "text": "**No DNR reports were available, so these ratings come only from buoy water temperatures plus general guidance. They are low-confidence.** The conditions tool also returned only a weekly buoy summary. It had no pierhead model, cold-layer depth or wind forecast.\n\n## Ratings for pier salmon fishing this week\n\n| Port | Rating (0-4) | Why |\n|---|---|---|\n| St. Joseph | 1 | Buoy surface water averaged 70 F, down 1 F over the week (buoy 45026) |\n| South Haven | 1 | 71 F, flat (buoy 45168) |\n| Grand Haven | 1 | 71 F, flat (buoy 45029) |\n| Muskegon | 1 | 71 F, flat (buoy 45029, shared with Grand Haven) |\n\n**Where I'd go:** St. Joseph, by a very small margin. Its water is the coolest and the only one falling at all. A 1 F difference is within the buoy noise, so I wouldn't drive far for it. Go to whichever pier is closest.\n\n## Evidence\n- **Measured:** Surface water at all four buoys was 70-71 F for the week before 2022-09-20. The 3-day trends were flat, from -1 F to 0 F.\n- **General guidance (NY DEC):** Chinook and coho prefer 52-58 F, with an optimum of 53 F.\n- **General guidance (Michigan Sea Grant / MSU Extension):** Mature Chinook in early fall hold in or near water of 55 F or less. Piers fish best when a north or east wind causes upwelling. The sign is a sharp drop in surface temperature.\n\n## My read\n- I'd expect most salmon to be holding offshore in deeper, cooler water below the warm surface layer, not near the piers. Surface water is roughly 15 F above their preferred range, and nothing shows an upwelling pushing cold water to shore.\n- I'd expect pier fishing to be below average (1) until an upwelling arrives. That would show as a sharp surface drop of several degrees within a few days. The late-September cooling trend and a north or east blow are the usual triggers.\n- If that happens, I'd upgrade the port that cools first to a 2-3. Fishing is often best at dawn and dusk on piers and river mouths.\n\n## Caveats\n- I have no catch reports, pierhead model data, cold-layer depths or wind forecast, so I can't give lures, fish depths or access issues (closed piers or launches) for this week.\n- Check the forecast for a north or east wind and recheck pierhead water temperatures before you go.\n- I have no bulletin links to cite because no reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1231,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.021392,
+   "seconds": 11.461092261000886
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 1,
+   "Grand Haven": 1,
+   "Muskegon": 1
+  },
+  "go_to": [
+   "St. Joseph"
+  ]
+ }
+}

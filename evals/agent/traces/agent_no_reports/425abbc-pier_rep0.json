@@ -1,0 +1,92 @@
+{
+ "case": {
+  "case_id": "425abbc-pier",
+  "method": "pier",
+  "as_of": "2026-08-18",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": null,
+   "South Haven": null,
+   "Grand Haven": 0,
+   "Muskegon": 0
+  },
+  "report_id": "425abbc",
+  "report_date": "2026-08-19",
+  "prev_report_id": "424a154",
+  "prev_date": "2026-08-12",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 78,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005052,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2026-08-18): live data is unavailable; buoy summary for the week before 2026-08-18:\n- St. Joseph: surface water that week (buoy 45026): avg 74 F, +1 F over the week\n- South Haven: surface water that week (buoy 45168): avg 73 F, +1 F over the week\n- Grand Haven: surface water that week (buoy 45161): avg 72 F, +1 F over the week\n- Muskegon: surface water that week (buoy 45161): avg 72 F, +1 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1213,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01694,
+   "thinking_chars": 0,
+   "text_chars": 2189
+  },
+  {
+   "type": "answer",
+   "text": "**My pick is Grand Haven or Muskegon, but I expect a poor week at all four piers.** I have no DNR reports, and the tool gave me only last week's buoy surface temperatures. It returned no pierhead water model, no cold-layer depth and no wind forecast. These ratings are my inference from the reference guidance and that one measurement.\n\n**What the data shows**\n- Last week's buoy surface water (measured) averaged 74 F at St. Joseph, 73 F at South Haven, and 72 F at both Grand Haven and Muskegon (2026-08-18 buoy summary).\n- Every port was up about 1 F over the week. I see no sharp drop, so there is no sign of an upwelling.\n- General guidance (NY DEC): Chinook and coho prefer 52\u201358 F, with an optimum of 53 F.\n- General guidance (Michigan Sea Grant / MSU Extension): salmon come toward pierheads when north or east winds trigger an upwelling. A sharp drop in buoy surface temperature is the sign of one.\n\n**My read**\nI'd expect salmon to be holding offshore at depth, where the water is 52\u201358 F. The surface is about 15\u201320 F warmer than that, and in mid-August the lake is stratified. That leaves little reason for them to be near the piers.\n\n| Port | Rating | Why |\n|---|---|---|\n| Muskegon | 1 (below average) | 72 F surface, the coolest of the four. No upwelling sign. |\n| Grand Haven | 1 (below average) | Same buoy and same 72 F as Muskegon. |\n| South Haven | 0\u20131 | 73 F surface, with no cooling trend. |\n| St. Joseph | 0 (slow) | Warmest at 74 F, with no cooling trend. |\n\n- The 1\u20132 F differences between ports are within the error of buoy readings. Treat the ranking as a weak tiebreaker, not a real difference.\n- Muskegon and Grand Haven share a buoy, so I can't separate them. I'd pick whichever is closer to you.\n- Any of these ports could jump to a 2 or 3 if a few days of north or east wind drop the water temperature sharply. Before you go, check the pierhead temperature and its 3-day change, plus the wind forecast. I couldn't get either.\n\n**Caveats**\n- I have no information on pier or launch closures.\n- I have no bulletin links, because no reports were available.\n- The ratings come from temperature logic alone. I have no catch data for this year or earlier seasons.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1291,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.021992,
+   "seconds": 11.930860096999822
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 0,
+   "South Haven": 0,
+   "Grand Haven": 1,
+   "Muskegon": 1
+  },
+  "go_to": [
+   "Grand Haven or Muskegon"
+  ]
+ }
+}

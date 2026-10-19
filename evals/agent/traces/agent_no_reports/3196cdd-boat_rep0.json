@@ -1,0 +1,92 @@
+{
+ "case": {
+  "case_id": "3196cdd-boat",
+  "method": "boat",
+  "as_of": "2022-05-24",
+  "question": "I fish for salmon from a boat. For this week, how good do you expect boat fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 3,
+   "South Haven": 1,
+   "Grand Haven": 3,
+   "Muskegon": 2
+  },
+  "report_id": "3196cdd",
+  "report_date": "2022-05-25",
+  "prev_report_id": "3186585",
+  "prev_date": "2022-05-18",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 81,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005082,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2022-05-24): live data is unavailable; buoy summary for the week before 2022-05-24:\n- St. Joseph: surface water that week (buoy 45168): avg 53 F, -4 F over the week\n- South Haven: surface water that week (buoy 45168): avg 53 F, -4 F over the week\n- Grand Haven: surface water that week (buoy 45029): avg 52 F, -3 F over the week\n- Muskegon: surface water that week (buoy 45029): avg 52 F, -3 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1232,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01713,
+   "thinking_chars": 0,
+   "text_chars": 2392
+  },
+  {
+   "type": "answer",
+   "text": "**Pick: South Haven, with St. Joseph a close second. The evidence is thin, so treat these as low-confidence ratings.**\n\nNo DNR reports were available, so I have no catch data, depths or lures to cite. The only data I could get was a week-average buoy surface temperature for each port. I got no modeled cold-layer depth and no wind forecast. This is the \"backtest\" version of the tool for 2022-05-24, not live data.\n\n| Port | Rating (0\u20134) | Buoy surface temp (week avg, measured) |\n|---|---|---|\n| St. Joseph | 2 (average) | 53 F, down 4 F over the week (buoy 45168) |\n| South Haven | 2 (average) | 53 F, down 4 F over the week (buoy 45168) |\n| Grand Haven | 2 (average) | 52 F, down 3 F over the week (buoy 45029) |\n| Muskegon | 2 (average) | 52 F, down 3 F over the week (buoy 45029) |\n\n**What the data says**\n- All four ports have surface water of 52\u201353 F. NY DEC (general guidance) puts the preferred range for Chinook and coho at 52\u201358 F, with an optimum of 53 F. The surface water is therefore already in their range.\n- St. Joseph and South Haven share one buoy, and Grand Haven and Muskegon share another. The data can't separate ports that share a buoy.\n- The temperature fell 3\u20134 F over the week. Michigan Sea Grant and MSU Extension (general guidance) say a sharp drop in surface temperature is the sign of an upwelling.\n\n**My read**\n- I'd expect fish to be reachable near the surface this week, because the surface is at their preferred temperature. In late May the lake is mostly unstratified, so depth should matter less than in summer.\n- I'd expect the south ports to be slightly better. Their 53 F matches the optimum, and the north ports' 52 F is at the cold edge of the range.\n- A 3\u20134 F drop could be a mild upwelling or just cool weather, and I can't tell which without wind data. If the water keeps cooling, I'd expect the north ports to fall below the range first.\n- I have no basis to rate any port above or below average. I gave 2 everywhere and chose South Haven only on the temperature match.\n\n**Caveats**\n- Check the marine forecast before you go. I have no wind or wave information, and for a small boat safety comes before the bite. If it's 20+ mph, use the pier or river instead.\n- Check the surface temperature on the day. If it drops well below 52 F, move toward the warmer water to the south.\n\nI relied on no bulletin links, since no DNR reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1313,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.022212,
+   "seconds": 12.845651387000544
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 2,
+   "South Haven": 2,
+   "Grand Haven": 2,
+   "Muskegon": 2
+  },
+  "go_to": [
+   "South Haven"
+  ]
+ }
+}

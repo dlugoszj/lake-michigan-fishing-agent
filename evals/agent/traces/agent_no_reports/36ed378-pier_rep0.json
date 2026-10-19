@@ -1,0 +1,93 @@
+{
+ "case": {
+  "case_id": "36ed378-pier",
+  "method": "pier",
+  "as_of": "2023-09-05",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 0,
+   "South Haven": 0,
+   "Grand Haven": 0,
+   "Muskegon": 0
+  },
+  "report_id": "36ed378",
+  "report_date": "2023-09-06",
+  "prev_report_id": "36d9d5d",
+  "prev_date": "2023-08-30",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 81,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005082,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 433,
+   "content": "Backtest mode (today is 2023-09-05): live data is unavailable; buoy summary for the week before 2023-09-05:\n- St. Joseph: surface water that week (buoy 45026): avg 71 F, +4 F over the week\n- South Haven: surface water that week (buoy 45168): avg 68 F, +5 F over the week\n- Grand Haven: surface water that week (buoy 45161): avg 63 F, +12 F over the week\n- Muskegon: surface water that week (buoy 45161): avg 63 F, +12 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1218,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01699,
+   "thinking_chars": 0,
+   "text_chars": 2365
+  },
+  {
+   "type": "answer",
+   "text": "**Pick: Grand Haven. Muskegon is a close second.** These are low-confidence expectations. No DNR reports are available, and the tool returned only a weekly buoy summary. It had no pierhead model, no cold-layer depth and no wind forecast.\n\n**Expected pier ratings for this week (0\u20134)**\n\n| Port | Rating | Buoy surface water, past week |\n|---|---|---|\n| Grand Haven | 2 (average) | 63 F average, up 12 F (buoy 45161) |\n| Muskegon | 2 (average) | 63 F average, up 12 F (buoy 45161) |\n| South Haven | 1 (below average) | 68 F average, up 5 F (buoy 45168) |\n| St. Joseph | 1 (below average) | 71 F average, up 4 F (buoy 45026) |\n\n**What the data shows**\n- The buoy readings are measured. They are the only current data I have.\n- Grand Haven and Muskegon share one buoy, so their water data is identical.\n- Water warmed at every port over the week.\n\n**General guidance**\n- NY DEC says Chinook and coho prefer 52\u201358 F.\n- Michigan Sea Grant / MSU Extension says north or east winds cause upwellings. Those push cold water and salmon toward pierheads. A sharp drop in surface temperature is the sign.\n\n**My read**\n- I'd expect none of the ports to be having an upwelling right now. Every buoy shows warming, not the sharp drop that brings salmon to the piers.\n- I'd expect the north ports to be a little better. Their surface water is the closest to the salmon's range, and cooler water is probably nearer shore there.\n- The 12 F rise at Grand Haven and Muskegon suggests a recent cool spell that is fading. I can't confirm that without the earlier readings.\n- I'd expect St. Joseph and South Haven to be hardest for pier fishing. At 68\u201371 F, salmon are probably well offshore in deeper, cooler water, out of pier range.\n- Early September is usually early for pier salmon fishing. I'm assuming that from general experience, not from any report I could check.\n\n**Caveats and how to improve the odds**\n- I couldn't check wind or waves, or whether any piers are closed. Look at the forecast before you go.\n- Wind is the best signal for a change. If a north or east wind blows for a day or two, a pier could jump to a 3 or higher. Check the nearshore water temperature then. Go to the port where it has dropped the most.\n- Fish early or late in the day. Those are the best times for pier fishing.\n\n**Bulletin links:** none, because no DNR reports were available for this answer.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1299,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.022072,
+   "seconds": 12.590104179998889
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 1,
+   "Grand Haven": 2,
+   "Muskegon": 2
+  },
+  "go_to": [
+   "Grand Haven",
+   "Muskegon"
+  ]
+ }
+}

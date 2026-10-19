@@ -1,0 +1,92 @@
+{
+ "case": {
+  "case_id": "3f30d9c-pier",
+  "method": "pier",
+  "as_of": "2025-09-16",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 0,
+   "South Haven": 0,
+   "Grand Haven": 1,
+   "Muskegon": 0
+  },
+  "report_id": "3f30d9c",
+  "report_date": "2025-09-17",
+  "prev_report_id": "3f1ef58",
+  "prev_date": "2025-09-10",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 81,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005082,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2025-09-16): live data is unavailable; buoy summary for the week before 2025-09-16:\n- St. Joseph: surface water that week (buoy 45026): avg 69 F, -1 F over the week\n- South Haven: surface water that week (buoy 45168): avg 69 F, -0 F over the week\n- Grand Haven: surface water that week (buoy 45161): avg 68 F, +1 F over the week\n- Muskegon: surface water that week (buoy 45161): avg 68 F, +1 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1243,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01724,
+   "thinking_chars": 0,
+   "text_chars": 2390
+  },
+  {
+   "type": "answer",
+   "text": "**Recommendation:** I'd rate all four ports 1 (below average) this week. I have no basis to separate them, so go to whichever is closest, or wait for a wind shift. This is an expectation from water temperature, not a report of how fishing has been.\n\n**What I had to work with**\n- No DNR reports were available, so I have no catch, lure or pier-access information. This is not based on any fishing report.\n- The conditions tool returned only a buoy summary for the past week. It gave no modeled pierhead temperature, no cold-layer depth and no wind forecast.\n\n**Measured buoy surface water, past week**\n\n| Port | Buoy | Average surface temp | Weekly change |\n|---|---|---|---|\n| St. Joseph | 45026 | 69 F | -1 F |\n| South Haven | 45168 | 69 F | 0 F |\n| Grand Haven | 45161 | 68 F | +1 F |\n| Muskegon | 45161 | 68 F | +1 F |\n\n**Ratings (my expectation)**\n- St. Joseph: 1\n- South Haven: 1\n- Grand Haven: 1\n- Muskegon: 1\n\n**Reference guidance**\n- Chinook and coho prefer 52\u201358 F water (NY DEC). Mature Chinook in early fall hold in or near water of 55 F or less (Michigan Sea Grant/MSU Extension).\n- Surface water at 68\u201369 F is well above that range at every port.\n- Michigan Sea Grant/MSU Extension says salmon come toward pierheads when north or east winds cause an upwelling. The sign is a sharp drop in surface temperature. The buoys show no drop (-1 to +1 F), so there is no upwelling signal.\n\n**My read**\n- I'd expect most salmon to be offshore in deeper, cooler water, out of reach of a pier. I'd expect pier catches to be sporadic, mostly a fish or two at dawn or dusk.\n- The ports look the same on this data. The Grand Haven and Muskegon numbers come from the same buoy, so they aren't independent.\n- If I had to pick one, I'd go to the port closest to you. Being able to get there quickly when the wind turns matters more than the choice of port.\n\n**What would change this**\n- A sustained north or east wind for a day or two would be the trigger. Check the modeled pierhead temperature for a drop of several degrees over about 3 days. If one port shows a clear drop, I'd move it up to 2 or 3 and fish there.\n- I couldn't check wind or waves. If it's strong, with sustained 20+ mph or high waves, stay off the pier head. Piers can be dangerous in big waves.\n- I couldn't check pier closures. Look up local access before you go.\n\n**Bulletin links:** none. No DNR reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1324,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.022322,
+   "seconds": 12.347722883998358
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 1,
+   "Grand Haven": 1,
+   "Muskegon": 1
+  },
+  "go_to": [
+   "whichever port is closest"
+  ]
+ }
+}

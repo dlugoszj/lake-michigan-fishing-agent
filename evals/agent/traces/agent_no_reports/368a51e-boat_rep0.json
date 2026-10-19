@@ -1,0 +1,93 @@
+{
+ "case": {
+  "case_id": "368a51e-boat",
+  "method": "boat",
+  "as_of": "2023-08-01",
+  "question": "I fish for salmon from a boat. For this week, how good do you expect boat fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 2,
+   "South Haven": 2,
+   "Grand Haven": 2,
+   "Muskegon": 3
+  },
+  "report_id": "368a51e",
+  "report_date": "2023-08-02",
+  "prev_report_id": "3675eed",
+  "prev_date": "2023-07-26",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 78,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005052,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2023-08-01): live data is unavailable; buoy summary for the week before 2023-08-01:\n- St. Joseph: surface water that week (buoy 45026): avg 75 F, +2 F over the week\n- South Haven: surface water that week (buoy 45168): avg 74 F, +0 F over the week\n- Grand Haven: surface water that week (buoy 45161): avg 72 F, -2 F over the week\n- Muskegon: surface water that week (buoy 45161): avg 72 F, -2 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1269,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0175,
+   "thinking_chars": 0,
+   "text_chars": 2547
+  },
+  {
+   "type": "answer",
+   "text": "**Recommendation: Muskegon or Grand Haven, with Grand Haven as my slight pick. I'd rate St. Joseph lowest.**\n\nThere are no DNR reports for this question, so these ratings come only from last week's buoy surface temperatures and the general guidance below. The tool returned buoy data only. It gave no modeled cold-layer depths, no pierhead temperatures and no wind forecast. Please treat the ratings as low-confidence guesses.\n\n**What the data says (measured buoy surface temperature, week before 2023-08-01)**\n\n| Port | Buoy | Avg surface temp | Change over the week | My rating (0\u20134) |\n|---|---|---|---|---|\n| St. Joseph | 45026 | 75 F | +2 F | 1 |\n| South Haven | 45168 | 74 F | 0 F | 1\u20132 |\n| Grand Haven | 45161 | 72 F | \u22122 F | 2 |\n| Muskegon | 45161 | 72 F | \u22122 F | 2 |\n\nGrand Haven and Muskegon share the same buoy, so their numbers are identical. They are not independent evidence.\n\n**General guidance (NY DEC, Michigan Sea Grant/MSU Extension)**\n- Chinook and coho prefer 52\u201358 F water, with an optimum of 53 F. With surface water at 72\u201375 F, salmon will be holding well below the surface, at whatever depth gives them that temperature.\n- In summer the thermocline is a narrow band, often only 5\u201315 ft thick. Finding it matters more than the surface reading.\n- A sharp drop in buoy surface temperature signals an upwelling, and that brings salmon toward shore.\n\n**My read**\n- I'd expect fishing to be about average at best at all four ports. The surface is very warm everywhere, and I have no cold-layer depth to say where the fish are.\n- I'd expect Muskegon and Grand Haven to be a bit better. Their surface water is the coolest, and it fell 2 F over the week. That is a mild cooling, not the sharp drop that signals a true upwelling.\n- I'd expect St. Joseph to be the toughest. It is the warmest and still warming, so fish are probably deep and spread out.\n- Because the fish are likely deep, I'd expect the best approach is to put lures in the 52\u201358 F layer. That means deeper gear such as downriggers or lead core, and finding the thermocline with your electronics. I'm inferring this from the reference. No report supports it.\n\n**Caveats**\n- Check the marine forecast before you go. I have no wind or wave data. If it is 20+ mph or the waves are high, a small boat should stay in, and fishing the pier or river is the safer option.\n- The buoys sit miles offshore. Conditions near the piers can differ.\n- I have no information on access issues such as closed piers or launches.\n\n**Bulletin links:** None. No DNR reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1347,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.022552,
+   "seconds": 14.212768675999541
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 2,
+   "Grand Haven": 2,
+   "Muskegon": 2
+  },
+  "go_to": [
+   "Muskegon",
+   "Grand Haven"
+  ]
+ }
+}

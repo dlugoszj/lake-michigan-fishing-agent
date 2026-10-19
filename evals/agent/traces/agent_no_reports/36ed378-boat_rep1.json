@@ -1,0 +1,93 @@
+{
+ "case": {
+  "case_id": "36ed378-boat",
+  "method": "boat",
+  "as_of": "2023-09-05",
+  "question": "I fish for salmon from a boat. For this week, how good do you expect boat fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 0,
+   "South Haven": null,
+   "Grand Haven": 0,
+   "Muskegon": 1
+  },
+  "report_id": "36ed378",
+  "report_date": "2023-09-06",
+  "prev_report_id": "36d9d5d",
+  "prev_date": "2023-08-30",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 78,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005052,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 433,
+   "content": "Backtest mode (today is 2023-09-05): live data is unavailable; buoy summary for the week before 2023-09-05:\n- St. Joseph: surface water that week (buoy 45026): avg 71 F, +4 F over the week\n- South Haven: surface water that week (buoy 45168): avg 68 F, +5 F over the week\n- Grand Haven: surface water that week (buoy 45161): avg 63 F, +12 F over the week\n- Muskegon: surface water that week (buoy 45161): avg 63 F, +12 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1644,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.02125,
+   "thinking_chars": 0,
+   "text_chars": 2737
+  },
+  {
+   "type": "answer",
+   "text": "**Recommendation: Grand Haven, with Muskegon as an equal alternative.** These ratings are low-confidence inferences from limited data.\n\n**What I had to work with**\n- No DNR reports were available, so nothing here comes from fishing reports. I have no catch data, lures, or depths from this season or from earlier ones.\n- The conditions tool returned only last week's buoy surface temperatures. It gave no modeled cold-layer depth, no pierhead temperatures, and no wind forecast. These are measured surface temperatures, not the depth where fish are holding.\n\n**Measured surface water, week before 2023-09-05**\n\n| Port | Buoy | Avg surface temp | Change over the week |\n|---|---|---|---|\n| St. Joseph | 45026 | 71 F | +4 F |\n| South Haven | 45168 | 68 F | +5 F |\n| Grand Haven | 45161 | 63 F | +12 F |\n| Muskegon | 45161 | 63 F | +12 F |\n\nGrand Haven and Muskegon share one buoy, so their numbers are identical.\n\n**General guidance (NY DEC, Michigan Sea Grant/MSU Extension)**\n- Chinook and coho prefer 52\u201358 F water, with 53 F optimum.\n- Mature Chinook in early fall hold in or near water of 55 F or less.\n- In summer stratification, salmon sit at whatever depth gives them that temperature, often a thin band.\n\n**My read**\nThese are my expectations, not facts.\n\n| Port | Rating (0\u20134) | Reasoning |\n|---|---|---|\n| Grand Haven | 3 (good) | Its surface is the coolest at 63 F, which is closest to the salmon range. |\n| Muskegon | 3 (good) | It sits on the same buoy as Grand Haven, so the same logic applies. |\n| South Haven | 2 (average) | At 68 F the surface is warm, so I'd expect fish to be deeper and harder to locate. |\n| St. Joseph | 2 (average) | At 71 F it is the warmest surface, so I'd expect fish to be deep and fishing to depend on finding the cold layer. |\n\n- **Warming trend:** Grand Haven and Muskegon warmed 12 F in a week. That could mean a recent cold upwelling is fading, which would push fish back offshore and deeper. This is a guess, and it could pull those two ports down toward 2.\n- **Depth:** At the southern ports I'd start by looking for the 52\u201358 F layer rather than fishing the surface. I can't tell you its depth this week.\n- **Why Grand Haven over Muskegon:** I have no data separating them. I picked Grand Haven only because it's the more central of the two.\n\n**Caveats**\n- Check the marine forecast before launching. I have no wind data, and 20+ mph winds or high waves are a reason to stay in or fish the pier or river.\n- Water conditions change quickly in early September. A north or east wind could bring cold water and salmon toward shore.\n- Look at the fish finder and surface temperature on the water, and trust those over this estimate.\n\n**Bulletin links:** none, because no DNR reports were used.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1722,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.026302,
+   "seconds": 15.940441899001598
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 2,
+   "South Haven": 2,
+   "Grand Haven": 3,
+   "Muskegon": 3
+  },
+  "go_to": [
+   "Grand Haven",
+   "Muskegon"
+  ]
+ }
+}

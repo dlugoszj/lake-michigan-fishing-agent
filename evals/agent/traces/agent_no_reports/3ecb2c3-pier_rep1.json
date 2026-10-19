@@ -1,0 +1,92 @@
+{
+ "case": {
+  "case_id": "3ecb2c3-pier",
+  "method": "pier",
+  "as_of": "2025-08-05",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 1,
+   "South Haven": null,
+   "Grand Haven": 1,
+   "Muskegon": 0
+  },
+  "report_id": "3ecb2c3",
+  "report_date": "2025-08-06",
+  "prev_report_id": "3ebb776",
+  "prev_date": "2025-07-30",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 81,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005082,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 565,
+   "content": "Backtest mode (today is 2025-08-05): live data is unavailable; buoy summary for the week before 2025-08-05:\n- St. Joseph: surface water that week (buoy 45026): avg 69 F, -4 F over the week, possible upwelling (sharp drop)\n- South Haven: surface water that week (buoy 45168): avg 65 F, -9 F over the week, possible upwelling (sharp drop)\n- Grand Haven: surface water that week (buoy 45161): avg 67 F, -14 F over the week, possible upwelling (sharp drop)\n- Muskegon: surface water that week (buoy 45161): avg 67 F, -14 F over the week, possible upwelling (sharp drop)",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2461,
+   "output_tokens": 1642,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.021342,
+   "thinking_chars": 0,
+   "text_chars": 2924
+  },
+  {
+   "type": "answer",
+   "text": "**My pick is Grand Haven, with a rating of 2 (average) at best. These ratings are low-confidence estimates.** No DNR fishing reports were available for this question, so I used only the buoy data and the general reference. The tool returned no modeled pierhead temperatures, no cold-layer depths and no wind forecast. I couldn't check what the water is doing at the piers, or whether the wind is safe.\n\n**Ratings for this week**\n\n| Port | Rating | Why |\n|---|---|---|\n| Grand Haven | 2 (average) | The buoy shows the biggest drop, -14 F. |\n| Muskegon | 2 (average) | It uses the same buoy as Grand Haven, so the same signal applies. |\n| South Haven | 2 (average) | The drop is -9 F. |\n| St. Joseph | 1 (below average) | The drop is only -4 F, and the water is still warm. |\n\n**What the buoys show (measured, week before 2025-08-05)**\n- Grand Haven and Muskegon (buoy 45161): surface water averaged 67 F, down 14 F over the week. The tool flags a possible upwelling.\n- South Haven (buoy 45168): surface water averaged 65 F, down 9 F, also flagged as a possible upwelling.\n- St. Joseph (buoy 45026): surface water averaged 69 F, down 4 F, also flagged as a possible upwelling.\n\n**General guidance from the reference**\n- Michigan Sea Grant / MSU Extension says a sharp drop in buoy surface temperature is the sign of an upwelling. It says upwellings bring salmon toward pierheads and river mouths.\n- NY DEC says Chinook and coho prefer 52\u201358 F, with an optimum of 53 F.\n- In early August the lake is stratified, and salmon usually hold deeper than a pier can reach. A pier bite therefore depends mostly on cold water being pushed inshore.\n\n**My read**\n- Grand Haven and Muskegon had the sharpest drops, so I'd expect the best chance of cooler water, and salmon, near the pierheads there. The weekly average of 67 F with a 14 F drop suggests the water started in the mid-70s and ended near 60 F. That is my arithmetic, not a measured value.\n- Even about 60 F is above the 52\u201358 F salmon range, so I'd expect fish to be sporadic rather than a steady bite.\n- The buoys sit miles offshore, and Grand Haven and Muskegon share one buoy. I can't tell the two ports apart, and the pierhead water could differ.\n- Upwellings often fade within days once the wind changes. The drop may already be reversing, so I'd expect the bite to be short and tied to the wind.\n- I'd expect St. Joseph to be the weakest because its water is the warmest and shows the smallest drop.\n\n**Caveats**\n- These ratings come from temperature signals alone. I have no evidence of fish being caught, lures, or pier closures.\n- Before you go, check the wind and the pierhead water temperature. A north or east wind is the kind that drives upwelling. Sustained winds of 20+ mph or high waves can make piers dangerous.\n- If the pierhead water hasn't cooled, I'd lower any of these ratings by a point.\n\n**Bulletin links:** none, because no DNR reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4597,
+   "output_tokens": 1723,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.026424,
+   "seconds": 14.716704730999481
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 2,
+   "Grand Haven": 2,
+   "Muskegon": 2
+  },
+  "go_to": [
+   "Grand Haven"
+  ]
+ }
+}

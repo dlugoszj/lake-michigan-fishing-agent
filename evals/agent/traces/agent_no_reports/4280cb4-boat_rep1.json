@@ -1,0 +1,92 @@
+{
+ "case": {
+  "case_id": "4280cb4-boat",
+  "method": "boat",
+  "as_of": "2026-09-01",
+  "question": "I fish for salmon from a boat. For this week, how good do you expect boat fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": null,
+   "South Haven": null,
+   "Grand Haven": 3,
+   "Muskegon": 3
+  },
+  "report_id": "4280cb4",
+  "report_date": "2026-09-02",
+  "prev_report_id": "426de2b",
+  "prev_date": "2026-08-26",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 78,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005052,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2026-09-01): live data is unavailable; buoy summary for the week before 2026-09-01:\n- St. Joseph: surface water that week (buoy 45026): avg 74 F, -2 F over the week\n- South Haven: surface water that week (buoy 45168): avg 71 F, +0 F over the week\n- Grand Haven: surface water that week (buoy 45029): avg 70 F, +2 F over the week\n- Muskegon: surface water that week (buoy 45029): avg 70 F, +2 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1271,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01752,
+   "thinking_chars": 0,
+   "text_chars": 2465
+  },
+  {
+   "type": "answer",
+   "text": "**My pick is Grand Haven, with Muskegon a close second. These ratings are weak guesses.** No DNR reports were available, and the tool returned only a one-week buoy surface summary. I had no modeled cold-layer depths, no pierhead temperatures and no wind forecast. I'm not citing any report, and I can't say what's biting or at what depth.\n\n**Measured surface water, week before 2026-09-01 (buoys):**\n- St. Joseph: avg 74 F, down 2 F over the week.\n- South Haven: avg 71 F, flat.\n- Grand Haven: avg 70 F, up 2 F.\n- Muskegon: avg 70 F, up 2 F.\n\n**Ratings (0\u20134), my expectation for this week:**\n\n| Port | Rating | Why |\n|---|---|---|\n| Grand Haven | 2 (average) | Coolest surface water, tied with Muskegon. It's also the easier run if you're coming from the Holland side. |\n| Muskegon | 2 (average) | Same surface temperature as Grand Haven, and the buoy there is the same one (45029). I can't separate the two. |\n| South Haven | 2 (average), leaning low | Surface water is a bit warmer and steady. I have nothing else to set it apart. |\n| St. Joseph | 1 (below average) | Warmest surface water at 74 F. The 2 F drop could mean some mixing, but that is only a guess. |\n\n**General guidance (NY DEC, Michigan Sea Grant):**\n- Chinook and coho prefer 52\u201358 F water, with an optimum around 53 F.\n- Mature Chinook in early fall hold in or near water of 55 F or less.\n- In the stratified season, salmon sit at whatever depth gives them that temperature, so the cold-layer depth matters more than the surface temperature.\n\n**My read:**\n- With surface water at 70\u201374 F, I'd expect salmon to be well below the surface, near the thermocline, rather than near the top. I can't give a depth because I don't have the modeled cold-layer figures.\n- Cooler water to the north is the only reason I lean toward Grand Haven and Muskegon. That is an inference, not something the data shows.\n- A north or east wind that pushes warm surface water offshore could bring cold water and salmon closer to shore. The 2 F rises at Grand Haven and Muskegon suggest that hasn't happened there yet.\n- The ratings are low-confidence and the real differences between ports may be small.\n\n**Before you go:**\n- Check the marine forecast. I had no wind data, and sustained 20+ mph or high waves means staying on the pier or river instead.\n- Check the latest DNR weekly reports and a current cold-layer reading. Either would likely change these ratings.\n\n**Bulletin links:** None. No reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1349,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.022572,
+   "seconds": 11.931810051999491
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 2,
+   "Grand Haven": 2,
+   "Muskegon": 2
+  },
+  "go_to": [
+   "Grand Haven"
+  ]
+ }
+}

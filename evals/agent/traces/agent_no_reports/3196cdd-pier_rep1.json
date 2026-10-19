@@ -1,0 +1,93 @@
+{
+ "case": {
+  "case_id": "3196cdd-pier",
+  "method": "pier",
+  "as_of": "2022-05-24",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": null,
+   "South Haven": 1,
+   "Grand Haven": 1,
+   "Muskegon": null
+  },
+  "report_id": "3196cdd",
+  "report_date": "2022-05-25",
+  "prev_report_id": "3186585",
+  "prev_date": "2022-05-18",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 78,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005052,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2022-05-24): live data is unavailable; buoy summary for the week before 2022-05-24:\n- St. Joseph: surface water that week (buoy 45168): avg 53 F, -4 F over the week\n- South Haven: surface water that week (buoy 45168): avg 53 F, -4 F over the week\n- Grand Haven: surface water that week (buoy 45029): avg 52 F, -3 F over the week\n- Muskegon: surface water that week (buoy 45029): avg 52 F, -3 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1163,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01644,
+   "thinking_chars": 0,
+   "text_chars": 2208
+  },
+  {
+   "type": "answer",
+   "text": "**Pick: St. Joseph, with South Haven a close second.** The ratings below are low-confidence expectations, not report-based facts. No DNR reports were available, and the tool returned only a weekly buoy summary. It gave no pierhead model, cold-layer depth or wind forecast.\n\n| Port | Expected pier rating (0\u20134) |\n|---|---|\n| St. Joseph | 2 (average) |\n| South Haven | 2 (average) |\n| Grand Haven | 1.5 (between below average and average) |\n| Muskegon | 1.5 (between below average and average) |\n\n**What the data shows (measured buoy data, week before 2022-05-24)**\n- St. Joseph and South Haven (buoy 45168): surface water averaged 53 F, down 4 F over the week.\n- Grand Haven and Muskegon (buoy 45029): surface water averaged 52 F, down 3 F over the week.\n\n**General guidance from the reference**\n- NY DEC says Chinook and coho prefer 52\u201358 F, with an optimum of 53 F. All four buoys are in or at the edge of that range.\n- Michigan Sea Grant / MSU Extension says a sharp drop in buoy surface temperature is the sign of an upwelling, and upwellings bring salmon toward pierheads.\n\n**My read**\n- I'd expect the 3\u20134 F drop to mean some cold water is moving along the shore. That could help the piers, but the buoys sit miles offshore and don't show what's happening at the pierheads.\n- I'd expect the two southern ports to edge out the northern two. Their water is about 1 F warmer, which is closer to the 53 F optimum, and their drop was slightly larger. That is a small difference, so it is a weak basis for ranking them.\n- Without reports, I can't say whether salmon are actually near any of these piers. Late May is also not the usual peak for pier salmon fishing in Southwest Michigan, which is why I kept every rating at average or below. That is my general expectation and I have no report to back it.\n\n**Caveats**\n- I have no wind forecast. Before you go, check for north or east winds, which drive upwelling, and for strong winds or high waves, which can make a pier unsafe.\n- I have no pierhead temperatures. If a port's pier water has dropped sharply over the last few days, move to that port.\n- I have no information on pier or launch closures.\n\nI have no bulletin links, because no reports were used.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1241,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.021492,
+   "seconds": 12.384146110001893
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 2,
+   "South Haven": 2,
+   "Grand Haven": 1,
+   "Muskegon": 1
+  },
+  "go_to": [
+   "St. Joseph",
+   "South Haven"
+  ]
+ }
+}

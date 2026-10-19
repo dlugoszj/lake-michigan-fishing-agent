@@ -1,0 +1,93 @@
+{
+ "case": {
+  "case_id": "425abbc-pier",
+  "method": "pier",
+  "as_of": "2026-08-18",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": null,
+   "South Haven": null,
+   "Grand Haven": 0,
+   "Muskegon": 0
+  },
+  "report_id": "425abbc",
+  "report_date": "2026-08-19",
+  "prev_report_id": "424a154",
+  "prev_date": "2026-08-12",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 78,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005052,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2026-08-18): live data is unavailable; buoy summary for the week before 2026-08-18:\n- St. Joseph: surface water that week (buoy 45026): avg 74 F, +1 F over the week\n- South Haven: surface water that week (buoy 45168): avg 73 F, +1 F over the week\n- Grand Haven: surface water that week (buoy 45161): avg 72 F, +1 F over the week\n- Muskegon: surface water that week (buoy 45161): avg 72 F, +1 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1135,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01616,
+   "thinking_chars": 0,
+   "text_chars": 2415
+  },
+  {
+   "type": "answer",
+   "text": "**Pier fishing for salmon looks slow at all four ports this week. If you go, I'd pick Grand Haven or Muskegon, but I wouldn't expect much.**\n\nNo DNR reports were available for this question. The ratings below rest on one thing: last week's buoy surface temperatures. The pierhead model, cold-layer depth and wind forecast didn't come back, so I couldn't check for upwelling or wave conditions.\n\n| Port | Buoy surface temp, past week (measured) | Rating (0\u20134) |\n|---|---|---|\n| Muskegon | 72 F avg, +1 F (buoy 45161) | 1 |\n| Grand Haven | 72 F avg, +1 F (buoy 45161) | 1 |\n| South Haven | 73 F avg, +1 F (buoy 45168) | 0\u20131 |\n| St. Joseph | 74 F avg, +1 F (buoy 45026) | 0\u20131 |\n\n**Evidence**\n- All four buoys read 72\u201374 F, and each rose about 1 F over the week. The buoys sit miles offshore, so this is not pierhead water.\n- General guidance (NY DEC): Chinook and coho prefer 52\u201358 F, with an optimum of 53 F. Surface water at 72\u201374 F is about 15\u201320 F above that range.\n- General guidance (Michigan Sea Grant / MSU Extension): a sharp drop in buoy surface temperature signals an upwelling, and upwellings bring salmon toward pierheads. There's no drop here, and the temperatures are slightly rising.\n\n**My read**\n- I'd expect the salmon to be holding offshore at whatever depth gives them cold water, well beyond pier range. Mid-August is stratified, so that is probably below the thermocline.\n- With no sign of upwelling, I'd expect few fish near the piers. An occasional straggler is possible, but I wouldn't count on it.\n- I ranked Muskegon and Grand Haven slightly higher only because their water is 1\u20132 F cooler. That gap is small and well within the buoy-to-buoy and model uncertainty, so treat the ranking as a weak tiebreaker.\n- I'd expect that to change only if a sustained north or east wind pushes warm surface water offshore. Check the forecast, and look for a sharp temperature drop at the pierhead or buoy, before you commit to a trip. If that happens, the 1\u20132 ratings could jump quickly. Pier fishing is usually best in the early morning or at night, but that is a general rule, not something from today's data.\n\n**Caveats**\n- These ratings are inferences from surface temperature and general guidance. I have no catch reports for this week or for earlier seasons.\n- I have no wind or wave information, so I can't comment on pier safety.\n\n**Bulletin links:** none, because no DNR reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1213,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.021212,
+   "seconds": 11.43964688000051
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 0,
+   "South Haven": 0,
+   "Grand Haven": 1,
+   "Muskegon": 1
+  },
+  "go_to": [
+   "Grand Haven",
+   "Muskegon"
+  ]
+ }
+}

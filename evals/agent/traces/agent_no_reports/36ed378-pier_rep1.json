@@ -1,0 +1,93 @@
+{
+ "case": {
+  "case_id": "36ed378-pier",
+  "method": "pier",
+  "as_of": "2023-09-05",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 0,
+   "South Haven": 0,
+   "Grand Haven": 0,
+   "Muskegon": 0
+  },
+  "report_id": "36ed378",
+  "report_date": "2023-09-06",
+  "prev_report_id": "36d9d5d",
+  "prev_date": "2023-08-30",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 81,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005082,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 433,
+   "content": "Backtest mode (today is 2023-09-05): live data is unavailable; buoy summary for the week before 2023-09-05:\n- St. Joseph: surface water that week (buoy 45026): avg 71 F, +4 F over the week\n- South Haven: surface water that week (buoy 45168): avg 68 F, +5 F over the week\n- Grand Haven: surface water that week (buoy 45161): avg 63 F, +12 F over the week\n- Muskegon: surface water that week (buoy 45161): avg 63 F, +12 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1315,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01796,
+   "thinking_chars": 0,
+   "text_chars": 2340
+  },
+  {
+   "type": "answer",
+   "text": "**Pick: Grand Haven, with Muskegon a close second. Both are low-confidence ratings.**\n\nNo DNR reports were available, and the tool only returned a buoy summary for last week. It had no pierhead model, no cold-layer depth and no wind forecast. These ratings come from that buoy data and general guidance, not from reports of what's biting.\n\n| Port | Rating (0-4) | Surface water last week (measured) |\n|---|---|---|\n| Grand Haven | 2 (average) | avg 63 F, up 12 F (buoy 45161) |\n| Muskegon | 2 (average) | avg 63 F, up 12 F (buoy 45161) |\n| South Haven | 1 (below average) | avg 68 F, up 5 F (buoy 45168) |\n| St. Joseph | 1 (below average) | avg 71 F, up 4 F (buoy 45026) |\n\n**What the data shows**\n- The buoy numbers are measured. Grand Haven and Muskegon share one buoy, so the data can't tell those two ports apart.\n- Michigan Sea Grant/MSU Extension guidance says mature Chinook in early fall hold in or near water of 55 F or less. NY DEC gives a preferred range of 52\u201358 F for Chinook and coho.\n- Every buoy shows water well above that range and warming, not cooling. The same Sea Grant guidance says a sharp drop in surface temperature is the upwelling sign that brings salmon to pierheads. None of the four ports shows that drop.\n\n**My read**\n- I'd expect all four piers to be slow to average this week, because warm water usually keeps salmon offshore in deeper, cooler water.\n- The northern ports are cooler, so I'd expect them to do slightly better. An average of 63 F with a 12 F rise suggests the water was in the 50s early in the week and then warmed. If so, there may have been a brief cool spell that is now fading, and any fish near the piers may be leaving.\n- St. Joseph and South Haven have the warmest water, so I'd expect the least pier activity there.\n- The best chance at any port is a north or east wind. That can push warm surface water offshore and bring a quick upwelling. Check the wind forecast and the pierhead temperature, which I couldn't get. Go if the pierhead water drops sharply over a day or two, and fish the first and last light.\n\n**Caveats**\n- I have no report dates, catch quality or access information, such as closed piers, and I can't cite any bulletins.\n- The ratings are expectations, and a sudden upwelling could change them quickly.\n\n**Bulletin links:** none, because no reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1396,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.023042,
+   "seconds": 13.21418873500079
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 1,
+   "Grand Haven": 2,
+   "Muskegon": 2
+  },
+  "go_to": [
+   "Grand Haven",
+   "Muskegon"
+  ]
+ }
+}

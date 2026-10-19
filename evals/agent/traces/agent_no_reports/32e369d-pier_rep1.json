@@ -1,0 +1,90 @@
+{
+ "case": {
+  "case_id": "32e369d-pier",
+  "method": "pier",
+  "as_of": "2022-09-20",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 0,
+   "South Haven": 0,
+   "Grand Haven": 0,
+   "Muskegon": 0
+  },
+  "report_id": "32e369d",
+  "report_date": "2022-09-21",
+  "prev_report_id": "32cff90",
+  "prev_date": "2022-09-14",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2136,
+   "output_tokens": 78,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.005052,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 431,
+   "content": "Backtest mode (today is 2022-09-20): live data is unavailable; buoy summary for the week before 2022-09-20:\n- St. Joseph: surface water that week (buoy 45026): avg 70 F, -1 F over the week\n- South Haven: surface water that week (buoy 45168): avg 71 F, +0 F over the week\n- Grand Haven: surface water that week (buoy 45029): avg 71 F, -0 F over the week\n- Muskegon: surface water that week (buoy 45029): avg 71 F, -0 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-sonnet-5-5",
+   "input_tokens": 2405,
+   "output_tokens": 1210,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.01691,
+   "thinking_chars": 0,
+   "text_chars": 2573
+  },
+  {
+   "type": "answer",
+   "text": "**Recommendation:** I expect pier fishing for salmon to be below average at all four ports this week. If you go, pick whichever pier is closest to you and watch for a north or east wind. The data I have can't separate the ports in any meaningful way.\n\n**What I based this on**\n- No DNR reports are available, so this is not based on any fishing reports. I only have buoy water temperatures and general guidance.\n- The only live data was the buoy summary for the week before 2022-09-20. The modeled pierhead temperatures, cold-layer depths and wind forecast weren't returned.\n- Measured surface water temperatures (buoys):\n  - St. Joseph: avg 70 F, down 1 F over the week\n  - South Haven: avg 71 F, no change\n  - Grand Haven: avg 71 F, no change\n  - Muskegon: avg 71 F, no change\n- General guidance from NY DEC: Chinook and coho prefer 52-58 F, with an optimum of 53 F.\n- General guidance from Michigan Sea Grant / MSU Extension:\n  - Mature Chinook in early fall hold in or near water of 55 F or less.\n  - North or east winds cause upwelling, which pulls cold water and salmon toward pierheads. A sharp drop in surface temperature is the sign of one.\n\n**Ratings (0-4)**\n\n| Port | Rating | Why |\n|---|---|---|\n| St. Joseph | 1 | Surface is 70 F, about 15 F above the salmon range. The 1 F dip is too small to count as an upwelling. |\n| South Haven | 1 | Surface is 71 F with no cooling. |\n| Grand Haven | 1 | Surface is 71 F with no cooling. |\n| Muskegon | 1 | Surface is 71 F with no cooling. |\n\n**My read**\n- I'd expect the salmon to be holding offshore, near cold water at depth, rather than at the piers. None of the four ports shows the sharp surface drop that signals an upwelling.\n- I'd expect any fish at the piers this week to be scattered and mostly at low light, around dawn and dusk.\n- The ports are tied on this evidence. If I had to pick one, I'd choose St. Joseph, only because it was the one port that cooled slightly. That is a very weak signal.\n- If a north or east wind of a day or more arrives and the pierhead water drops several degrees, I'd raise that port to a 2 or 3. In that case, go to the pier on the downwind-facing shore where the cold water is pushed in.\n\n**Caveats**\n- These ratings are an inference from temperature alone, not from catch data.\n- I had no wind forecast, so I can't tell you whether an upwelling is likely this week. Check a marine forecast and a current pierhead temperature before you drive.\n- Pier access, such as closures, couldn't be checked without reports.\n\n**Bulletin links:** none, since no DNR reports were available.",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 4541,
+   "output_tokens": 1288,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.021962,
+   "seconds": 11.76153124099801
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 1,
+   "Grand Haven": 1,
+   "Muskegon": 1
+  },
+  "go_to": []
+ }
+}
