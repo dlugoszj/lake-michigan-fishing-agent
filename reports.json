@@ -160,5 +160,635 @@
   "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/42c1dbe",
   "date": "2026-09-23",
   "title": "Weekly Fishing Report: September 23, 2026"
+ },
+ {
+  "report_id": "31256af",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/31256af",
+  "date": "2022-04-06",
+  "title": "Weekly Fishing Report: April 6, 2022"
+ },
+ {
+  "report_id": "31352ef",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/31352ef",
+  "date": "2022-04-13",
+  "title": "Weekly Fishing Report: April 13, 2022"
+ },
+ {
+  "report_id": "3145666",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3145666",
+  "date": "2022-04-20",
+  "title": "Weekly Fishing Report: April 20, 2022"
+ },
+ {
+  "report_id": "3155afc",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3155afc",
+  "date": "2022-04-27",
+  "title": "Weekly Fishing Report: April 27, 2022"
+ },
+ {
+  "report_id": "3166173",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3166173",
+  "date": "2022-05-04",
+  "title": "Weekly Fishing Report: May 4, 2022"
+ },
+ {
+  "report_id": "3186585",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585",
+  "date": "2022-05-18",
+  "title": "Weekly Fishing Report: May 18, 2022"
+ },
+ {
+  "report_id": "3196cdd",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3196cdd",
+  "date": "2022-05-25",
+  "title": "Weekly Fishing Report: May 25, 2022"
+ },
+ {
+  "report_id": "31a5bb6",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/31a5bb6",
+  "date": "2022-06-01",
+  "title": "Weekly Fishing Report: June 1, 2022"
+ },
+ {
+  "report_id": "31c5025",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/31c5025",
+  "date": "2022-06-15",
+  "title": "Weekly Fishing Report: June 15, 2022"
+ },
+ {
+  "report_id": "31d4d6c",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/31d4d6c",
+  "date": "2022-06-22",
+  "title": "Weekly Fishing Report: June 22, 2022"
+ },
+ {
+  "report_id": "31e454b",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/31e454b",
+  "date": "2022-06-29",
+  "title": "Weekly Fishing Report: June 29, 2022"
+ },
+ {
+  "report_id": "31f444a",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/31f444a",
+  "date": "2022-07-06",
+  "title": "Weekly Fishing Report: July 6, 2022"
+ },
+ {
+  "report_id": "321350c",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/321350c",
+  "date": "2022-07-14",
+  "title": "Weekly Fishing Report: July 14, 2022"
+ },
+ {
+  "report_id": "323f6bf",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/323f6bf",
+  "date": "2022-07-20",
+  "title": "Weekly Fishing Report: July 20, 2022"
+ },
+ {
+  "report_id": "3268d0b",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3268d0b",
+  "date": "2022-08-03",
+  "title": "Weekly Fishing Report: August 3, 2022"
+ },
+ {
+  "report_id": "327890a",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/327890a",
+  "date": "2022-08-10",
+  "title": "Weekly Fishing Report: Aug. 10, 2022"
+ },
+ {
+  "report_id": "3288194",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3288194",
+  "date": "2022-08-17",
+  "title": "Weekly Fishing Report: August 17, 2022"
+ },
+ {
+  "report_id": "3298204",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3298204",
+  "date": "2022-08-24",
+  "title": "Weekly Fishing Report: August 24, 2022"
+ },
+ {
+  "report_id": "32bbcf0",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/32bbcf0",
+  "date": "2022-09-07",
+  "title": "Weekly Fishing Report: Sept. 7, 2022"
+ },
+ {
+  "report_id": "32e369d",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/32e369d",
+  "date": "2022-09-21",
+  "title": "Weekly Fishing Report: September 21, 2022"
+ },
+ {
+  "report_id": "32f6c54",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/32f6c54",
+  "date": "2022-09-28",
+  "title": "Weekly Fishing Report: Sept. 28, 2022"
+ },
+ {
+  "report_id": "330b601",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/330b601",
+  "date": "2022-10-05",
+  "title": "Weekly Fishing Report: October 5, 2022"
+ },
+ {
+  "report_id": "331f802",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/331f802",
+  "date": "2022-10-12",
+  "title": "Weekly Fishing Report: October 12, 2022"
+ },
+ {
+  "report_id": "33336f9",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/33336f9",
+  "date": "2022-10-19",
+  "title": "Weekly Fishing Report: October 19, 2022"
+ },
+ {
+  "report_id": "3370b88",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3370b88",
+  "date": "2022-11-09",
+  "title": "Weekly Fishing Report: Nov. 9, 2022"
+ },
+ {
+  "report_id": "35343b8",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/35343b8",
+  "date": "2023-04-05",
+  "title": "Weekly Fishing Report: April 5, 2023"
+ },
+ {
+  "report_id": "3548e2b",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3548e2b",
+  "date": "2023-04-12",
+  "title": "Weekly Fishing Report: April 12, 2023"
+ },
+ {
+  "report_id": "3561fa6",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3561fa6",
+  "date": "2023-04-20",
+  "title": "Weekly Fishing Report: April 20, 2023"
+ },
+ {
+  "report_id": "3573537",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3573537",
+  "date": "2023-04-26",
+  "title": "Weekly Fishing Report: April 26, 2023"
+ },
+ {
+  "report_id": "3588f66",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3588f66",
+  "date": "2023-05-03",
+  "title": "Weekly Fishing Report: May 3, 2023"
+ },
+ {
+  "report_id": "359cab8",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/359cab8",
+  "date": "2023-05-10",
+  "title": "Weekly Fishing Report: May 10, 2023"
+ },
+ {
+  "report_id": "35b2589",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/35b2589",
+  "date": "2023-05-17",
+  "title": "Weekly Fishing Report: May 17, 2023"
+ },
+ {
+  "report_id": "35c6304",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/35c6304",
+  "date": "2023-05-24",
+  "title": "Weekly Fishing Report: May 24, 2023"
+ },
+ {
+  "report_id": "35d8a8c",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/35d8a8c",
+  "date": "2023-05-31",
+  "title": "Weekly Fishing Report: May 31, 2023"
+ },
+ {
+  "report_id": "35ed629",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/35ed629",
+  "date": "2023-06-07",
+  "title": "Weekly Fishing Report: June 7, 2023"
+ },
+ {
+  "report_id": "3614332",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3614332",
+  "date": "2023-06-21",
+  "title": "Weekly Fishing Report: June 21, 2023"
+ },
+ {
+  "report_id": "363ad03",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/363ad03",
+  "date": "2023-07-05",
+  "title": "Weekly Fishing Report: July 5, 2023"
+ },
+ {
+  "report_id": "366250d",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/366250d",
+  "date": "2023-07-19",
+  "title": "Weekly Fishing Report: July 19, 2023"
+ },
+ {
+  "report_id": "3675eed",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3675eed",
+  "date": "2023-07-26",
+  "title": "Weekly Fishing Report: July 26, 2023"
+ },
+ {
+  "report_id": "368a51e",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/368a51e",
+  "date": "2023-08-02",
+  "title": "Weekly Fishing Report: Aug. 2, 2023"
+ },
+ {
+  "report_id": "369e344",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/369e344",
+  "date": "2023-08-09",
+  "title": "Weekly Fishing Report: August 9, 2023"
+ },
+ {
+  "report_id": "36b27d5",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/36b27d5",
+  "date": "2023-08-16",
+  "title": "Weekly Fishing Report: August 16, 2023"
+ },
+ {
+  "report_id": "36c669b",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/36c669b",
+  "date": "2023-08-23",
+  "title": "Weekly Fishing Report: Aug. 23, 2023"
+ },
+ {
+  "report_id": "36d9d5d",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/36d9d5d",
+  "date": "2023-08-30",
+  "title": "Weekly Fishing Report: Aug. 30, 2023"
+ },
+ {
+  "report_id": "36ed378",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/36ed378",
+  "date": "2023-09-06",
+  "title": "Weekly Fishing Report: Sept. 6, 2023"
+ },
+ {
+  "report_id": "3702b07",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3702b07",
+  "date": "2023-09-13",
+  "title": "Weekly Fishing Report: Sept. 13, 2023"
+ },
+ {
+  "report_id": "3717a83",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3717a83",
+  "date": "2023-09-20",
+  "title": "Weekly Fishing Report: Sept. 20, 2023"
+ },
+ {
+  "report_id": "372dac8",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/372dac8",
+  "date": "2023-09-27",
+  "title": "Weekly Fishing Report: Sept. 27, 2023"
+ },
+ {
+  "report_id": "37424d6",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/37424d6",
+  "date": "2023-10-04",
+  "title": "Weekly Fishing Report: Oct. 4, 2023"
+ },
+ {
+  "report_id": "3754df7",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3754df7",
+  "date": "2023-10-11",
+  "title": "Weekly Fishing Report: Oct. 11, 2023"
+ },
+ {
+  "report_id": "37677f7",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/37677f7",
+  "date": "2023-10-18",
+  "title": "Weekly Fishing Report: Oct. 18, 2023"
+ },
+ {
+  "report_id": "3779d77",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3779d77",
+  "date": "2023-10-25",
+  "title": "Weekly Fishing Report: Oct. 25, 2023"
+ },
+ {
+  "report_id": "39420c4",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/39420c4",
+  "date": "2024-04-03",
+  "title": "Weekly Fishing Report: April 3, 2024"
+ },
+ {
+  "report_id": "39595be",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/39595be",
+  "date": "2024-04-10",
+  "title": "Weekly Fishing Report: April 10, 2024"
+ },
+ {
+  "report_id": "39703c8",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/39703c8",
+  "date": "2024-04-17",
+  "title": "Weekly Fishing Report: April 17, 2024"
+ },
+ {
+  "report_id": "3987c22",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3987c22",
+  "date": "2024-04-24",
+  "title": "Weekly Fishing Report: April 24, 2024"
+ },
+ {
+  "report_id": "399e81d",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/399e81d",
+  "date": "2024-05-01",
+  "title": "Weekly Fishing Report: May 1, 2024"
+ },
+ {
+  "report_id": "39f7432",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/39f7432",
+  "date": "2024-05-29",
+  "title": "Weekly Fishing Report: May 29, 2024"
+ },
+ {
+  "report_id": "3a12182",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3a12182",
+  "date": "2024-06-06",
+  "title": "Weekly Fishing Report: June 6, 2024"
+ },
+ {
+  "report_id": "3a2442f",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3a2442f",
+  "date": "2024-06-12",
+  "title": "Weekly Fishing Report: June 12, 2024"
+ },
+ {
+  "report_id": "3a3db1a",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3a3db1a",
+  "date": "2024-06-20",
+  "title": "Weekly Fishing Report: June 20, 2024"
+ },
+ {
+  "report_id": "3a521c4",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3a521c4",
+  "date": "2024-06-26",
+  "title": "Weekly Fishing Report: June 26, 2024"
+ },
+ {
+  "report_id": "3a7bce5",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3a7bce5",
+  "date": "2024-07-10",
+  "title": "Weekly Fishing Report: July 10, 2024"
+ },
+ {
+  "report_id": "3aa7f0e",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3aa7f0e",
+  "date": "2024-07-24",
+  "title": "Weekly Fishing Report: July 24, 2024"
+ },
+ {
+  "report_id": "3ad6654",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3ad6654",
+  "date": "2024-08-07",
+  "title": "Weekly Fishing Report: August 7, 2024"
+ },
+ {
+  "report_id": "3b02c05",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3b02c05",
+  "date": "2024-08-21",
+  "title": "Weekly Fishing Report: August 21, 2024"
+ },
+ {
+  "report_id": "3b19036",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3b19036",
+  "date": "2024-08-28",
+  "title": "Weekly Fishing Report: August 28, 2024"
+ },
+ {
+  "report_id": "3baf097",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3baf097",
+  "date": "2024-10-09",
+  "title": "Weekly Fishing Report: October 9, 2024"
+ },
+ {
+  "report_id": "3bc5a97",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3bc5a97",
+  "date": "2024-10-16",
+  "title": "Weekly Fishing Report: October 16, 2024"
+ },
+ {
+  "report_id": "3bdcabd",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3bdcabd",
+  "date": "2024-10-23",
+  "title": "Weekly Fishing Report: October 23, 2024"
+ },
+ {
+  "report_id": "3bf0cc8",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3bf0cc8",
+  "date": "2024-10-30",
+  "title": "Weekly Fishing Report: October 30, 2024"
+ },
+ {
+  "report_id": "3d9f82a",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3d9f82a",
+  "date": "2025-04-02",
+  "title": "Weekly Fishing Report: April 2, 2025"
+ },
+ {
+  "report_id": "3db1e39",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3db1e39",
+  "date": "2025-04-09",
+  "title": "Weekly Fishing Report: April 9, 2025"
+ },
+ {
+  "report_id": "3dc30dc",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3dc30dc",
+  "date": "2025-04-16",
+  "title": "Weekly Fishing Report: April 16, 2025"
+ },
+ {
+  "report_id": "3dd426e",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3dd426e",
+  "date": "2025-04-23",
+  "title": "Weekly Fishing Report: April 23, 2025"
+ },
+ {
+  "report_id": "3de4822",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3de4822",
+  "date": "2025-04-30",
+  "title": "Weekly Fishing Report: April 30, 2025"
+ },
+ {
+  "report_id": "3e05d0b",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e05d0b",
+  "date": "2025-05-14",
+  "title": "Weekly Fishing Report: May 14, 2025"
+ },
+ {
+  "report_id": "3e26b84",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e26b84",
+  "date": "2025-05-28",
+  "title": "Weekly Fishing Report: May 28, 2025"
+ },
+ {
+  "report_id": "3e35aa4",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e35aa4",
+  "date": "2025-06-04",
+  "title": "Weekly Fishing Report: June 4, 2025"
+ },
+ {
+  "report_id": "3e4a81b",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e4a81b",
+  "date": "2025-06-11",
+  "title": "Weekly Fishing Report: June 11, 2025"
+ },
+ {
+  "report_id": "3e5b0bb",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e5b0bb",
+  "date": "2025-06-18",
+  "title": "Weekly Fishing Report: June 18, 2025"
+ },
+ {
+  "report_id": "3e69eb7",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e69eb7",
+  "date": "2025-06-25",
+  "title": "Weekly Fishing Report: June 25, 2025"
+ },
+ {
+  "report_id": "3e7af82",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e7af82",
+  "date": "2025-07-02",
+  "title": "Weekly Fishing Report: July 2, 2025"
+ },
+ {
+  "report_id": "3e8bd76",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e8bd76",
+  "date": "2025-07-09",
+  "title": "Weekly Fishing Report: July 9, 2025"
+ },
+ {
+  "report_id": "3e9b7f3",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3e9b7f3",
+  "date": "2025-07-16",
+  "title": "Weekly Fishing Report: July 16, 2025"
+ },
+ {
+  "report_id": "3edac95",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3edac95",
+  "date": "2025-08-13",
+  "title": "Weekly Fishing Report: August 13, 2025"
+ },
+ {
+  "report_id": "3efbfed",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3efbfed",
+  "date": "2025-08-27",
+  "title": "Weekly Fishing Report: August 27, 2025"
+ },
+ {
+  "report_id": "3f30d9c",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3f30d9c",
+  "date": "2025-09-17",
+  "title": "Weekly Fishing Report: September 17, 2025"
+ },
+ {
+  "report_id": "3f41b68",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3f41b68",
+  "date": "2025-09-24",
+  "title": "Weekly Fishing Report: September 24, 2025"
+ },
+ {
+  "report_id": "3f6328e",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3f6328e",
+  "date": "2025-10-09",
+  "title": "Weekly Fishing Report: October 8, 2025"
+ },
+ {
+  "report_id": "3f925e2",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/3f925e2",
+  "date": "2025-10-29",
+  "title": "Weekly Fishing Report: October 29, 2025"
+ },
+ {
+  "report_id": "410fc16",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/410fc16",
+  "date": "2026-04-01",
+  "title": "Weekly Fishing Report: April 1, 2026"
+ },
+ {
+  "report_id": "4120b21",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/4120b21",
+  "date": "2026-04-08",
+  "title": "Weekly Fishing Report: April 8, 2026"
+ },
+ {
+  "report_id": "4130cd0",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/4130cd0",
+  "date": "2026-04-15",
+  "title": "Weekly Fishing Report: April 15, 2026"
+ },
+ {
+  "report_id": "41407c5",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/41407c5",
+  "date": "2026-04-22",
+  "title": "Weekly Fishing Report: April 22, 2026"
+ },
+ {
+  "report_id": "4150e89",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/4150e89",
+  "date": "2026-04-29",
+  "title": "Weekly Fishing Report: April 29, 2026"
+ },
+ {
+  "report_id": "4160ba5",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/4160ba5",
+  "date": "2026-05-06",
+  "title": "Weekly Fishing Report: May 6, 2026"
+ },
+ {
+  "report_id": "41716da",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/41716da",
+  "date": "2026-05-13",
+  "title": "Weekly Fishing Report: May 13, 2026"
+ },
+ {
+  "report_id": "4192706",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/4192706",
+  "date": "2026-05-27",
+  "title": "Weekly Fishing Report: May 27, 2026"
+ },
+ {
+  "report_id": "41d7abc",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/41d7abc",
+  "date": "2026-06-24",
+  "title": "Weekly Fishing Report: June 24, 2026"
+ },
+ {
+  "report_id": "421929e",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/421929e",
+  "date": "2026-07-22",
+  "title": "Weekly Fishing Report: July 22, 2026"
+ },
+ {
+  "report_id": "426de2b",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/426de2b",
+  "date": "2026-08-26",
+  "title": "Weekly Fishing Report: August 26, 2026"
+ },
+ {
+  "report_id": "4280cb4",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/4280cb4",
+  "date": "2026-09-02",
+  "title": "Weekly Fishing Report: September 2, 2026"
+ },
+ {
+  "report_id": "4292fc6",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/4292fc6",
+  "date": "2026-09-09",
+  "title": "Weekly Fishing Report: September 9, 2026"
+ },
+ {
+  "report_id": "42d38b0",
+  "url": "https://content.govdelivery.com/accounts/MIDNR/bulletins/42d38b0",
+  "date": "2026-09-30",
+  "title": "Weekly Fishing Report: September 30, 2026"
  }
 ]

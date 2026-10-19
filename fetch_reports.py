@@ -19,7 +19,11 @@ RAW_DIR = Path("raw")
 OUT = Path("chunks.jsonl")
 REGIONS = {"SELP", "SWLP", "NELP", "NWLP", "UP", "TIP"}
 SKIP_TEXT = {"back to top"}
-PORT_ALIASES = {"St Joseph": "St. Joseph", "St Joseph River": "St. Joseph River"}
+PORT_ALIASES = {"St Joseph": "St. Joseph", "St Joseph River": "St. Joseph River", "St. Joe": "St. Joseph", "St Joe": "St. Joseph",
+                "Berrien Springs": "St. Joseph River"}
+# Section headings (h2); they win over the anchors, which are sometimes misplaced (e.g. 2024-04-24)
+REGION_HEADINGS = {"Southeast Lower Peninsula": "SELP", "Southwest Lower Peninsula": "SWLP",
+                   "Northeast Lower Peninsula": "NELP", "Northwest Lower Peninsula": "NWLP", "Upper Peninsula": "UP"}
 # Lake Michigan ports and connected waters in SWLP; inland counties etc. are excluded
 LAKE_PORTS = {
     "St. Joseph", "St. Joseph River", "South Haven", "Black River", "Saugatuck", "Holland",
@@ -80,17 +84,29 @@ def parse(html: str, url: str) -> tuple[dict, list[dict]]:
     body = soup.find(id="bulletin_body") or soup.body
     chunks: list[dict] = []
     region = None
+    heading_port = None  # some reports put the port in its own <h3> with the text in the next <p>
     for el in body.descendants:
         if not isinstance(el, Tag):
             continue
         if el.name == "a" and el.get("name") in REGIONS:
             region = el["name"]
+            heading_port = None
+            continue
+        if region is not None and el.name == "h2" and clean(el.get_text(" ")) in REGION_HEADINGS:
+            region = REGION_HEADINGS[clean(el.get_text(" "))]
+            heading_port = None
+            continue
+        if region is not None and el.name in ("h3", "h4"):
+            name = clean(el.get_text(" ")).rstrip(":").strip()
+            heading_port = name if 0 < len(name) < 60 else None
             continue
         if region is None or el.name != "p":
             continue
         port, text = split_port(el)
         if not text or text.lower() in SKIP_TEXT:
             continue
+        if not port and heading_port:
+            port, heading_port = heading_port, None
         if port:
             port = PORT_ALIASES.get(port, port)
             chunks.append({"region": region, "port": port, "raw_text": text,
