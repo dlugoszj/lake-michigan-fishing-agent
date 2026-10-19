@@ -11,6 +11,7 @@ from pathlib import Path
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from agent.run import run_agent
@@ -19,6 +20,7 @@ from config.models import AGENT_DEFAULT_WEB, AGENT_MODELS
 PAGE = Path(__file__).parent / "index.html"
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")  # style.css, app.js
 
 
 class AskRequest(BaseModel):
