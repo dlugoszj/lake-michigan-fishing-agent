@@ -1,8 +1,8 @@
 """Salmon fishing agent: answers questions from DNR weekly reports through read-only SQL tools.
 
 Usage:
-  python agent.py "Where should I fish for salmon out of Holland this weekend?"
-  python agent.py --today 2025-09-12 "..."     # pretend it's another date (backtesting; no future data visible)
+  python -m agent.run "Where should I fish for salmon out of Holland this weekend?"
+  python -m agent.run --today 2025-09-12 "..."     # pretend it's another date (backtesting; no future data visible)
 
 No framework: a plain tool-use loop. The model decides which tools to call and when it has enough
 to answer; this code runs the tools and feeds results back. Every step is printed.
@@ -17,7 +17,7 @@ from datetime import date
 import anthropic
 from dotenv import load_dotenv
 
-from tools import TOOLS, run_tool
+from agent.tools import TOOLS, run_tool
 
 load_dotenv()
 

@@ -1,8 +1,8 @@
 """Eval set tooling: pick chunks to hand-label and validate the label files.
 
 Usage:
-  python label_tools.py select   # writes labels/<chunk_id>.json templates (won't overwrite existing)
-  python label_tools.py check    # validates every label file against LABELING_GUIDE.md rules
+  python -m evals.extraction.labels_tool select   # writes labels/<chunk_id>.json templates (won't overwrite existing)
+  python -m evals.extraction.labels_tool check    # validates every label file against LABELING_GUIDE.md rules
 
 Selection is deterministic (fixed seed): a few hand-picked hard cases, then round-robin
 over (port, season) strata so every port and season is covered. Every 3rd chunk goes to
@@ -16,9 +16,9 @@ from collections import defaultdict
 from pathlib import Path
 from typing import get_args
 
-from schema import Lure, Method, Species
+from extraction.schema import Lure, Method, Species
+from paths import CHUNKS, LABELS, REPORTS
 
-LABELS = Path("labels")
 N_TOTAL = 30
 SEED = 19  # demo day
 # Already extracted during the smoke test and seen by the labeler -> would bias labels
@@ -60,8 +60,8 @@ def season(date: str) -> str:
 
 
 def select() -> None:
-    chunks = [json.loads(l) for l in Path("chunks.jsonl").read_text().splitlines()]
-    reports = {r["report_id"]: r for r in json.loads(Path("reports.json").read_text())}
+    chunks = [json.loads(l) for l in CHUNKS.read_text().splitlines()]
+    reports = {r["report_id"]: r for r in json.loads(REPORTS.read_text())}
     pool = [c for c in chunks if c["lake_port"] and c["report_id"] not in EXCLUDE_REPORTS]
 
     picked: list[tuple[dict, str]] = []

@@ -9,7 +9,7 @@ Ground truth for the extraction eval. The goal is labels a second person would r
 1. Open a file in `labels/`. Read `text` only (the paragraph, one sentence per line). **Do not look at any model output** for that chunk (no `fishing.db`, no extract logs). Labels that start from model output inflate that model's score.
 2. Fill in the fields (rules below). Each file starts with 4 blank observations (always 4, regardless of the paragraph). Fill in as many as you need; unused blank rows are ignored, so you don't have to delete them. Need more than 4? Copy `_observation_template` into the list.
 3. Set `"status": "done"`. Use `"skip"` only if the chunk is unlabelable (e.g., a parser error merged two ports), and note why.
-4. Run `python label_tools.py check` and fix anything it flags.
+4. Run `python -m evals.extraction.labels_tool check` and fix anything it flags.
 5. Work through **dev** files first. `test` files (7) are held out: label them, then don't look at the model output for them while tuning the prompt. They give the final number.
 
 Budget: ~2–3 min per chunk, about 1–1.5 h for 30.

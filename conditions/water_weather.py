@@ -1,8 +1,8 @@
 """Water and weather conditions for the agent: measured surface temperature (NDBC buoys), the depth of the
 cold layer (NOAA LMHOFS model), and wind forecasts (Open-Meteo).
 
-  python conditions.py build     # download buoy history 2022-today into fishing.db (table buoy_daily)
-  python conditions.py now PORT  # print current conditions for a port
+  python -m conditions.water_weather build     # download buoy history 2022-today into fishing.db (table buoy_daily)
+  python -m conditions.water_weather now PORT  # print current conditions for a port
 
 What the agent sees per port:
   - surface temperature: measured by the buoy (accurate) + its trend
@@ -10,7 +10,7 @@ What the agent sees per port:
   - cold-layer depth: modeled (LMHOFS) at ~40/80/120/160 ft of water; the depth where water first drops to 55 F,
     plus the 52-58 F band (Chinook/coho preferred range, NY DEC; Michigan Sea Grant: mature Chinook hold in water
     of 55 F or less)
-Model profiles are stored daily by lmhofs.py. The model's surface was ~2 C off the buoys in our check, so
+Model profiles are stored daily by lake_model.py. The model's surface was ~2 C off the buoys in our check, so
 modeled numbers are approximate.
 """
 import gzip
@@ -24,8 +24,10 @@ from pathlib import Path
 
 import numpy as np
 
-DB = "fishing.db"
-CACHE = Path("cache")
+from paths import CACHE as CACHE_DIR, DB as DB_PATH
+
+DB = str(DB_PATH)
+CACHE = CACHE_DIR
 F = lambda c: c * 9 / 5 + 32
 FT = 3.28084
 COLD_F, BAND_F = 55.0, (52.0, 58.0)
@@ -185,13 +187,13 @@ def _depth_where(depth_ft, temp_f, target_f):
 
 
 def cold_layer(port: str) -> dict:
-    """Modeled profiles for a port from the stored LMHOFS runs (lmhofs.py): the pier cell with its ~3-day
+    """Modeled profiles for a port from the stored LMHOFS runs (lake_model.py): the pier cell with its ~3-day
     change, and the cold-layer depth at offshore points in ~40, 80, 120 and 160 ft of water."""
-    import lmhofs
+    from conditions import lake_model as lmhofs  # imported here: lake_model imports this module
     lmhofs.update()  # fetches a newer model run if the newest stored one is over 12 h old
     now = lmhofs.profiles(port)
     if not now:
-        raise RuntimeError("no stored model profiles; run python lmhofs.py update")
+        raise RuntimeError("no stored model profiles; run python -m conditions.lake_model update")
     t = next(iter(now.values()))["model_time"]
     out = {"model_time": t, "pier": None, "points": []}
     if (p := now.get("pier")):

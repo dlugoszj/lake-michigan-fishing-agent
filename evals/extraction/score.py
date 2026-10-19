@@ -1,9 +1,9 @@
 """Score extractions in fishing.db against the hand labels in labels/.
 
 Usage:
-  python eval.py --model claude-opus-5 [--model claude-haiku-4-5] [--prompt-version v8]
-  python eval.py --model claude-opus-5 --errors          # list dev mismatches for error review
-  python eval.py --model claude-opus-5 --split test      # final number; mismatches stay hidden
+  python -m evals.extraction.score --model claude-opus-5 [--model claude-haiku-4-5] [--prompt-version v8]
+  python -m evals.extraction.score --model claude-opus-5 --errors          # list dev mismatches for error review
+  python -m evals.extraction.score --model claude-opus-5 --split test      # final number; mismatches stay hidden
 
 Deterministic, no LLM. Rows are matched by (species, method), then compared field by field.
 Two scopes: all species, and salmon only (the species recommendations depend on).
@@ -16,10 +16,10 @@ import sqlite3
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from label_tools import is_blank
-from schema import PROMPT_VERSION
+from evals.extraction.labels_tool import is_blank
+from extraction.schema import PROMPT_VERSION
+from paths import DB, LABELS
 
-LABELS = Path("labels")
 SALMON = {"chinook", "coho", "salmon_unspecified", "fish_unspecified"}
 FIELDS = ["bottom_depth", "fish_depth", "lures", "catch_quality"]
 
@@ -250,7 +250,7 @@ def main() -> None:
     ap.add_argument("--split", choices=["dev", "test", "all"], default="all")
     ap.add_argument("--errors", action="store_true", help="list mismatches (dev chunks only)")
     ap.add_argument("--show-test-errors", action="store_true", help="also list test mismatches (final review only)")
-    ap.add_argument("--db", default="fishing.db")
+    ap.add_argument("--db", default=str(DB))
     args = ap.parse_args()
 
     conn = sqlite3.connect(args.db)

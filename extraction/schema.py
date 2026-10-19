@@ -1,4 +1,4 @@
-"""Extraction schema shared by extract.py and the eval."""
+"""Extraction schema and versioned prompts, shared by extract.py and the eval."""
 from typing import Literal, Optional
 
 from pydantic import BaseModel, Field

@@ -1,9 +1,9 @@
 """Fetch DNR weekly fishing reports and split them into port chunks.
 
-Usage: python fetch_reports.py urls.txt
+Usage: python -m extraction.fetch_reports [data/urls.txt]
 
-Deterministic, no LLM. HTML is cached in raw/ so re-runs don't hit the network.
-Output: chunks.jsonl, one line per (report, region, port) chunk.
+Deterministic, no LLM. HTML is cached in data/raw/ so re-runs don't hit the network.
+Output: data/chunks.jsonl and data/reports.json, one line per (report, region, port) chunk.
 """
 import json
 import re
@@ -15,8 +15,10 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup, Tag
 
-RAW_DIR = Path("raw")
-OUT = Path("chunks.jsonl")
+from paths import CHUNKS, RAW, REPORTS, URLS
+
+RAW_DIR = RAW
+OUT = CHUNKS
 REGIONS = {"SELP", "SWLP", "NELP", "NWLP", "UP", "TIP"}
 SKIP_TEXT = {"back to top"}
 PORT_ALIASES = {"St Joseph": "St. Joseph", "St Joseph River": "St. Joseph River", "St. Joe": "St. Joseph", "St Joe": "St. Joseph",
@@ -142,9 +144,9 @@ def main(urls_file: str) -> None:
             n_chunks += len(chunks)
             swlp = [c["port"] for c in chunks if c["region"] == "SWLP"]
             print(f"{report['date']} {report['report_id']}: {len(chunks)} chunks, SWLP ports: {swlp}")
-    Path("reports.json").write_text(json.dumps(reports, indent=1))
+    REPORTS.write_text(json.dumps(reports, indent=1))
     print(f"\n{len(reports)} reports, {n_chunks} chunks -> {OUT}")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "urls.txt")
+    main(sys.argv[1] if len(sys.argv) > 1 else str(URLS))

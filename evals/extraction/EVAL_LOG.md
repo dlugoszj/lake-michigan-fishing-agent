@@ -1,6 +1,6 @@
 # Extraction eval log
 
-What was run, what was found, and what changed, in order. Generated from `eval_history.py`.
+What was run, what was found, and what changed, in order. Generated from `history.py`.
 Scores are as measured at the time; `review_page.py` recomputes all versions against the current labels.
 
 ## 2026-10-16 · v1: Smoke test
@@ -132,7 +132,6 @@ Scores are as measured at the time; `review_page.py` recomputes all versions aga
 
 > **Caveat:** The test set has now been seen and its labels revised, so these aligned numbers are no longer a clean held-out measurement. A clean number needs fresh chunks labeled under the current rules before any model runs on them.
 
-
 ## 2026-10-18 · v11-def · Haiku 5.5: Cheap-model check
 
 **Ran:** v11-def, claude-haiku-5-5, all 30 labeled chunks, run once ($0.035, $0.0012/chunk vs Opus 5 $0.043). Same prompt, no changes for the new model.
@@ -145,3 +144,4 @@ Scores are as measured at the time; `review_page.py` recomputes all versions aga
 - Outputs ~1,380 tokens/chunk vs Opus ~750 (adaptive thinking is on by default); still 37x cheaper per chunk.
 
 > **Caveat:** 7 test chunks can't separate the models; dev favors Opus because the rules were written from Opus's dev errors. Use Haiku 5.5 for cheap iteration; decide the final extraction model on fresh labeled chunks.
+

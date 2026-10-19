@@ -1,7 +1,7 @@
 """Daily water-temperature profiles from NOAA's lake model (LMHOFS), stored in fishing.db.
 
-  python lmhofs.py backfill 2026-03-15 2026-10-18   # one snapshot per day (12z nowcast hour)
-  python lmhofs.py update                           # latest model run, if the newest stored one is over 12 h old
+  python -m conditions.lake_model backfill 2026-03-15 2026-10-18   # one snapshot per day (12z nowcast hour)
+  python -m conditions.lake_model update                           # latest model run, if the newest stored one is over 12 h old
 
 Points per port: the water cell nearest the pierhead ("pier") and offshore cells west of the harbor in
 ~40, 80, 120 and 160 ft of water. Each model file is ~146 MB, but only a few blocks hold these points, so
@@ -20,7 +20,7 @@ from datetime import date, datetime, timedelta, timezone
 import h5py
 import numpy as np
 
-from conditions import DB, FT, PORT_XY, F
+from conditions.water_weather import DB, FT, PORT_XY, F
 
 S3 = "https://noaa-nos-ofs-pds.s3.amazonaws.com/lmhofs/netcdf"
 EPOCH = datetime(2018, 1, 1, tzinfo=timezone.utc)

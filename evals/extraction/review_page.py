@@ -1,7 +1,7 @@
 """Eval report page: score progression across prompt versions, the change history, and an
 observation-by-observation comparison of your labels with each model (dev split only).
 
-Usage: python review_page.py OUT.html [--prompt-version v8 --prompt-version v10-def ...] [--model ...]
+Usage: python -m evals.extraction.review_page OUT.html [--prompt-version v8 --prompt-version v10-def ...] [--model ...]
 
 Test chunks are never shown, so the prompt can't be tuned against them.
 """
@@ -11,9 +11,10 @@ import json
 import sqlite3
 from pathlib import Path
 
-import eval as ev
-from eval_history import HISTORY
-from schema import PROMPT_VERSION
+from evals.extraction import score as ev
+from evals.extraction.history import HISTORY
+from extraction.schema import PROMPT_VERSION
+from paths import DB
 
 # Reviewed causes per prompt version. A = rule missing from (or conflicting in) the prompt,
 # B = label differs from the written rules, C = model mistake. v8 notes are kept as written at
@@ -391,7 +392,7 @@ def main() -> None:
     ap.add_argument("out")
     ap.add_argument("--model", action="append")
     ap.add_argument("--prompt-version", action="append")
-    ap.add_argument("--db", default="fishing.db")
+    ap.add_argument("--db", default=str(DB))
     a = ap.parse_args()
     models = a.model or ["claude-opus-5", "claude-haiku-4-5"]
     versions = a.prompt_version or ["v8", "v10", "v10-def", "v11-def"]

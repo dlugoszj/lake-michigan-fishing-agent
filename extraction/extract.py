@@ -1,7 +1,7 @@
 """LLM structured extraction of port chunks into SQLite.
 
 Usage:
-  python extract.py --model claude-opus-5 [--limit 5] [--all-regions] [--chunk-ids a,b,c]
+  python -m extraction.extract --model claude-opus-5 [--limit 5] [--all-regions] [--chunk-ids a,b,c]
 
 Each chunk is extracted with structured outputs (schema-constrained decoding + Pydantic
 validation). A deterministic check then verifies every `evidence` sentence actually appears
@@ -19,11 +19,11 @@ from pathlib import Path
 import anthropic
 from dotenv import load_dotenv
 
-from schema import PROMPT_VERSION, PROMPTS, ChunkExtraction, user_prompt
+from extraction.schema import PROMPT_VERSION, PROMPTS, ChunkExtraction, user_prompt
+from paths import CHUNKS, DB, REPORTS
 
 load_dotenv()  # reads ANTHROPIC_API_KEY from .env
 
-DB = Path("fishing.db")
 # $ per 1M tokens (input, output)
 PRICES = {
     "claude-opus-5": (5.0, 25.0),
@@ -65,10 +65,10 @@ def load_inputs(conn: sqlite3.Connection) -> None:
     cols = {r[1] for r in conn.execute("PRAGMA table_info(observations)")}
     if "lure_details" not in cols:  # db created before prompt v7
         conn.execute("ALTER TABLE observations ADD COLUMN lure_details TEXT")
-    for r in json.loads(Path("reports.json").read_text()):
+    for r in json.loads(REPORTS.read_text()):
         conn.execute("INSERT OR REPLACE INTO reports VALUES (?,?,?,?)",
                      (r["report_id"], r["url"], r["date"], r["title"]))
-    for line in Path("chunks.jsonl").read_text().splitlines():
+    for line in CHUNKS.read_text().splitlines():
         c = json.loads(line)
         conn.execute("INSERT OR REPLACE INTO port_chunks VALUES (?,?,?,?,?,?,?)",
                      (c["chunk_id"], c["report_id"], c["date"], c["region"], c["port"],

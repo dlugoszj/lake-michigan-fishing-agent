@@ -9,10 +9,11 @@ import sqlite3
 from collections import defaultdict
 from datetime import date, timedelta
 
-import conditions
-from schema import PROMPT_VERSION
+from conditions import water_weather as conditions
+from extraction.schema import PROMPT_VERSION
+from paths import DB as DB_PATH
 
-DB = "fishing.db"
+DB = str(DB_PATH)
 MODEL = "claude-opus-5"  # which extraction to read
 PV = PROMPT_VERSION
 

@@ -1,10 +1,10 @@
-"""Self-test for eval.py: no API calls.
+"""Self-test for score.py (the extraction scorer): no API calls.
 
 Builds a temporary DB with two fake "models" made from the hand labels:
   perfect: an exact copy of the labels      -> must score 100% everywhere
   flawed:  the copy with known, planted bugs -> the metrics must count exactly those bugs
 
-Run from the project root: python tests/selftest_eval.py
+Run from the project root: python -m evals.extraction.selftest
 """
 import copy
 import json
@@ -13,9 +13,8 @@ import sys
 import tempfile
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-import eval as ev  # noqa: E402
-from extract import SCHEMA_SQL  # noqa: E402
+from evals.extraction import score as ev
+from extraction.extract import SCHEMA_SQL
 
 PV = "test"
 
