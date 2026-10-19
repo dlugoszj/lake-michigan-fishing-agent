@@ -119,7 +119,8 @@ The folders follow the data: reports come in through `extraction/`, water and we
 ```
 extraction/        DNR reports → observations
   fetch_reports.py   download bulletins, split into one paragraph per port (no LLM)
-  schema.py          what an observation looks like + every prompt version that was run
+  schema.py          what an observation looks like, and which prompt version is current
+  prompts/           every prompt version that was run, as plain text (v11-def.txt is current)
   extract.py         LLM: paragraph → observations in data/fishing.db
 conditions/        water and weather
   water_weather.py   buoys (history + live), wind forecast, the text the agent sees

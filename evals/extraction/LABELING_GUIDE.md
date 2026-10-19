@@ -2,7 +2,7 @@
 
 Ground truth for the extraction eval. The goal is labels a second person would reproduce from this guide alone. When a case isn't covered, decide, label it, and **add the rule here** so later labels stay consistent.
 
-> The extraction prompt (`SYSTEM_PROMPT` in `schema.py`) must follow the same rules. If you change a rule here, change the prompt too and bump `PROMPT_VERSION`; otherwise the eval measures disagreement about definitions instead of model quality.
+> The extraction prompt (`extraction/prompts/<PROMPT_VERSION>.txt`) must follow the same rules. If you change a rule here, write the changed prompt as a new version file and bump `PROMPT_VERSION` in `extraction/schema.py`; otherwise the eval measures disagreement about definitions instead of model quality.
 
 ## Workflow
 

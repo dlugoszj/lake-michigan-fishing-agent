@@ -1,5 +1,7 @@
 """Read-only tools the agent can call. Each queries fishing.db and returns compact text.
 
+Only extractions with status 'ok' are used (evidence verified word for word against the report).
+
 Every observation comes back with its report date, port, evidence sentence and bulletin URL,
 so the agent can cite its sources. Nothing dated after `as_of` is ever returned, which keeps
 backtests honest (the agent can't see the future).
@@ -55,7 +57,7 @@ def _observations(where: str, params: list, species_group: str) -> str:
           JOIN port_chunks p USING (chunk_id)
           JOIN reports r ON r.report_id = p.report_id
           JOIN extractions e ON e.chunk_id = o.chunk_id AND e.model = o.model AND e.prompt_version = o.prompt_version
-         WHERE o.model = ? AND o.prompt_version = ? AND p.lake_port = 1 AND {where}"""
+         WHERE o.model = ? AND o.prompt_version = ? AND e.status = 'ok' AND p.lake_port = 1 AND {where}"""
     params = [EXTRACTION_MODEL, PV] + params
     species = SPECIES_GROUPS.get(species_group)
     if species:
@@ -90,7 +92,7 @@ def list_ports(as_of: str) -> str:
     rows = _conn().execute("""
         SELECT p.port, COUNT(DISTINCT p.report_id) reports, MIN(p.date) first, MAX(p.date) last
           FROM port_chunks p JOIN extractions e USING (chunk_id)
-         WHERE e.model = ? AND e.prompt_version = ? AND p.lake_port = 1 AND p.date <= ?
+         WHERE e.model = ? AND e.prompt_version = ? AND e.status = 'ok' AND p.lake_port = 1 AND p.date <= ?
          GROUP BY p.port ORDER BY reports DESC""", (EXTRACTION_MODEL, PV, as_of)).fetchall()
     today = date.fromisoformat(as_of)
     lines = [f"Today is {as_of}. Ports with DNR reports (Lake Michigan, Southwest Lower Peninsula):"]
