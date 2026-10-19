@@ -87,7 +87,7 @@ Not formally evaluated yet. What exists: every claim cites a report date and por
 ## Data sources
 - **Michigan DNR Weekly Fishing Report:** public web copies of GovDelivery bulletins. 27 reports, 2022–2026; 116 Lake Michigan port paragraphs; 386 observations.
 - **NOAA NDBC buoys:** 45161 Muskegon, 45029 Holland, 45168 South Haven, 45026 Stevensville (St. Joseph). Surface water temperature, wind, waves; history 2022–today.
-- **NOAA LMHOFS** (Lake Michigan–Huron Operational Forecast System): temperature on 25 fixed depths, hourly, from the public AWS archive (March 2024 onward). Modeled.
+- **NOAA LMHOFS** (Lake Michigan–Huron Operational Forecast System): temperature on 25 fixed depths from the public AWS archive. Fixed-depth (regular-grid) files start around March 2026; the native-mesh files go back to November 2024. `lmhofs.py` stores one profile per day at each port's pierhead and at ~40/80/120/160 ft of water, reading only those cells over HTTP byte ranges (~10 MB per day instead of the 146 MB file). Modeled.
 - **Open-Meteo:** wind forecast.
 - **Reference for what conditions mean:** NY DEC, *Trolling for Lake Ontario Trout and Salmon* (preferred temperatures); Michigan Sea Grant / MSU Extension (upwelling, mature Chinook in water of 55 °F or less).
 
@@ -118,7 +118,7 @@ python review_page.py out.html                                     # HTML eval r
 | `eval.py`, `tests/selftest_eval.py` | Deterministic scorer and its self-test |
 | `labels/`, `label_tools.py`, `LABELING_GUIDE.md` | Hand labels, their checker, and the labeling rules |
 | `review_page.py`, `eval_history.py`, `EVAL_LOG.md` | Eval report page and the record of every iteration |
-| `conditions.py`, `water_column.py` | Buoys, lake model, and wind |
+| `conditions.py`, `lmhofs.py`, `water_column.py` | Buoys, stored lake-model profiles, and wind (`water_column.py` is the feasibility check) |
 | `tools.py`, `agent.py`, `AGENT_NOTES.md` | Agent tools, the loop, and agent design decisions |
 
 ## Limitations and next steps

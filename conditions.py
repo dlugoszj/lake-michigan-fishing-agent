@@ -4,11 +4,14 @@ cold layer (NOAA LMHOFS model), and wind forecasts (Open-Meteo).
   python conditions.py build     # download buoy history 2022-today into fishing.db (table buoy_daily)
   python conditions.py now PORT  # print current conditions for a port
 
-Middle-ground design: two numbers per port, not full profiles.
+What the agent sees per port:
   - surface temperature: measured by the buoy (accurate) + its trend
-  - cold-layer depth: modeled (LMHOFS); the depth where water first drops to 55 F, plus the 52-58 F band
-    (Chinook/coho preferred range, NY DEC; Michigan Sea Grant: mature Chinook hold in water of 55 F or less)
-The model's surface was ~2 C off the buoys in our check, so cold-layer depths are approximate.
+  - pierhead water: modeled (LMHOFS) surface and bottom temperature at the cell nearest the pier + its ~3-day change
+  - cold-layer depth: modeled (LMHOFS) at ~40/80/120/160 ft of water; the depth where water first drops to 55 F,
+    plus the 52-58 F band (Chinook/coho preferred range, NY DEC; Michigan Sea Grant: mature Chinook hold in water
+    of 55 F or less)
+Model profiles are stored daily by lmhofs.py. The model's surface was ~2 C off the buoys in our check, so
+modeled numbers are approximate.
 """
 import gzip
 import json
@@ -170,61 +173,40 @@ def wind_forecast(port: str, days: int = 3) -> list[dict]:
              "from": compass(d["wind_direction_10m_dominant"][i])} for i in range(len(d["time"]))]
 
 
-def _latest_grid_file() -> Path:
-    """Most recent LMHOFS regular-grid nowcast hour (f000), downloaded once per model cycle and cached."""
-    (CACHE / "lmhofs").mkdir(parents=True, exist_ok=True)
-    now = datetime.now(timezone.utc)
-    for back in range(0, 3):
-        d = now - timedelta(days=back)
-        for cyc in ("18", "12", "06", "00"):
-            name = f"lmhofs.t{cyc}z.{d:%Y%m%d}.regulargrid.f000.nc"
-            path = CACHE / "lmhofs" / name
-            if path.exists():
-                return path
-            url = f"https://noaa-nos-ofs-pds.s3.amazonaws.com/lmhofs/netcdf/{d:%Y/%m/%d}/{name}"
-            try:
-                req = urllib.request.Request(url, method="HEAD")
-                urllib.request.urlopen(req, timeout=20)
-            except Exception:
-                continue
-            for old in (CACHE / "lmhofs").glob("*.regulargrid.*.nc"):
-                old.unlink()  # keep only the latest file (~146 MB)
-            path.write_bytes(_get(url, 600))
-            return path
-    raise RuntimeError("no recent LMHOFS file found")
-
-
-def _depth_where(depth_m, temp_c, target_f):
+def _depth_where(depth_ft, temp_f, target_f):
     """First depth (ft) where the profile reaches target_f going down, interpolated; None if it never does."""
-    t = [F(c) for c in temp_c]
+    t = temp_f
     if t[0] <= target_f:
         return 0
     for i in range(len(t) - 1):
         if t[i] > target_f >= t[i + 1]:
-            dm = depth_m[i] + (depth_m[i + 1] - depth_m[i]) * (t[i] - target_f) / (t[i] - t[i + 1])
-            return round(dm * FT)
+            return round(depth_ft[i] + (depth_ft[i + 1] - depth_ft[i]) * (t[i] - target_f) / (t[i] - t[i + 1]))
     return None
 
 
 def cold_layer(port: str) -> dict:
-    """Modeled cold-layer depth offshore of a port, at points in ~80, 120 and 160 ft of water."""
-    import xarray as xr
-    from water_column import grid_profile
-    path = _latest_grid_file()
-    cache = path.with_suffix(".coldlayer.json")
-    data = json.loads(cache.read_text()) if cache.exists() else {}
-    if port not in data:
-        ds = xr.open_dataset(path, engine="h5netcdf", decode_times=False)
-        t = datetime(2018, 1, 1, tzinfo=timezone.utc) + timedelta(seconds=float(ds["time"].values[0]))
-        pts = []
-        for bottom_ft in (80, 120, 160):
-            p = grid_profile(ds, *PORT_XY[port], bottom_m=bottom_ft / FT)
-            pts.append({"water_ft": round(p["bottom_m"] * FT), "surface_f": round(F(p["temp_c"][0]), 1),
-                        "bottom_f": round(F(p["temp_c"][-1]), 1), "first_55f_at_ft": _depth_where(p["depth_m"], p["temp_c"], COLD_F),
-                        "band_52_58f_ft": [_depth_where(p["depth_m"], p["temp_c"], BAND_F[1]), _depth_where(p["depth_m"], p["temp_c"], BAND_F[0])]})
-        data[port] = {"model_time": t.isoformat(), "points": pts}
-        cache.write_text(json.dumps(data))
-    return data[port]
+    """Modeled profiles for a port from the stored LMHOFS runs (lmhofs.py): the pier cell with its ~3-day
+    change, and the cold-layer depth at offshore points in ~40, 80, 120 and 160 ft of water."""
+    import lmhofs
+    lmhofs.update()  # fetches a newer model run if the newest stored one is over 12 h old
+    now = lmhofs.profiles(port)
+    if not now:
+        raise RuntimeError("no stored model profiles; run python lmhofs.py update")
+    t = next(iter(now.values()))["model_time"]
+    out = {"model_time": t, "pier": None, "points": []}
+    if (p := now.get("pier")):
+        prev = lmhofs.profiles(port, (datetime.fromisoformat(t) - timedelta(hours=72)).isoformat()).get("pier")
+        hours = (datetime.fromisoformat(t) - datetime.fromisoformat(prev["model_time"])).total_seconds() / 3600 if prev else None
+        out["pier"] = {"water_ft": p["bottom_ft"], "surface_f": p["temp_f"][0], "bottom_f": p["temp_f"][-1],
+                       "change_f": round(p["temp_f"][0] - prev["temp_f"][0], 1) if prev and hours <= 96 else None,
+                       "change_hours": round(hours) if prev and hours <= 96 else None}
+    for ft in lmhofs.OFFSHORE_FT:
+        if (p := now.get(str(ft))):
+            d, tf = p["depth_ft"], p["temp_f"]
+            out["points"].append({"water_ft": p["bottom_ft"], "surface_f": tf[0], "bottom_f": tf[-1],
+                                  "first_55f_at_ft": _depth_where(d, tf, COLD_F),
+                                  "band_52_58f_ft": [_depth_where(d, tf, BAND_F[1]), _depth_where(d, tf, BAND_F[0])]})
+    return out
 
 
 def current_conditions_text(port: str) -> str:
@@ -239,7 +221,11 @@ def current_conditions_text(port: str) -> str:
         out.append("- Surface water: no live buoy reading near this port (buoy offline or out for the season)")
     try:
         c = cold_layer(port)
-        out.append(f"- Cold layer (MODELED by NOAA LMHOFS, {c['model_time'][:16]}Z; approximate, model surface was ~2 C off buoys in testing):")
+        out.append(f"- MODELED by NOAA LMHOFS ({c['model_time'][:16]}Z; approximate, model surface was ~2 C off buoys in testing):")
+        if (p := c["pier"]):
+            trend = "" if p["change_f"] is None else f", {p['change_f']:+.0f} F over the last {p['change_hours']} h"
+            sharp = " (sharp drop: possible upwelling)" if (p["change_f"] or 0) <= -UPWELLING_DROP_C * 9 / 5 else ""
+            out.append(f"  - at the pierhead (~{p['water_ft']} ft of water): surface {p['surface_f']:.0f} F, bottom {p['bottom_f']:.0f} F{trend}{sharp}")
         for p in c["points"]:
             first = "never reaches 55 F" if p["first_55f_at_ft"] is None else f"first 55 F at ~{p['first_55f_at_ft']} ft down"
             lo, hi = p["band_52_58f_ft"]

@@ -23,7 +23,7 @@ load_dotenv()
 
 MODEL = "claude-opus-5"
 MAX_TURNS = 8
-PRICE_IN, PRICE_OUT = 5.0, 25.0  # $ per 1M tokens, claude-opus-5
+PRICES = {"claude-opus-5": (5.0, 25.0), "claude-opus-5-5": (4.0, 20.0), "claude-sonnet-5-5": (2.0, 10.0)}  # $ per 1M in/out
 
 SYSTEM = """You help an angler decide where to fish for salmon (Chinook and coho) on Lake Michigan in Southwest Michigan, \
 using Michigan DNR weekly fishing reports that have been extracted into a database you query with tools.
@@ -43,7 +43,7 @@ usually happens next, and label that clearly as history.
 well fishing went: treat it as a weak positive, not as bad fishing.
 - Water depth ("in 120 feet of water") and fish depth ("55 feet down") are different; give both when you have them.
 - Mention any access issue (closed pier or launch) in the reports.
-- Water and weather: call get_current_conditions for the ports you recommend (and when the question is about now or this weekend). Surface water temperature comes from buoys and is MEASURED; the cold-layer depth is MODELED by NOAA (LMHOFS) and approximate (its surface was ~2 C off the buoys in testing), so give it as a range and call it modeled. Report weeks come with that week's buoy surface temperature, so you can compare this year's reports and earlier seasons with today's water; find_similar_weeks can match on surface temperature as well as calendar.
+- Water and weather: call get_current_conditions for the ports you recommend (and when the question is about now or this weekend). Surface water temperature comes from buoys and is MEASURED; the cold-layer depth is MODELED by NOAA (LMHOFS) and approximate (its surface was ~2 C off the buoys in testing), so give it as a range and call it modeled. The buoys sit miles offshore; for pier fishing use the modeled pierhead water and its ~3-day change (a sharp drop is the upwelling sign that brings salmon to the piers). Report weeks come with that week's buoy surface temperature, so you can compare this year's reports and earlier seasons with today's water; find_similar_weeks can match on surface temperature as well as calendar.
 - Be concise: a recommendation first (where, how, what depth, what lures), then the evidence, then caveats. \
 End with the bulletin links you relied on.
 - Keep three kinds of statements apart: what the reports say (cite them), general guidance from the reference (name the \
@@ -61,10 +61,12 @@ Reference (general guidance, cite the source when you use it):
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("question")
+    ap.add_argument("--model", default=MODEL, choices=list(PRICES))
     ap.add_argument("--today", default=date.today().isoformat(), help="treat this as today; later reports are invisible")
     args = ap.parse_args()
 
     client = anthropic.Anthropic()
+    price_in, price_out = PRICES[args.model]
     system = SYSTEM + f"\n\nToday is {args.today}."
     messages = [{"role": "user", "content": args.question}]
     in_tok = out_tok = 0
@@ -72,11 +74,15 @@ def main() -> None:
 
     for turn in range(1, MAX_TURNS + 1):
         resp = client.beta.messages.create(
-            model=MODEL, max_tokens=16000, system=system, tools=TOOLS, messages=messages,
+            model=args.model, max_tokens=16000, system=system, tools=TOOLS, messages=messages,
             betas=["server-side-fallback-2026-07-01"], fallbacks="default",  # retry on a fallback model if declined
         )
         in_tok += resp.usage.input_tokens
         out_tok += resp.usage.output_tokens
+        chars = lambda kind: sum(len(getattr(b, kind, "") or "") for b in resp.content)
+        print(f"  [call {turn}: {resp.usage.input_tokens:,} in / {resp.usage.output_tokens:,} out · "
+              f"${(resp.usage.input_tokens * price_in + resp.usage.output_tokens * price_out) / 1e6:.3f} · "
+              f"thinking {chars('thinking'):,} chars, text {chars('text'):,} chars · {resp.model}]", file=sys.stderr)
 
         if resp.stop_reason == "refusal":
             print("\n[the request was declined]")
@@ -104,7 +110,7 @@ def main() -> None:
     else:
         print(f"\n[stopped after {MAX_TURNS} turns without a final answer]")
 
-    cost = (in_tok * PRICE_IN + out_tok * PRICE_OUT) / 1e6
+    cost = (in_tok * price_in + out_tok * price_out) / 1e6
     print(f"\n[{turn} model calls · {in_tok:,} in / {out_tok:,} out tokens · ${cost:.3f} · {time.monotonic() - t0:.0f}s]",
           file=sys.stderr)
 

@@ -201,8 +201,9 @@ TOOLS = [
 TOOLS.append({
     "name": "get_current_conditions",
     "description": "Current water and weather for ports: MEASURED surface water temperature from the nearest NOAA buoy with its "
-                   "3-day trend (a sharp drop suggests an upwelling), the MODELED cold-layer depth offshore (NOAA LMHOFS: depth where "
-                   "water first reaches 55 F and the 52-58 F band, at points in ~80/120/160 ft of water), and a 3-day wind forecast.",
+                   "3-day trend (a sharp drop suggests an upwelling), MODELED water at the pierhead (NOAA LMHOFS: surface and bottom "
+                   "temperature with its ~3-day change), the MODELED cold-layer depth offshore (depth where water first reaches 55 F "
+                   "and the 52-58 F band, at points in ~40/80/120/160 ft of water), and a 3-day wind forecast.",
     "strict": True,
     "input_schema": {"type": "object", "properties": {"ports": {"type": "array", "items": {"type": "string", "enum": PORT_ENUM}}},
                      "required": ["ports"], "additionalProperties": False},
