@@ -24,7 +24,7 @@ from pathlib import Path
 
 import numpy as np
 
-from paths import CACHE as CACHE_DIR, DB as DB_PATH
+from config.paths import CACHE as CACHE_DIR, DB as DB_PATH
 
 DB = str(DB_PATH)
 CACHE = CACHE_DIR

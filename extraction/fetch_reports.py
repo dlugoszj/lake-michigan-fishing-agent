@@ -15,7 +15,7 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup, Tag
 
-from paths import CHUNKS, RAW, REPORTS, URLS
+from config.paths import CHUNKS, RAW, REPORTS, URLS
 
 RAW_DIR = RAW
 OUT = CHUNKS

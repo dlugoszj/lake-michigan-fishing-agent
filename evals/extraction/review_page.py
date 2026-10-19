@@ -14,7 +14,7 @@ from pathlib import Path
 from evals.extraction import score as ev
 from evals.extraction.history import HISTORY
 from extraction.schema import PROMPT_VERSION
-from paths import DB
+from config.paths import DB
 
 # Reviewed causes per prompt version. A = rule missing from (or conflicting in) the prompt,
 # B = label differs from the written rules, C = model mistake. v8 notes are kept as written at

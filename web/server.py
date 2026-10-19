@@ -13,9 +13,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
-from agent.run import PRICES, run_agent
+from agent.run import run_agent
+from config.models import AGENT_DEFAULT_WEB, AGENT_MODELS
 
-DEFAULT_MODEL = "claude-sonnet-5-5"
 PAGE = Path(__file__).parent / "index.html"
 
 app = FastAPI()
@@ -23,7 +23,7 @@ app = FastAPI()
 
 class AskRequest(BaseModel):
     question: str
-    model: str = DEFAULT_MODEL
+    model: str = AGENT_DEFAULT_WEB
     today: str | None = None  # "as of" date for backtests; None = really today
 
 
@@ -34,13 +34,13 @@ def page():
 
 @app.get("/models")
 def models():
-    return {"models": list(PRICES), "default": DEFAULT_MODEL, "today": date.today().isoformat()}
+    return {"models": AGENT_MODELS, "default": AGENT_DEFAULT_WEB, "today": date.today().isoformat()}
 
 
 @app.post("/ask")
 def ask(req: AskRequest):
     """Runs the agent and streams each event as a Server-Sent Event: 'data: {json}\\n\\n'."""
-    if req.model not in PRICES:
+    if req.model not in AGENT_MODELS:
         raise HTTPException(400, f"unknown model {req.model}")
     if not req.question.strip():
         raise HTTPException(400, "empty question")

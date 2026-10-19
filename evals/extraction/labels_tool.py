@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import get_args
 
 from extraction.schema import Lure, Method, Species
-from paths import CHUNKS, LABELS, REPORTS
+from config.paths import CHUNKS, LABELS, REPORTS
 
 N_TOTAL = 30
 SEED = 19  # demo day

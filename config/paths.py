@@ -1,7 +1,7 @@
 """Every file location the project reads or writes, in one place."""
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent  # the project folder (this file is in config/)
 DATA = ROOT / "data"
 
 DB = DATA / "fishing.db"            # reports, chunks, extracted observations, buoy history, lake-model profiles

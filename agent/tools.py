@@ -11,10 +11,10 @@ from datetime import date, timedelta
 
 from conditions import water_weather as conditions
 from extraction.schema import PROMPT_VERSION
-from paths import DB as DB_PATH
+from config.models import EXTRACTION_MODEL
+from config.paths import DB as DB_PATH
 
 DB = str(DB_PATH)
-MODEL = "claude-opus-5"  # which extraction to read
 PV = PROMPT_VERSION
 
 SPECIES_GROUPS = {
@@ -56,7 +56,7 @@ def _observations(where: str, params: list, species_group: str) -> str:
           JOIN reports r ON r.report_id = p.report_id
           JOIN extractions e ON e.chunk_id = o.chunk_id AND e.model = o.model AND e.prompt_version = o.prompt_version
          WHERE o.model = ? AND o.prompt_version = ? AND p.lake_port = 1 AND {where}"""
-    params = [MODEL, PV] + params
+    params = [EXTRACTION_MODEL, PV] + params
     species = SPECIES_GROUPS.get(species_group)
     if species:
         q += f" AND o.species IN ({','.join('?' * len(species))})"
@@ -91,7 +91,7 @@ def list_ports(as_of: str) -> str:
         SELECT p.port, COUNT(DISTINCT p.report_id) reports, MIN(p.date) first, MAX(p.date) last
           FROM port_chunks p JOIN extractions e USING (chunk_id)
          WHERE e.model = ? AND e.prompt_version = ? AND p.lake_port = 1 AND p.date <= ?
-         GROUP BY p.port ORDER BY reports DESC""", (MODEL, PV, as_of)).fetchall()
+         GROUP BY p.port ORDER BY reports DESC""", (EXTRACTION_MODEL, PV, as_of)).fetchall()
     today = date.fromisoformat(as_of)
     lines = [f"Today is {as_of}. Ports with DNR reports (Lake Michigan, Southwest Lower Peninsula):"]
     for r in rows:

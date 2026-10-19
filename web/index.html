@@ -183,7 +183,8 @@ async function ask() {
         }
         else if (e.type === "error") showError(e.message);
         else if (e.type === "done") {
-          $("totals").textContent = e.model_calls + " model calls · " + e.input_tokens.toLocaleString() + " in / " +
+          $("totals").textContent = e.model_calls + " model calls · " + e.input_tokens.toLocaleString() + " in + " +
+            e.cache_read_tokens.toLocaleString() + " from cache / " +
             e.output_tokens.toLocaleString() + " out tokens · $" + e.cost.toFixed(3) + " · " +
             Math.round(e.seconds) + " s · " + $("model").value;
         }

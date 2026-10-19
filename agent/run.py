@@ -18,12 +18,12 @@ import anthropic
 from dotenv import load_dotenv
 
 from agent.tools import TOOLS, run_tool
+from config.models import AGENT_DEFAULT_CLI, AGENT_MODELS
+from config.pricing import cost, usage_tokens
 
 load_dotenv()
 
-MODEL = "claude-opus-5"
 MAX_TURNS = 8
-PRICES = {"claude-opus-5": (5.0, 25.0), "claude-opus-5-5": (4.0, 20.0), "claude-sonnet-5-5": (2.0, 10.0)}  # $ per 1M in/out
 
 SYSTEM = """You help an angler decide where to fish for salmon (Chinook and coho) on Lake Michigan in Southwest Michigan, \
 using Michigan DNR weekly fishing reports that have been extracted into a database you query with tools.
@@ -58,13 +58,12 @@ Reference (general guidance, cite the source when you use it):
 - Wind and waves: for small boats, say so plainly when the forecast is strong (e.g. sustained 20+ mph or high waves) and suggest the pier or river as the alternative; safety comes before the bite."""
 
 
-def run_agent(question: str, today: str, model: str = MODEL):
+def run_agent(question: str, today: str, model: str = AGENT_DEFAULT_CLI):
     """The agent loop. Yields one event dict per step, so the CLI can print them and the web page can stream them."""
     client = anthropic.Anthropic()
-    price_in, price_out = PRICES[model]
     system = SYSTEM + f"\n\nToday is {today}."
     messages = [{"role": "user", "content": question}]
-    in_tok = out_tok = 0
+    total = {"input_tokens": 0, "output_tokens": 0, "cache_write_tokens": 0, "cache_read_tokens": 0}
     t0 = time.monotonic()
 
     for turn in range(1, MAX_TURNS + 1):
@@ -72,12 +71,11 @@ def run_agent(question: str, today: str, model: str = MODEL):
             model=model, max_tokens=16000, system=system, tools=TOOLS, messages=messages,
             betas=["server-side-fallback-2026-07-01"], fallbacks="default",  # retry on a fallback model if declined
         )
-        in_tok += resp.usage.input_tokens
-        out_tok += resp.usage.output_tokens
+        tok = usage_tokens(resp.usage)
+        for k, v in tok.items():
+            total[k] += v
         chars = lambda kind: sum(len(getattr(b, kind, "") or "") for b in resp.content)
-        yield {"type": "model_call", "turn": turn, "model": resp.model,
-               "input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens,
-               "cost": (resp.usage.input_tokens * price_in + resp.usage.output_tokens * price_out) / 1e6,
+        yield {"type": "model_call", "turn": turn, "model": resp.model, **tok, "cost": cost(model, **tok),
                "thinking_chars": chars("thinking"), "text_chars": chars("text")}
 
         if resp.stop_reason == "refusal":
@@ -103,20 +101,20 @@ def run_agent(question: str, today: str, model: str = MODEL):
     else:
         yield {"type": "error", "message": f"stopped after {MAX_TURNS} turns without a final answer"}
 
-    yield {"type": "done", "model_calls": turn, "input_tokens": in_tok, "output_tokens": out_tok,
-           "cost": (in_tok * price_in + out_tok * price_out) / 1e6, "seconds": time.monotonic() - t0}
+    yield {"type": "done", "model_calls": turn, **total, "cost": cost(model, **total), "seconds": time.monotonic() - t0}
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("question")
-    ap.add_argument("--model", default=MODEL, choices=list(PRICES))
+    ap.add_argument("--model", default=AGENT_DEFAULT_CLI, choices=AGENT_MODELS)
     ap.add_argument("--today", default=date.today().isoformat(), help="treat this as today; later reports are invisible")
     args = ap.parse_args()
 
     for e in run_agent(args.question, args.today, args.model):
         if e["type"] == "model_call":
-            print(f"  [call {e['turn']}: {e['input_tokens']:,} in / {e['output_tokens']:,} out · ${e['cost']:.3f} · "
+            print(f"  [call {e['turn']}: {e['input_tokens']:,} in + {e['cache_read_tokens']:,} cache read + "
+                  f"{e['cache_write_tokens']:,} cache write / {e['output_tokens']:,} out · ${e['cost']:.3f} · "
                   f"thinking {e['thinking_chars']:,} chars, text {e['text_chars']:,} chars · {e['model']}]", file=sys.stderr)
         elif e["type"] == "tool_call":
             print(f"\n→ turn {e['turn']}: {e['name']}({json.dumps(e['input'])})")
@@ -129,7 +127,8 @@ def main() -> None:
         elif e["type"] == "error":
             print(f"\n[{e['message']}]")
         elif e["type"] == "done":
-            print(f"\n[{e['model_calls']} model calls · {e['input_tokens']:,} in / {e['output_tokens']:,} out tokens · "
+            print(f"\n[{e['model_calls']} model calls · {e['input_tokens']:,} in + {e['cache_read_tokens']:,} cache read + "
+                  f"{e['cache_write_tokens']:,} cache write / {e['output_tokens']:,} out tokens · "
                   f"${e['cost']:.3f} · {e['seconds']:.0f}s]", file=sys.stderr)
 
 

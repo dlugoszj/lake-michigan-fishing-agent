@@ -7,6 +7,9 @@ Each chunk is extracted with structured outputs (schema-constrained decoding + P
 validation). A deterministic check then verifies every `evidence` sentence actually appears
 in the source text; on failure we retry once with the error fed back. Every row records
 model, prompt version, tokens, and latency so models can be compared side by side.
+
+The instructions are the same for every chunk, so they are marked for prompt caching: after the
+first call they are read from the cache at 10% of the input price (see config/pricing.py).
 """
 import argparse
 import json
@@ -20,17 +23,11 @@ import anthropic
 from dotenv import load_dotenv
 
 from extraction.schema import PROMPT_VERSION, PROMPTS, ChunkExtraction, user_prompt
-from paths import CHUNKS, DB, REPORTS
+from config.models import EXTRACTION_MODEL
+from config.paths import CHUNKS, DB, REPORTS
+from config.pricing import cost, usage_tokens
 
 load_dotenv()  # reads ANTHROPIC_API_KEY from .env
-
-# $ per 1M tokens (input, output)
-PRICES = {
-    "claude-opus-5": (5.0, 25.0),
-    "claude-sonnet-5": (2.0, 10.0),
-    "claude-haiku-4-5": (1.0, 5.0),
-    "claude-haiku-5-5": (0.10, 0.50),  # prompts up to 100K tokens
-}
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS reports (report_id TEXT PRIMARY KEY, url TEXT, date TEXT, title TEXT);
@@ -41,6 +38,7 @@ CREATE TABLE IF NOT EXISTS extractions (
   chunk_id TEXT, model TEXT, prompt_version TEXT, status TEXT, attempts INTEGER,
   input_tokens INTEGER, output_tokens INTEGER, latency_ms INTEGER, cost_usd REAL,
   conditions TEXT, access_issues TEXT, no_fishing_info INTEGER, error TEXT,
+  cache_write_tokens INTEGER, cache_read_tokens INTEGER,
   PRIMARY KEY (chunk_id, model, prompt_version));
 CREATE TABLE IF NOT EXISTS observations (
   chunk_id TEXT, model TEXT, prompt_version TEXT, species TEXT, method TEXT,
@@ -65,6 +63,10 @@ def load_inputs(conn: sqlite3.Connection) -> None:
     cols = {r[1] for r in conn.execute("PRAGMA table_info(observations)")}
     if "lure_details" not in cols:  # db created before prompt v7
         conn.execute("ALTER TABLE observations ADD COLUMN lure_details TEXT")
+    ext_cols = {r[1] for r in conn.execute("PRAGMA table_info(extractions)")}
+    for col in ("cache_write_tokens", "cache_read_tokens"):  # db created before prompt caching
+        if col not in ext_cols:
+            conn.execute(f"ALTER TABLE extractions ADD COLUMN {col} INTEGER")
     for r in json.loads(REPORTS.read_text()):
         conn.execute("INSERT OR REPLACE INTO reports VALUES (?,?,?,?)",
                      (r["report_id"], r["url"], r["date"], r["title"]))
@@ -78,13 +80,14 @@ def load_inputs(conn: sqlite3.Connection) -> None:
 
 def extract_one(client: anthropic.Anthropic, model: str, chunk: dict, system: str) -> dict:
     messages = [{"role": "user", "content": user_prompt(chunk["port"], chunk["date"], chunk["raw_text"])}]
-    in_tok = out_tok = 0
+    cached_system = [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}]  # same for every chunk
+    tok = {"input_tokens": 0, "output_tokens": 0, "cache_write_tokens": 0, "cache_read_tokens": 0}
     t0 = time.monotonic()
     ext, error, status = None, None, "ok"
     for attempt in (1, 2):
         try:
             resp = client.messages.parse(
-                model=model, max_tokens=8000, system=system,
+                model=model, max_tokens=8000, system=cached_system,
                 messages=messages, output_format=ChunkExtraction,
             )
         except anthropic.APIStatusError as e:
@@ -96,8 +99,8 @@ def extract_one(client: anthropic.Anthropic, model: str, chunk: dict, system: st
                 messages.append({"role": "user", "content": f"Your previous output failed validation: {error}. Try again."})
                 continue
             break
-        in_tok += resp.usage.input_tokens
-        out_tok += resp.usage.output_tokens
+        for k, v in usage_tokens(resp.usage).items():
+            tok[k] += v
         if resp.stop_reason != "end_turn" or resp.parsed_output is None:
             error, status = f"stop_reason={resp.stop_reason}", "invalid"
             break
@@ -113,11 +116,9 @@ def extract_one(client: anthropic.Anthropic, model: str, chunk: dict, system: st
                 {"role": "user", "content": f"These evidence sentences do not appear verbatim in the report text: {bad}. "
                                             "Copy each sentence exactly as its own list item and return the full extraction again."},
             ]
-    p_in, p_out = PRICES.get(model, (0, 0))
     return {
-        "chunk": chunk, "ext": ext, "status": status, "error": error, "attempts": attempt,
-        "in_tok": in_tok, "out_tok": out_tok, "latency_ms": int((time.monotonic() - t0) * 1000),
-        "cost": (in_tok * p_in + out_tok * p_out) / 1e6,
+        "chunk": chunk, "ext": ext, "status": status, "error": error, "attempts": attempt, **tok,
+        "latency_ms": int((time.monotonic() - t0) * 1000), "cost": cost(model, **tok),
     }
 
 
@@ -126,11 +127,12 @@ def save(conn: sqlite3.Connection, model: str, r: dict, pv: str) -> None:
     key = (cid, model, pv)
     conn.execute("DELETE FROM observations WHERE chunk_id=? AND model=? AND prompt_version=?", key)
     conn.execute(
-        "INSERT OR REPLACE INTO extractions VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        (*key, r["status"], r["attempts"], r["in_tok"], r["out_tok"], r["latency_ms"], r["cost"],
-         None,  # conditions: dropped in v10, will come from weather data
+        "INSERT OR REPLACE INTO extractions (chunk_id, model, prompt_version, status, attempts, input_tokens, output_tokens,"
+        " latency_ms, cost_usd, access_issues, no_fishing_info, error, cache_write_tokens, cache_read_tokens)"
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        (*key, r["status"], r["attempts"], r["input_tokens"], r["output_tokens"], r["latency_ms"], r["cost"],
          ext.access_issues if ext else None,
-         int(ext.no_fishing_info) if ext else None, r["error"]))
+         int(ext.no_fishing_info) if ext else None, r["error"], r["cache_write_tokens"], r["cache_read_tokens"]))
     if ext:
         src = norm(r["chunk"]["raw_text"])
         for o in ext.observations:
@@ -149,7 +151,7 @@ def save(conn: sqlite3.Connection, model: str, r: dict, pv: str) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="claude-opus-5")
+    ap.add_argument("--model", default=EXTRACTION_MODEL)
     ap.add_argument("--limit", type=int)
     ap.add_argument("--all-regions", action="store_true", help="include non-SWLP and inland chunks")
     ap.add_argument("--chunk-ids", help="comma-separated chunk ids (e.g. the eval set)")
@@ -190,7 +192,7 @@ def main() -> None:
             totals["ok"] += r["status"] == "ok"
             n_obs = len(r["ext"].observations) if r["ext"] else 0
             print(f"  {r['chunk']['date']} {r['chunk']['port']:<18} {r['status']:<17} "
-                  f"obs={n_obs} {r['latency_ms']}ms ${r['cost']:.4f}" + (f"  {r['error'][:100]}" if r["error"] else ""))
+                  f"obs={n_obs} {r['latency_ms']}ms ${r['cost']:.4f} cache read {r['cache_read_tokens']:,}" + (f"  {r['error'][:100]}" if r["error"] else ""))
     print(f"\n{totals['ok']}/{len(chunks)} ok, total ${totals['cost']:.3f}")
 
 

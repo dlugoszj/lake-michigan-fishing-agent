@@ -18,7 +18,7 @@ from pathlib import Path
 
 from evals.extraction.labels_tool import is_blank
 from extraction.schema import PROMPT_VERSION
-from paths import DB, LABELS
+from config.paths import DB, LABELS
 
 SALMON = {"chinook", "coho", "salmon_unspecified", "fish_unspecified"}
 FIELDS = ["bottom_depth", "fish_depth", "lures", "catch_quality"]
@@ -78,7 +78,8 @@ def load_model(conn: sqlite3.Connection, model: str, pv: str, chunk_ids) -> dict
             "access_issues": bool(e["access_issues"]),
             "no_fishing_info": bool(e["no_fishing_info"]) if e["no_fishing_info"] is not None else None,
             "cost": e["cost_usd"] or 0.0, "latency_ms": e["latency_ms"] or 0,
-            "in_tok": e["input_tokens"] or 0, "out_tok": e["output_tokens"] or 0,
+            "in_tok": (e["input_tokens"] or 0) + (e["cache_read_tokens"] or 0) + (e["cache_write_tokens"] or 0),  # cached or not
+            "out_tok": e["output_tokens"] or 0,
         }
     return out
 

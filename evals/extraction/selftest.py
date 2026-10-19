@@ -20,7 +20,8 @@ PV = "test"
 
 
 def insert(conn, model, cid, lab, rows):
-    conn.execute("INSERT INTO extractions VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    conn.execute("INSERT INTO extractions (chunk_id, model, prompt_version, status, attempts, input_tokens, output_tokens,"
+                 " latency_ms, cost_usd, conditions, access_issues, no_fishing_info, error) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                  (cid, model, PV, "ok", 1, 3000, 400, 5000, 0.02, None,
                   "launch closed" if lab["access_issues"] else None, int(lab["no_fishing_info"]), None))
     for r in rows:

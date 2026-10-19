@@ -33,7 +33,7 @@ Troll 110–160 ft of water with lines 50–85 ft down ... but today is too roug
 ```
 
 1. **Fetch and split (no LLM).** `extraction/fetch_reports.py` downloads report web copies and splits them into one paragraph per port with BeautifulSoup. Deterministic parsing wherever possible; the LLM only does what needs judgment.
-2. **Extract (LLM).** `extraction/extract.py` turns each paragraph into observations: species, method (boat / pier / shore / river), water depth, fish depth, lures, catch quality 0–4, plus verbatim evidence sentences. It uses structured outputs (schema-constrained decoding plus Pydantic validation). Code then checks that every evidence sentence appears word for word in the report, with one retry if not. Every row records model, prompt version, tokens, latency, and cost.
+2. **Extract (LLM).** `extraction/extract.py` turns each paragraph into observations: species, method (boat / pier / shore / river), water depth, fish depth, lures, catch quality 0–4, plus verbatim evidence sentences. It uses structured outputs (schema-constrained decoding plus Pydantic validation). Code then checks that every evidence sentence appears word for word in the report, with one retry if not. Every row records model, prompt version, tokens, latency, and cost. The instructions are identical for every paragraph, so they're prompt-cached: after the first call they're read at 10% of the input price (~46% cheaper per paragraph on Opus 5).
 3. **Evaluate.** `evals/extraction/score.py` scores any model and prompt version against hand labels. Details below.
 4. **Conditions.** `conditions/` adds measured surface water temperature from the nearest buoy (with the week's trend and a possible-upwelling flag), the modeled water at each pierhead with its ~3-day change, and the modeled cold-layer depth offshore: the depth where water first reaches 55 °F, and the 52–58 °F band where Chinook and coho prefer to hold.
 5. **Agent.** `agent/run.py` is a plain tool-use loop over four read-only tools. The model decides which tools to call and when it has enough. Answers separate what the **reports** say, **general guidance** (cited: NY DEC, Michigan Sea Grant), and the agent's **own read**.
@@ -139,7 +139,10 @@ data/              everything the code reads and writes
   urls.txt, reports.json, chunks.jsonl, raw/   bulletin links, metadata, paragraphs, saved HTML
 docs/AGENT_NOTES.md  agent design decisions
 experiments/       one-off feasibility checks (water_column.py)
-paths.py           every file location in one place
+config/
+  paths.py           every file location in one place
+  models.py          which Claude model does which job (extraction, agent defaults)
+  pricing.py         $ per token per model, and cost() incl. cached tokens
 ```
 
 ## Limitations and next steps
