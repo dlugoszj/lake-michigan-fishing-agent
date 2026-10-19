@@ -58,6 +58,55 @@ Reference (general guidance, cite the source when you use it):
 - Wind and waves: for small boats, say so plainly when the forecast is strong (e.g. sustained 20+ mph or high waves) and suggest the pier or river as the alternative; safety comes before the bite."""
 
 
+def run_agent(question: str, today: str, model: str = MODEL):
+    """The agent loop. Yields one event dict per step, so the CLI can print them and the web page can stream them."""
+    client = anthropic.Anthropic()
+    price_in, price_out = PRICES[model]
+    system = SYSTEM + f"\n\nToday is {today}."
+    messages = [{"role": "user", "content": question}]
+    in_tok = out_tok = 0
+    t0 = time.monotonic()
+
+    for turn in range(1, MAX_TURNS + 1):
+        resp = client.beta.messages.create(
+            model=model, max_tokens=16000, system=system, tools=TOOLS, messages=messages,
+            betas=["server-side-fallback-2026-07-01"], fallbacks="default",  # retry on a fallback model if declined
+        )
+        in_tok += resp.usage.input_tokens
+        out_tok += resp.usage.output_tokens
+        chars = lambda kind: sum(len(getattr(b, kind, "") or "") for b in resp.content)
+        yield {"type": "model_call", "turn": turn, "model": resp.model,
+               "input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens,
+               "cost": (resp.usage.input_tokens * price_in + resp.usage.output_tokens * price_out) / 1e6,
+               "thinking_chars": chars("thinking"), "text_chars": chars("text")}
+
+        if resp.stop_reason == "refusal":
+            yield {"type": "error", "message": "the request was declined"}
+            break
+        tool_calls = [b for b in resp.content if b.type == "tool_use"]
+        if resp.stop_reason != "tool_use" or not tool_calls:
+            yield {"type": "answer", "text": "\n".join(b.text for b in resp.content if b.type == "text"),
+                   "truncated": resp.stop_reason == "max_tokens"}
+            break
+
+        messages.append({"role": "assistant", "content": resp.content})  # includes thinking + tool_use blocks
+        results = []
+        for call in tool_calls:
+            yield {"type": "tool_call", "turn": turn, "name": call.name, "input": call.input}
+            try:
+                out, is_error = run_tool(call.name, call.input, today), False
+            except Exception as e:  # report tool failures to the model instead of crashing
+                out, is_error = f"Tool error: {e}", True
+            yield {"type": "tool_result", "turn": turn, "name": call.name, "chars": len(out), "content": out, "is_error": is_error}
+            results.append({"type": "tool_result", "tool_use_id": call.id, "content": out, "is_error": is_error})
+        messages.append({"role": "user", "content": results})  # all results for this turn in one message
+    else:
+        yield {"type": "error", "message": f"stopped after {MAX_TURNS} turns without a final answer"}
+
+    yield {"type": "done", "model_calls": turn, "input_tokens": in_tok, "output_tokens": out_tok,
+           "cost": (in_tok * price_in + out_tok * price_out) / 1e6, "seconds": time.monotonic() - t0}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("question")
@@ -65,54 +114,23 @@ def main() -> None:
     ap.add_argument("--today", default=date.today().isoformat(), help="treat this as today; later reports are invisible")
     args = ap.parse_args()
 
-    client = anthropic.Anthropic()
-    price_in, price_out = PRICES[args.model]
-    system = SYSTEM + f"\n\nToday is {args.today}."
-    messages = [{"role": "user", "content": args.question}]
-    in_tok = out_tok = 0
-    t0 = time.monotonic()
-
-    for turn in range(1, MAX_TURNS + 1):
-        resp = client.beta.messages.create(
-            model=args.model, max_tokens=16000, system=system, tools=TOOLS, messages=messages,
-            betas=["server-side-fallback-2026-07-01"], fallbacks="default",  # retry on a fallback model if declined
-        )
-        in_tok += resp.usage.input_tokens
-        out_tok += resp.usage.output_tokens
-        chars = lambda kind: sum(len(getattr(b, kind, "") or "") for b in resp.content)
-        print(f"  [call {turn}: {resp.usage.input_tokens:,} in / {resp.usage.output_tokens:,} out · "
-              f"${(resp.usage.input_tokens * price_in + resp.usage.output_tokens * price_out) / 1e6:.3f} · "
-              f"thinking {chars('thinking'):,} chars, text {chars('text'):,} chars · {resp.model}]", file=sys.stderr)
-
-        if resp.stop_reason == "refusal":
-            print("\n[the request was declined]")
-            break
-        if resp.stop_reason == "max_tokens":
-            print("\n[answer cut off at max_tokens]")
-        tool_calls = [b for b in resp.content if b.type == "tool_use"]
-        if resp.stop_reason != "tool_use" or not tool_calls:
-            answer = "\n".join(b.text for b in resp.content if b.type == "text")
-            print("\n" + "=" * 80 + "\n" + answer)
-            break
-
-        messages.append({"role": "assistant", "content": resp.content})  # includes thinking + tool_use blocks
-        results = []
-        for call in tool_calls:
-            print(f"\n→ turn {turn}: {call.name}({json.dumps(call.input)})")
-            try:
-                out, is_error = run_tool(call.name, call.input, args.today), False
-            except Exception as e:  # report tool failures to the model instead of crashing
-                out, is_error = f"Tool error: {e}", True
-            preview = textwrap.shorten(out.replace("\n", " | "), 160)
-            print(f"  ← {len(out):,} chars: {preview}")
-            results.append({"type": "tool_result", "tool_use_id": call.id, "content": out, "is_error": is_error})
-        messages.append({"role": "user", "content": results})  # all results for this turn in one message
-    else:
-        print(f"\n[stopped after {MAX_TURNS} turns without a final answer]")
-
-    cost = (in_tok * price_in + out_tok * price_out) / 1e6
-    print(f"\n[{turn} model calls · {in_tok:,} in / {out_tok:,} out tokens · ${cost:.3f} · {time.monotonic() - t0:.0f}s]",
-          file=sys.stderr)
+    for e in run_agent(args.question, args.today, args.model):
+        if e["type"] == "model_call":
+            print(f"  [call {e['turn']}: {e['input_tokens']:,} in / {e['output_tokens']:,} out · ${e['cost']:.3f} · "
+                  f"thinking {e['thinking_chars']:,} chars, text {e['text_chars']:,} chars · {e['model']}]", file=sys.stderr)
+        elif e["type"] == "tool_call":
+            print(f"\n→ turn {e['turn']}: {e['name']}({json.dumps(e['input'])})")
+        elif e["type"] == "tool_result":
+            print(f"  ← {e['chars']:,} chars: {textwrap.shorten(e['content'].replace(chr(10), ' | '), 160)}")
+        elif e["type"] == "answer":
+            if e["truncated"]:
+                print("\n[answer cut off at max_tokens]")
+            print("\n" + "=" * 80 + "\n" + e["text"])
+        elif e["type"] == "error":
+            print(f"\n[{e['message']}]")
+        elif e["type"] == "done":
+            print(f"\n[{e['model_calls']} model calls · {e['input_tokens']:,} in / {e['output_tokens']:,} out tokens · "
+                  f"${e['cost']:.3f} · {e['seconds']:.0f}s]", file=sys.stderr)
 
 
 if __name__ == "__main__":

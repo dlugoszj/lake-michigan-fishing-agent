@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fish Mich</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #ffffff; --text: #1d1d1b; --muted: #6b6b66; --border: #e2e2dd;
+    --accent: #1f6f8b; --ok: #2e7d4f; --err: #b3261e; --code: #f0f0ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161716; --panel: #1f201f; --text: #e8e8e3; --muted: #9a9a93; --border: #33342f;
+      --accent: #6bb6d1; --ok: #6cc28f; --err: #f08b84; --code: #2a2b29;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161716; --panel: #1f201f; --text: #e8e8e3; --muted: #9a9a93; --border: #33342f;
+    --accent: #6bb6d1; --ok: #6cc28f; --err: #f08b84; --code: #2a2b29;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 820px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  textarea { width: 100%; min-height: 72px; padding: 12px; font: inherit; color: var(--text);
+             background: var(--panel); border: 1px solid var(--border); border-radius: 8px; resize: vertical; }
+  .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 10px 0 4px; }
+  label { color: var(--muted); font-size: 14px; display: flex; gap: 6px; align-items: center; }
+  select, input[type=date] { font: inherit; font-size: 14px; padding: 6px 8px; color: var(--text);
+                             background: var(--panel); border: 1px solid var(--border); border-radius: 6px; }
+  button { margin-left: auto; font: inherit; font-weight: 600; padding: 8px 22px; border: 0; border-radius: 6px;
+           background: var(--accent); color: #fff; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  .backtest { font-size: 13px; color: var(--accent); min-height: 20px; }
+  section { margin-top: 24px; }
+  h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 8px; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 4px 0; }
+  details { border-bottom: 1px solid var(--border); }
+  details:last-child { border-bottom: 0; }
+  summary { list-style: none; cursor: pointer; padding: 8px 14px; display: flex; gap: 10px; align-items: baseline; }
+  summary::-webkit-details-marker { display: none; }
+  .icon { width: 16px; flex: none; text-align: center; }
+  .icon.ok { color: var(--ok); } .icon.err { color: var(--err); } .icon.run { color: var(--muted); }
+  .call { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; overflow-wrap: anywhere; }
+  .size { margin-left: auto; color: var(--muted); font-size: 13px; white-space: nowrap; }
+  pre.result { margin: 0 14px 12px 40px; padding: 10px 12px; background: var(--code); border-radius: 6px;
+               font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 360px; overflow: auto; }
+  .empty { color: var(--muted); padding: 8px 14px; font-size: 14px; }
+  #answer { padding: 4px 20px; }
+  #answer h2, #answer h3 { text-transform: none; letter-spacing: 0; color: var(--text); font-size: 18px; margin: 18px 0 6px; }
+  #answer a { color: var(--accent); overflow-wrap: anywhere; }
+  #answer li { margin: 3px 0; }
+  .error { color: var(--err); padding: 10px 14px; }
+  .totals { color: var(--muted); font-size: 13px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Fish Mich</h1>
+  <p class="sub">An AI agent for Lake Michigan salmon. It reads DNR fishing reports, NOAA buoys and the lake model, then tells you where to go.</p>
+
+  <textarea id="question" placeholder="e.g. I fish from the pier. Where should I go for salmon this week, and when?"></textarea>
+  <div class="controls">
+    <label>Model <select id="model"></select></label>
+    <label>As of <input type="date" id="today"></label>
+    <button id="ask">Ask</button>
+  </div>
+  <div class="backtest" id="backtest"></div>
+
+  <section>
+    <h2>Agent steps</h2>
+    <div class="panel" id="steps"><div class="empty">Tool calls appear here as the agent makes them.</div></div>
+  </section>
+
+  <section>
+    <h2>Answer</h2>
+    <div class="panel"><div id="answer"><p class="empty">No answer yet.</p></div></div>
+    <div class="totals" id="totals"></div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let realToday = "";
+
+// Short, readable version of a tool call's arguments.
+function summarize(name, input) {
+  const parts = [];
+  if (input.ports) parts.push(input.ports.join(", "));
+  if (input.weeks_back) parts.push(input.weeks_back + " wk");
+  if (input.around_date) parts.push("±" + input.window_days + " days of " + input.around_date);
+  if (input.surface_temp_f != null) parts.push("surface ≈" + input.surface_temp_f + " F");
+  if (input.species_group) parts.push(input.species_group);
+  return name + "(" + parts.join(" · ") + ")";
+}
+
+function kchars(n) { return n >= 1000 ? (n / 1000).toFixed(1) + "k chars" : n + " chars"; }
+
+function addStep(e) {
+  const steps = $("steps");
+  if (steps.querySelector(".empty")) steps.innerHTML = "";
+  const d = document.createElement("details");
+  d.innerHTML = '<summary><span class="icon run">⋯</span><span class="call"></span><span class="size">running</span></summary>';
+  d.querySelector(".call").textContent = summarize(e.name, e.input);
+  steps.appendChild(d);
+  return d;
+}
+
+function finishStep(d, e) {
+  const icon = d.querySelector(".icon");
+  icon.textContent = e.is_error ? "✗" : "✓";
+  icon.className = "icon " + (e.is_error ? "err" : "ok");
+  d.querySelector(".size").textContent = kchars(e.chars) + " ▸";
+  const pre = document.createElement("pre");
+  pre.className = "result";
+  pre.textContent = e.content;  // plain text, never HTML
+  d.appendChild(pre);
+}
+
+function showError(msg) {
+  const div = document.createElement("div");
+  div.className = "error";
+  div.textContent = msg;
+  $("answer").appendChild(div);
+}
+
+function updateBacktest() {
+  const t = $("today").value;
+  $("backtest").textContent = t && t !== realToday
+    ? "Backtest: the agent runs as if it were " + t + ". Reports after that date are hidden; live water and wind are replaced by that week's buoy summary."
+    : "";
+}
+
+async function ask() {
+  const question = $("question").value.trim();
+  if (!question) return;
+  $("ask").disabled = true;
+  $("steps").innerHTML = '<div class="empty">Starting…</div>';
+  $("answer").innerHTML = '<p class="empty">Working…</p>';
+  $("totals").textContent = "";
+
+  let open = null;  // the step row waiting for its result
+  let spent = 0;
+  try {
+    const resp = await fetch("/ask", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({question, model: $("model").value, today: $("today").value || null}),
+    });
+    if (!resp.ok) {
+      const body = await resp.json().catch(() => ({}));
+      throw new Error(body.detail || ("HTTP " + resp.status));
+    }
+    // Read the Server-Sent Events stream: events are "data: {json}" separated by a blank line.
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, {stream: true});
+      let cut;
+      while ((cut = buffer.indexOf("\n\n")) >= 0) {
+        const chunk = buffer.slice(0, cut);
+        buffer = buffer.slice(cut + 2);
+        if (!chunk.startsWith("data: ")) continue;
+        const e = JSON.parse(chunk.slice(6));
+        if (e.type === "tool_call") open = addStep(e);
+        else if (e.type === "tool_result" && open) { finishStep(open, e); open = null; }
+        else if (e.type === "model_call") {
+          spent += e.cost;
+          $("totals").textContent = "Model call " + e.turn + " done · $" + spent.toFixed(3) + " so far";
+        }
+        else if (e.type === "answer") {
+          $("answer").innerHTML = DOMPurify.sanitize(marked.parse(e.text));
+          $("answer").querySelectorAll("a").forEach((a) => { a.target = "_blank"; a.rel = "noopener"; });
+          if (e.truncated) showError("The answer was cut off at the token limit.");
+        }
+        else if (e.type === "error") showError(e.message);
+        else if (e.type === "done") {
+          $("totals").textContent = e.model_calls + " model calls · " + e.input_tokens.toLocaleString() + " in / " +
+            e.output_tokens.toLocaleString() + " out tokens · $" + e.cost.toFixed(3) + " · " +
+            Math.round(e.seconds) + " s · " + $("model").value;
+        }
+      }
+    }
+  } catch (err) {
+    $("answer").innerHTML = "";
+    showError("Request failed: " + err.message);
+  } finally {
+    $("ask").disabled = false;
+  }
+}
+
+async function init() {
+  const m = await (await fetch("/models")).json();
+  for (const id of m.models) {
+    const o = document.createElement("option");
+    o.value = o.textContent = id;
+    if (id === m.default) o.selected = true;
+    $("model").appendChild(o);
+  }
+  realToday = m.today;
+  $("today").value = m.today;
+  $("today").max = m.today;
+  updateBacktest();
+}
+
+$("ask").addEventListener("click", ask);
+$("today").addEventListener("change", updateBacktest);
+$("question").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) ask(); });
+init();
+</script>
+</body>
+</html>

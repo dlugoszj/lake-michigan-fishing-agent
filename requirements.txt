@@ -7,3 +7,5 @@ numpy
 xarray
 h5netcdf
 h5py
+fastapi
+uvicorn

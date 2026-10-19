@@ -1,0 +1,59 @@
+"""Web demo: serves the page and streams the agent's steps to the browser.
+
+  python -m web.server        # then open http://localhost:8000
+
+Listens on 127.0.0.1 only: every question costs API credits, so don't expose it publicly.
+"""
+import json
+from datetime import date
+from pathlib import Path
+
+import uvicorn
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse, StreamingResponse
+from pydantic import BaseModel
+
+from agent.run import PRICES, run_agent
+
+DEFAULT_MODEL = "claude-sonnet-5-5"
+PAGE = Path(__file__).parent / "index.html"
+
+app = FastAPI()
+
+
+class AskRequest(BaseModel):
+    question: str
+    model: str = DEFAULT_MODEL
+    today: str | None = None  # "as of" date for backtests; None = really today
+
+
+@app.get("/")
+def page():
+    return FileResponse(PAGE)
+
+
+@app.get("/models")
+def models():
+    return {"models": list(PRICES), "default": DEFAULT_MODEL, "today": date.today().isoformat()}
+
+
+@app.post("/ask")
+def ask(req: AskRequest):
+    """Runs the agent and streams each event as a Server-Sent Event: 'data: {json}\\n\\n'."""
+    if req.model not in PRICES:
+        raise HTTPException(400, f"unknown model {req.model}")
+    if not req.question.strip():
+        raise HTTPException(400, "empty question")
+
+    def events():
+        try:
+            for e in run_agent(req.question, req.today or date.today().isoformat(), req.model):
+                yield f"data: {json.dumps(e)}\n\n"
+        except Exception as ex:  # e.g. API key missing, network error
+            yield f"data: {json.dumps({'type': 'error', 'message': str(ex)})}\n\n"
+
+    return StreamingResponse(events(), media_type="text/event-stream")
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)
