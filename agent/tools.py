@@ -12,6 +12,7 @@ from collections import defaultdict
 from datetime import date, timedelta
 
 from conditions import water_weather as conditions
+from conditions import wind_history
 from extraction.schema import PROMPT_VERSION
 from config.models import EXTRACTION_MODEL
 from config.paths import DB as DB_PATH
@@ -49,7 +50,7 @@ def _evidence(raw):
     return raw or ""
 
 
-def _observations(where: str, params: list, species_group: str) -> str:
+def _observations(where: str, params: list, species_group: str, weather: bool = False) -> str:
     q = f"""
         SELECT p.date, p.port, p.chunk_id, r.url, o.species, o.method, o.bottom_min_ft, o.bottom_max_ft,
                o.fish_min_ft, o.fish_max_ft, o.lures, o.lure_details, o.catch_quality, o.evidence, e.access_issues
@@ -72,7 +73,8 @@ def _observations(where: str, params: list, species_group: str) -> str:
         by_report[(r["date"], r["port"], r["url"], r["access_issues"])].append(r)
     out = []
     for (d, port, url, access), obs in by_report.items():
-        out.append(f"## {d} · {port} · {url}\n   {conditions.week_summary_text(port, d)}" + (f"\n   ACCESS ISSUE: {access}" if access else ""))
+        wind = f"\n   {wind_history.week_summary_text(port, d)}" if weather else ""
+        out.append(f"## {d} · {port} · {url}\n   {conditions.week_summary_text(port, d)}{wind}" + (f"\n   ACCESS ISSUE: {access}" if access else ""))
         for r in obs:
             parts = [f"{r['species']} / {r['method']}"]
             if (w := _depth(r["bottom_min_ft"], r["bottom_max_ft"])):
@@ -102,15 +104,15 @@ def list_ports(as_of: str) -> str:
     return "\n".join(lines)
 
 
-def get_recent_reports(ports: list[str], weeks_back: int, species_group: str, as_of: str) -> str:
+def get_recent_reports(ports: list[str], weeks_back: int, species_group: str, as_of: str, weather: bool = False) -> str:
     start = (date.fromisoformat(as_of) - timedelta(weeks=weeks_back)).isoformat()
     ph = ",".join("?" * len(ports))
-    body = _observations(f"p.port IN ({ph}) AND p.date > ? AND p.date <= ?", [*ports, start, as_of], species_group)
+    body = _observations(f"p.port IN ({ph}) AND p.date > ? AND p.date <= ?", [*ports, start, as_of], species_group, weather)
     return f"Reports for {', '.join(ports)} from {start} to {as_of} ({species_group}):\n{body}"
 
 
 def find_similar_weeks(ports: list[str], around_date: str, window_days: int, species_group: str, as_of: str,
-                       surface_temp_f: float, temp_tolerance_f: float | None = None) -> str:
+                       surface_temp_f: float, temp_tolerance_f: float | None = None, weather: bool = False) -> str:
     """Same time of year in earlier seasons, only weeks whose buoy surface temperature was similar.
 
     The same calendar week can be very warm one year and cold the next, so calendar alone isn't a match.
@@ -141,15 +143,19 @@ def find_similar_weeks(ports: list[str], around_date: str, window_days: int, spe
     where = "(" + " OR ".join("(p.port = ? AND p.date = ?)" for _ in keep) + ")"
     args = [x for k in keep for x in k]
     desc += f", with that week's surface water within {tol:.0f} F of {surface_temp_f:.0f} F"
-    return f"Reports for {', '.join(ports)} {desc} ({species_group}):\n{_observations(where, args, species_group)}"
+    return f"Reports for {', '.join(ports)} {desc} ({species_group}):\n{_observations(where, args, species_group, weather)}"
 
 
-def get_current_conditions(ports: list[str], as_of: str) -> str:
-    """Live buoy + model + forecast when as_of is today; for a past as_of, only that week's buoy summary (no peeking ahead)."""
+def get_current_conditions(ports: list[str], as_of: str, weather: bool = False) -> str:
+    """Live buoy + model + forecast when as_of is today; for a past as_of, only that week's buoy summary (no peeking ahead).
+    weather=True adds the wind over the past week (wind history), live and in backtests."""
+    wind = (lambda p, end: f"; {wind_history.week_summary_text(p, end)}") if weather else (lambda p, end: "")
     if (date.today() - date.fromisoformat(as_of)).days > 1:
-        return "\n".join([f"Backtest mode (today is {as_of}): live data is unavailable; buoy summary for the week before {as_of}:"] +
-                         [f"- {p}: {conditions.week_summary_text(p, as_of)}" for p in ports])
-    return "\n\n".join(conditions.current_conditions_text(p) for p in ports)
+        return "\n".join([f"Backtest mode (today is {as_of}): live data is unavailable; summary for the week before {as_of}:"] +
+                         [f"- {p}: {conditions.week_summary_text(p, as_of)}{wind(p, as_of)}" for p in ports])
+    yesterday = (date.fromisoformat(as_of) - timedelta(days=1)).isoformat()  # wind history ends yesterday
+    return "\n\n".join(conditions.current_conditions_text(p) + (f"\n- Past week{wind(p, yesterday)}" if weather else "")
+                         for p in ports)
 
 
 PORT_ENUM = ["Muskegon", "Muskegon Lake", "Grand Haven", "Holland", "South Haven", "Black River", "St. Joseph", "St. Joseph River"]
@@ -219,14 +225,15 @@ TOOLS.append({
 })
 
 
-def run_tool(name: str, args: dict, as_of: str) -> str:
+def run_tool(name: str, args: dict, as_of: str, weather: bool = False) -> str:
+    """weather=True adds wind history to report weeks and conditions (an option, so the eval can compare with and without)."""
     if name == "list_ports":
         return list_ports(as_of)
     if name == "get_recent_reports":
-        return get_recent_reports(args["ports"], max(1, int(args["weeks_back"])), args["species_group"], as_of)
+        return get_recent_reports(args["ports"], max(1, int(args["weeks_back"])), args["species_group"], as_of, weather)
     if name == "find_similar_weeks":
         return find_similar_weeks(args["ports"], args["around_date"], max(1, int(args["window_days"])), args["species_group"], as_of,
-                                  float(args["surface_temp_f"]), args.get("temp_tolerance_f"))
+                                  float(args["surface_temp_f"]), args.get("temp_tolerance_f"), weather)
     if name == "get_current_conditions":
-        return get_current_conditions(args["ports"], as_of)
+        return get_current_conditions(args["ports"], as_of, weather)
     raise ValueError(f"unknown tool {name}")

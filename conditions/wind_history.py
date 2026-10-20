@@ -93,6 +93,15 @@ def week_summary(port: str, end: str, days: int = 7) -> dict | None:
             "upwelling_hours_7d": sum(r[3] for r in rows), "upwelling_hours_3d": sum(r[3] for r in rows if r[0] > last3)}
 
 
+def week_summary_text(port: str, end: str) -> str:
+    w = week_summary(port, end)
+    if not w:
+        return "wind that week: no wind history"
+    gust = f", gusts to {w['gust_max_mph']:.0f} mph" if w["gust_max_mph"] is not None else ""
+    return (f"wind that week: avg {w['mean_mph']:.0f} mph{gust}; upwelling wind (N to E, 8+ mph) "
+            f"{w['upwelling_hours_7d']} h in 7 days, {w['upwelling_hours_3d']} h in the last 3")
+
+
 if __name__ == "__main__":
     if sys.argv[1:] == ["build"]:
         build()

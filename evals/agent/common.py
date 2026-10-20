@@ -21,7 +21,15 @@ SALMON = ("chinook", "coho", "salmon_unspecified", "pink")
 # so on a pier "a few were caught" (1) already counts; boat uses average or better (2), true ~56% of the time.
 GOOD = {"pier": 1, "boat": 2}
 HERE = Path(__file__).parent
-CASES = HERE / "cases.jsonl"
+SPLITS = ["dev", "test"]
+
+
+def cases_file(split: str) -> Path:
+    return HERE / f"cases_{split}.jsonl"
+
+
+def results_file(split: str) -> Path:
+    return HERE / f"results_{split}.jsonl"
 
 
 def conn() -> sqlite3.Connection:

@@ -1,13 +1,14 @@
 """Pick backtest weeks and write evals/agent/cases.jsonl (no API calls).
 
-  python -m evals.agent.cases            # 10-week pilot from the dev pool
-  python -m evals.agent.cases --n 40
+  python -m evals.agent.cases                  # every qualifying dev week -> cases_dev.jsonl
+  python -m evals.agent.cases --split test     # every test week -> cases_test.jsonl (run once, at the end)
+  python -m evals.agent.cases --n 10           # a smaller sample, spread over years and months
 
 A case is one report R (the answer key) and one method (pier or boat). The agent runs "as of" the day
 before R, so it never sees R or anything later. R qualifies if it rates >= 2 ports for pier AND for boat,
 and a previous report exists within 14 days (for the "same as last week" baseline).
 Every qualifying R is put in dev or test by a hash of its id (1 in 3 test), so the split never changes;
-the pilot draws only from dev, spread over years and months.
+the first pilot (cases_pilot.jsonl) was 10 dev weeks.
 """
 import argparse
 import hashlib
@@ -16,7 +17,7 @@ import random
 from collections import defaultdict
 from datetime import date, timedelta
 
-from evals.agent.common import CASES, METHODS, PORTS, ratings, reports
+from evals.agent.common import METHODS, PORTS, cases_file, ratings, reports
 
 QUESTIONS = {
     "pier": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of "
@@ -71,22 +72,24 @@ def pick(pool: list[dict], n: int, seed: int = 7) -> list[dict]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--n", type=int, default=10, help="number of weeks (each gives a pier and a boat case)")
+    ap.add_argument("--n", type=int, default=0, help="number of weeks (each gives a pier and a boat case); 0 = all")
     ap.add_argument("--split", choices=["dev", "test"], default="dev")
     args = ap.parse_args()
 
     pool = candidates()
     print(f"qualifying weeks: {len(pool)} ({sum(c['split'] == 'dev' for c in pool)} dev, "
           f"{sum(c['split'] == 'test' for c in pool)} test)")
-    weeks = pick([c for c in pool if c["split"] == args.split], args.n)
-    with CASES.open("w") as f:
+    split_pool = [c for c in pool if c["split"] == args.split]
+    weeks = pick(split_pool, args.n or len(split_pool))
+    out = cases_file(args.split)
+    with out.open("w") as f:
         for w in weeks:
             as_of = (date.fromisoformat(w["report_date"]) - timedelta(days=1)).isoformat()
             for m in METHODS:
                 f.write(json.dumps({"case_id": f"{w['report_id']}-{m}", "method": m, "as_of": as_of,
                                     "question": QUESTIONS[m], "truth": w["truth"][m], **{k: w[k] for k in
                                     ("report_id", "report_date", "prev_report_id", "prev_date", "split")}}) + "\n")
-    print(f"wrote {2 * len(weeks)} cases ({len(weeks)} weeks x pier/boat) to {CASES}")
+    print(f"wrote {2 * len(weeks)} cases ({len(weeks)} weeks x pier/boat) to {out}")
 
 
 if __name__ == "__main__":

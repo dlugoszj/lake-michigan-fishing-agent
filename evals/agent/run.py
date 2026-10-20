@@ -1,16 +1,20 @@
 """Run the agent on the backtest cases and save each answer's per-port ratings (costs money).
 
-  python -m evals.agent.run                      # both agent predictors, 2 runs per case, Sonnet 5.5
-  python -m evals.agent.run --reps 1 --predictor agent
+  python -m evals.agent.run                      # every predictor on the dev cases, 2 runs per case, Sonnet 5.5
+  python -m evals.agent.run --reps 1 --predictor agent --predictor agent_weather
+  python -m evals.agent.run --split test         # the held-out weeks, once the agent is settled
 
-Predictors: "agent" (as in the demo) and "agent_no_reports" (report tools off, conditions only).
+Predictors (agent settings): "agent" (as in the demo), "agent_no_reports" (report tools off, conditions only),
+and the same two with wind history on ("_weather"), to measure whether the wind data helps.
 Each run: run_agent() as of the day before the answer-key report -> the final answer -> Haiku 5.5 reads
 the 0-4 rating the answer gives each port (null if it doesn't rate one). One row per (predictor, case, run)
-goes to results.jsonl as soon as it finishes, so a crash loses nothing and a re-run skips finished rows.
+goes to results_<split>.jsonl as soon as it finishes, so a crash loses nothing and a re-run skips finished rows.
+Each row records the git commit it ran on, so results from different agent versions are never mixed up silently.
 Full transcripts go to traces/; runs that fail before an answer go to errors.jsonl, never scored as zeros.
 """
 import argparse
 import json
+import subprocess
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -21,12 +25,16 @@ from pydantic import BaseModel, Field
 
 from agent.run import run_agent
 from config.pricing import cost, usage_tokens
-from evals.agent.common import CASES, HERE, PORTS
+from evals.agent.common import HERE, PORTS, SPLITS, cases_file, results_file
 
-RESULTS = HERE / "results.jsonl"
 ERRORS = HERE / "errors.jsonl"
 TRACES = HERE / "traces"
-PREDICTORS = {"agent": True, "agent_no_reports": False}  # name -> report_tools
+PREDICTORS = {  # name -> run_agent settings
+    "agent": {"report_tools": True, "weather_history": False},
+    "agent_no_reports": {"report_tools": False, "weather_history": False},
+    "agent_weather": {"report_tools": True, "weather_history": True},
+    "agent_no_reports_weather": {"report_tools": False, "weather_history": True},
+}
 READER_MODEL = "claude-haiku-5-5"
 CASE_TIMEOUT_S = 300
 
@@ -57,10 +65,17 @@ def read_ratings(client: anthropic.Anthropic, answer: str) -> tuple[dict, dict]:
     return {"ratings": ratings, "go_to": r.go_to}, usage_tokens(resp.usage)
 
 
-def run_one(client, predictor: str, case: dict, rep: int, model: str) -> dict:
+def git_commit() -> str:
+    """Short commit id, '+dirty' if agent/ or conditions/ have uncommitted changes."""
+    sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
+    dirty = subprocess.run(["git", "status", "--porcelain", "agent", "conditions"], capture_output=True, text=True).stdout.strip()
+    return sha + ("+dirty" if dirty else "")
+
+
+def run_one(client, predictor: str, case: dict, rep: int, model: str, split: str, commit: str) -> dict:
     t0 = time.monotonic()
     events, answer, done = [], None, None
-    for e in run_agent(case["question"], case["as_of"], model, report_tools=PREDICTORS[predictor]):
+    for e in run_agent(case["question"], case["as_of"], model, **PREDICTORS[predictor]):
         events.append(e)
         if e["type"] == "answer":
             answer = e["text"]
@@ -72,11 +87,12 @@ def run_one(client, predictor: str, case: dict, rep: int, model: str) -> dict:
         errs = [e["message"] for e in events if e["type"] == "error"]
         raise RuntimeError("no answer: " + "; ".join(errs or ["unknown"]))
     read, reader_usage = read_ratings(client, answer)
-    trace_dir = TRACES / predictor
+    trace_dir = TRACES / split / predictor
     trace_dir.mkdir(parents=True, exist_ok=True)
     (trace_dir / f"{case['case_id']}_rep{rep}.json").write_text(json.dumps(
         {"case": case, "events": events, "read": read}, indent=1))
     return {"predictor": predictor, "case_id": case["case_id"], "rep": rep, "status": "ok", "model": model,
+            "commit": commit, **PREDICTORS[predictor],
             **read, "agent_cost": done["cost"], "reader_cost": cost(READER_MODEL, **reader_usage),
             "model_calls": done["model_calls"],
             "tool_calls": sum(e["type"] == "tool_call" for e in events), "seconds": round(time.monotonic() - t0, 1)}
@@ -88,20 +104,25 @@ def main() -> None:
     ap.add_argument("--reps", type=int, default=2)
     ap.add_argument("--model", default="claude-sonnet-5-5")
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--split", choices=SPLITS, default="dev")
     args = ap.parse_args()
 
-    cases = [json.loads(l) for l in CASES.read_text().splitlines()]
+    cases = [json.loads(l) for l in cases_file(args.split).read_text().splitlines()]
+    RESULTS = results_file(args.split)
+    commit = git_commit()
+    if commit.endswith("+dirty"):
+        print(f"warning: agent code has uncommitted changes ({commit}); results won't map to a commit")
     done = set()
     if RESULTS.exists():
         done = {(r["predictor"], r["case_id"], r["rep"]) for r in map(json.loads, RESULTS.read_text().splitlines())}
     jobs = [(p, c, k) for p in (args.predictor or list(PREDICTORS)) for c in cases for k in range(args.reps)
             if (p, c["case_id"], k) not in done]
-    print(f"{len(jobs)} runs to do ({len(done)} already in {RESULTS.name}), model {args.model}")
+    print(f"{len(jobs)} runs to do ({len(done)} already in {RESULTS.name}), model {args.model}, commit {commit}")
 
     client = anthropic.Anthropic()
     lock, spent = threading.Lock(), 0.0
     with ThreadPoolExecutor(args.workers) as pool:
-        futs = {pool.submit(run_one, client, p, c, k, args.model): (p, c, k) for p, c, k in jobs}
+        futs = {pool.submit(run_one, client, p, c, k, args.model, args.split, commit): (p, c, k) for p, c, k in jobs}
         for fut in as_completed(futs):
             p, c, k = futs[fut]
             try:
@@ -110,13 +131,14 @@ def main() -> None:
                 spent += row["agent_cost"] + row["reader_cost"]
                 msg = f"ok  {' '.join('-' if v is None else str(v) for v in row['ratings'].values())}  ${row['agent_cost']:.3f}"
             except Exception as e:  # recorded, not scored
-                out, line = ERRORS, {"predictor": p, "case_id": c["case_id"], "rep": k, "error": f"{type(e).__name__}: {e}"}
+                out, line = ERRORS, {"predictor": p, "case_id": c["case_id"], "rep": k, "split": args.split, "commit": commit,
+                                     "error": f"{type(e).__name__}: {e}"}
                 msg = f"ERROR {line['error'][:120]}"
             with lock:
                 with out.open("a") as f:
                     f.write(json.dumps(line) + "\n")
             print(f"  {p:<17} {c['case_id']:<14} rep{k}  {msg}   (total ${spent:.2f})", flush=True)
-    print(f"\ndone, spent ${spent:.2f}. Score with: python -m evals.agent.score")
+    print(f"\ndone, spent ${spent:.2f}. Score with: python -m evals.agent.score --split {args.split}")
 
 
 if __name__ == "__main__":
