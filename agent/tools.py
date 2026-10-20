@@ -12,7 +12,7 @@ from collections import defaultdict
 from datetime import date, timedelta
 
 from conditions import water_weather as conditions
-from conditions import wind_history
+from conditions import glsea, wind_history
 from extraction.schema import PROMPT_VERSION
 from config.models import EXTRACTION_MODEL
 from config.paths import DB as DB_PATH
@@ -50,7 +50,7 @@ def _evidence(raw):
     return raw or ""
 
 
-def _observations(where: str, params: list, species_group: str, weather: bool = False) -> str:
+def _observations(where: str, params: list, species_group: str, history: bool = False) -> str:
     q = f"""
         SELECT p.date, p.port, p.chunk_id, r.url, o.species, o.method, o.bottom_min_ft, o.bottom_max_ft,
                o.fish_min_ft, o.fish_max_ft, o.lures, o.lure_details, o.catch_quality, o.evidence, e.access_issues
@@ -73,8 +73,8 @@ def _observations(where: str, params: list, species_group: str, weather: bool = 
         by_report[(r["date"], r["port"], r["url"], r["access_issues"])].append(r)
     out = []
     for (d, port, url, access), obs in by_report.items():
-        wind = f"\n   {wind_history.week_summary_text(port, d)}" if weather else ""
-        out.append(f"## {d} · {port} · {url}\n   {conditions.week_summary_text(port, d)}{wind}" + (f"\n   ACCESS ISSUE: {access}" if access else ""))
+        extra = f"\n   {glsea.week_summary_text(port, d)}\n   {wind_history.week_summary_text(port, d)}" if history else ""
+        out.append(f"## {d} · {port} · {url}\n   {conditions.week_summary_text(port, d)}{extra}" + (f"\n   ACCESS ISSUE: {access}" if access else ""))
         for r in obs:
             parts = [f"{r['species']} / {r['method']}"]
             if (w := _depth(r["bottom_min_ft"], r["bottom_max_ft"])):
@@ -104,19 +104,20 @@ def list_ports(as_of: str) -> str:
     return "\n".join(lines)
 
 
-def get_recent_reports(ports: list[str], weeks_back: int, species_group: str, as_of: str, weather: bool = False) -> str:
+def get_recent_reports(ports: list[str], weeks_back: int, species_group: str, as_of: str, history: bool = False) -> str:
     start = (date.fromisoformat(as_of) - timedelta(weeks=weeks_back)).isoformat()
     ph = ",".join("?" * len(ports))
-    body = _observations(f"p.port IN ({ph}) AND p.date > ? AND p.date <= ?", [*ports, start, as_of], species_group, weather)
+    body = _observations(f"p.port IN ({ph}) AND p.date > ? AND p.date <= ?", [*ports, start, as_of], species_group, history)
     return f"Reports for {', '.join(ports)} from {start} to {as_of} ({species_group}):\n{body}"
 
 
 def find_similar_weeks(ports: list[str], around_date: str, window_days: int, species_group: str, as_of: str,
-                       surface_temp_f: float, temp_tolerance_f: float | None = None, weather: bool = False) -> str:
+                       surface_temp_f: float, temp_tolerance_f: float | None = None, history: bool = False) -> str:
     """Same time of year in earlier seasons, only weeks whose buoy surface temperature was similar.
 
     The same calendar week can be very warm one year and cold the next, so calendar alone isn't a match.
-    Report weeks without buoy data (buoys are out roughly Nov-Apr) can't be matched and are left out."""
+    Report weeks without buoy data (buoys are out roughly Nov-Apr) can't be matched and are left out, unless
+    history=True, which falls back to the GLSEA satellite temperature for those weeks."""
     target = date.fromisoformat(around_date)
     clauses, params = [], []
     for year in range(2017, date.fromisoformat(as_of).year + 1):
@@ -136,26 +137,29 @@ def find_similar_weeks(ports: list[str], around_date: str, window_days: int, spe
     tol = temp_tolerance_f if temp_tolerance_f is not None else 4.0
     weeks = _conn().execute(f"SELECT DISTINCT p.port, p.date FROM port_chunks p WHERE p.lake_port = 1 AND {where}", args).fetchall()
     keep = [(w["port"], w["date"]) for w in weeks
-            if (s := conditions.week_summary(w["port"], w["date"])) and abs(s["mean_f"] - surface_temp_f) <= tol]
+            if (s := conditions.week_summary(w["port"], w["date"]) or (history and glsea.week_summary(w["port"], w["date"])))
+            and abs(s["mean_f"] - surface_temp_f) <= tol]
     if not keep:
         return (f"No report weeks {desc} had surface water within {tol:.0f} F of {surface_temp_f:.0f} F "
                 f"({len(weeks)} calendar matches, none with similar water). Try a wider window_days or temp_tolerance_f.")
     where = "(" + " OR ".join("(p.port = ? AND p.date = ?)" for _ in keep) + ")"
     args = [x for k in keep for x in k]
     desc += f", with that week's surface water within {tol:.0f} F of {surface_temp_f:.0f} F"
-    return f"Reports for {', '.join(ports)} {desc} ({species_group}):\n{_observations(where, args, species_group, weather)}"
+    return f"Reports for {', '.join(ports)} {desc} ({species_group}):\n{_observations(where, args, species_group, history)}"
 
 
-def get_current_conditions(ports: list[str], as_of: str, weather: bool = False) -> str:
+def get_current_conditions(ports: list[str], as_of: str, history: bool = False) -> str:
     """Live buoy + model + forecast when as_of is today; for a past as_of, only that week's buoy summary (no peeking ahead).
-    weather=True adds the wind over the past week (wind history), live and in backtests."""
-    wind = (lambda p, end: f"; {wind_history.week_summary_text(p, end)}") if weather else (lambda p, end: "")
+    history=True adds GLSEA satellite surface water near the pier and the past week's wind, live and in backtests."""
     if (date.today() - date.fromisoformat(as_of)).days > 1:
+        extra = (lambda p: f"; {glsea.week_summary_text(p, as_of)}; {wind_history.week_summary_text(p, as_of)}") if history \
+            else (lambda p: "")
         return "\n".join([f"Backtest mode (today is {as_of}): live data is unavailable; summary for the week before {as_of}:"] +
-                         [f"- {p}: {conditions.week_summary_text(p, as_of)}{wind(p, as_of)}" for p in ports])
+                         [f"- {p}: {conditions.week_summary_text(p, as_of)}{extra(p)}" for p in ports])
     yesterday = (date.fromisoformat(as_of) - timedelta(days=1)).isoformat()  # wind history ends yesterday
-    return "\n\n".join(conditions.current_conditions_text(p) + (f"\n- Past week{wind(p, yesterday)}" if weather else "")
-                         for p in ports)
+    extra = (lambda p: f"\n- {glsea.latest_text(p, as_of)}\n- Past week {wind_history.week_summary_text(p, yesterday)}") if history \
+        else (lambda p: "")
+    return "\n\n".join(conditions.current_conditions_text(p) + extra(p) for p in ports)
 
 
 PORT_ENUM = ["Muskegon", "Muskegon Lake", "Grand Haven", "Holland", "South Haven", "Black River", "St. Joseph", "St. Joseph River"]
@@ -225,15 +229,16 @@ TOOLS.append({
 })
 
 
-def run_tool(name: str, args: dict, as_of: str, weather: bool = False) -> str:
-    """weather=True adds wind history to report weeks and conditions (an option, so the eval can compare with and without)."""
+def run_tool(name: str, args: dict, as_of: str, history: bool = False) -> str:
+    """history=True adds GLSEA satellite water near the pier and wind history to report weeks and conditions
+    (an option, so the eval can compare with and without)."""
     if name == "list_ports":
         return list_ports(as_of)
     if name == "get_recent_reports":
-        return get_recent_reports(args["ports"], max(1, int(args["weeks_back"])), args["species_group"], as_of, weather)
+        return get_recent_reports(args["ports"], max(1, int(args["weeks_back"])), args["species_group"], as_of, history)
     if name == "find_similar_weeks":
         return find_similar_weeks(args["ports"], args["around_date"], max(1, int(args["window_days"])), args["species_group"], as_of,
-                                  float(args["surface_temp_f"]), args.get("temp_tolerance_f"), weather)
+                                  float(args["surface_temp_f"]), args.get("temp_tolerance_f"), history)
     if name == "get_current_conditions":
-        return get_current_conditions(args["ports"], as_of, weather)
+        return get_current_conditions(args["ports"], as_of, history)
     raise ValueError(f"unknown tool {name}")

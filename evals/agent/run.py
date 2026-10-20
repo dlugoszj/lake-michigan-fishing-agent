@@ -1,11 +1,12 @@
 """Run the agent on the backtest cases and save each answer's per-port ratings (costs money).
 
   python -m evals.agent.run                      # every predictor on the dev cases, 2 runs per case, Sonnet 5.5
-  python -m evals.agent.run --reps 1 --predictor agent --predictor agent_weather
+  python -m evals.agent.run --reps 1 --predictor agent --predictor agent_history
   python -m evals.agent.run --split test         # the held-out weeks, once the agent is settled
 
 Predictors (agent settings): "agent" (as in the demo), "agent_no_reports" (report tools off, conditions only),
-and the same two with wind history on ("_weather"), to measure whether the wind data helps.
+and the same two with conditions history on ("_history": GLSEA satellite water near the pier + wind), to measure
+whether that data helps.
 Each run: run_agent() as of the day before the answer-key report -> the final answer -> Haiku 5.5 reads
 the 0-4 rating the answer gives each port (null if it doesn't rate one). One row per (predictor, case, run)
 goes to results_<split>.jsonl as soon as it finishes, so a crash loses nothing and a re-run skips finished rows.
@@ -30,10 +31,10 @@ from evals.agent.common import HERE, PORTS, SPLITS, cases_file, results_file
 ERRORS = HERE / "errors.jsonl"
 TRACES = HERE / "traces"
 PREDICTORS = {  # name -> run_agent settings
-    "agent": {"report_tools": True, "weather_history": False},
-    "agent_no_reports": {"report_tools": False, "weather_history": False},
-    "agent_weather": {"report_tools": True, "weather_history": True},
-    "agent_no_reports_weather": {"report_tools": False, "weather_history": True},
+    "agent": {"report_tools": True, "conditions_history": False},
+    "agent_no_reports": {"report_tools": False, "conditions_history": False},
+    "agent_history": {"report_tools": True, "conditions_history": True},
+    "agent_no_reports_history": {"report_tools": False, "conditions_history": True},
 }
 READER_MODEL = "claude-haiku-5-5"
 CASE_TIMEOUT_S = 300

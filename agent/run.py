@@ -67,9 +67,13 @@ Reference (general guidance, cite the source when you use it):
 - Wind and waves: for small boats, say so plainly when the forecast is strong (e.g. sustained 20+ mph or high waves) and suggest the pier or river as the alternative; safety comes before the bite."""
 
 
-WEATHER_NOTE = ("\n\nWind history is on: report weeks and conditions also show that week's wind. Upwelling wind = hours of "
-                "wind from the north round to the east at 8+ mph, which pushes warm surface water offshore so cold water wells "
-                "up along this shore (Michigan Sea Grant). Weigh it together with the buoy temperature trend.")
+HISTORY_NOTE = (
+    "\n\nConditions history is on: report weeks and conditions also show (1) surface water near the pier from the GLSEA "
+    "satellite analysis (NOAA GLERL), a cell ~1-2.5 km off the pierhead, closer to shore than the buoys and available when "
+    "they are not; it blends several days of satellite passes, so it can show a fast change 1-2 days late, and the buoy is "
+    "better for timing when it has data; and (2) that week's wind. Upwelling wind = hours of wind from the north round to "
+    "the east at 8+ mph, which pushes warm surface water offshore so cold water wells up along this shore (Michigan Sea "
+    "Grant). Weigh wind, buoy and satellite together; label satellite values as satellite.")
 
 
 NO_REPORTS_NOTE = ("\n\nNo DNR fishing reports are available for this question, and the report tools are switched off. "
@@ -77,16 +81,17 @@ NO_REPORTS_NOTE = ("\n\nNo DNR fishing reports are available for this question, 
 
 
 def run_agent(question: str, today: str, model: str = AGENT_DEFAULT_CLI, report_tools: bool = True,
-              weather_history: bool = False):
+              conditions_history: bool = False):
     """The agent loop. Yields one event dict per step, so the CLI can print them and the web page can stream them.
 
     report_tools=False leaves only get_current_conditions (used by the agent eval to test conditions alone).
-    weather_history=True adds the past week's wind to report weeks and conditions (off until the eval shows it helps).
+    conditions_history=True adds GLSEA satellite water near the pier and the past week's wind to report weeks and
+    conditions (off until the eval shows it helps).
     """
     client = anthropic.Anthropic()
     tools = TOOLS if report_tools else [t for t in TOOLS if t["name"] == "get_current_conditions"]
     system = (SYSTEM + f"\n\nToday is {today}." + ("" if report_tools else NO_REPORTS_NOTE)
-              + (WEATHER_NOTE if weather_history else ""))
+              + (HISTORY_NOTE if conditions_history else ""))
     messages = [{"role": "user", "content": question}]
     total = {"input_tokens": 0, "output_tokens": 0, "cache_write_tokens": 0, "cache_read_tokens": 0}
     t0 = time.monotonic()
@@ -117,7 +122,7 @@ def run_agent(question: str, today: str, model: str = AGENT_DEFAULT_CLI, report_
         for call in tool_calls:
             yield {"type": "tool_call", "turn": turn, "name": call.name, "input": call.input}
             try:
-                out, is_error = run_tool(call.name, call.input, today, weather_history), False
+                out, is_error = run_tool(call.name, call.input, today, conditions_history), False
             except Exception as e:  # report tool failures to the model instead of crashing
                 out, is_error = f"Tool error: {e}", True
             yield {"type": "tool_result", "turn": turn, "name": call.name, "chars": len(out), "content": out, "is_error": is_error}
