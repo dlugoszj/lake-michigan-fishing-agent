@@ -110,8 +110,11 @@ def get_recent_reports(ports: list[str], weeks_back: int, species_group: str, as
 
 
 def find_similar_weeks(ports: list[str], around_date: str, window_days: int, species_group: str, as_of: str,
-                       surface_temp_f: float | None = None, temp_tolerance_f: float | None = None) -> str:
-    """Same time of year in earlier seasons; optionally only weeks whose buoy surface temperature was similar."""
+                       surface_temp_f: float, temp_tolerance_f: float | None = None) -> str:
+    """Same time of year in earlier seasons, only weeks whose buoy surface temperature was similar.
+
+    The same calendar week can be very warm one year and cold the next, so calendar alone isn't a match.
+    Report weeks without buoy data (buoys are out roughly Nov-Apr) can't be matched and are left out."""
     target = date.fromisoformat(around_date)
     clauses, params = [], []
     for year in range(2017, date.fromisoformat(as_of).year + 1):
@@ -128,16 +131,16 @@ def find_similar_weeks(ports: list[str], around_date: str, window_days: int, spe
     ph = ",".join("?" * len(ports))
     where, args = f"p.port IN ({ph}) AND ({' OR '.join(clauses)})", [*ports, *params]
     desc = f"within {window_days} days of {target.strftime('%B %d')} in any year up to {as_of}"
-    if surface_temp_f is not None:
-        tol = temp_tolerance_f if temp_tolerance_f is not None else 4.0
-        weeks = _conn().execute(f"SELECT DISTINCT p.port, p.date FROM port_chunks p WHERE p.lake_port = 1 AND {where}", args).fetchall()
-        keep = [(w["port"], w["date"]) for w in weeks
-                if (s := conditions.week_summary(w["port"], w["date"])) and abs(s["mean_f"] - surface_temp_f) <= tol]
-        if not keep:
-            return f"No report weeks {desc} had surface water within {tol:.0f} F of {surface_temp_f:.0f} F."
-        where = "(" + " OR ".join("(p.port = ? AND p.date = ?)" for _ in keep) + ")"
-        args = [x for k in keep for x in k]
-        desc += f", with that week's surface water within {tol:.0f} F of {surface_temp_f:.0f} F"
+    tol = temp_tolerance_f if temp_tolerance_f is not None else 4.0
+    weeks = _conn().execute(f"SELECT DISTINCT p.port, p.date FROM port_chunks p WHERE p.lake_port = 1 AND {where}", args).fetchall()
+    keep = [(w["port"], w["date"]) for w in weeks
+            if (s := conditions.week_summary(w["port"], w["date"])) and abs(s["mean_f"] - surface_temp_f) <= tol]
+    if not keep:
+        return (f"No report weeks {desc} had surface water within {tol:.0f} F of {surface_temp_f:.0f} F "
+                f"({len(weeks)} calendar matches, none with similar water). Try a wider window_days or temp_tolerance_f.")
+    where = "(" + " OR ".join("(p.port = ? AND p.date = ?)" for _ in keep) + ")"
+    args = [x for k in keep for x in k]
+    desc += f", with that week's surface water within {tol:.0f} F of {surface_temp_f:.0f} F"
     return f"Reports for {', '.join(ports)} {desc} ({species_group}):\n{_observations(where, args, species_group)}"
 
 
@@ -180,8 +183,10 @@ TOOLS = [
     },
     {
         "name": "find_similar_weeks",
-        "description": "Observations from the same time of year in earlier seasons (calendar match within a window of days). "
-                       "Use it to see what typically happens at this point in the season, especially when recent reports are old or sparse.",
+        "description": "Observations from earlier seasons at the same time of year AND with similar water: report weeks within a window "
+                       "of days of the date whose average buoy surface temperature was close to today's. Use it to see what typically "
+                       "happens in conditions like these, especially when recent reports are old or sparse. Call get_current_conditions "
+                       "first and pass its measured buoy surface temperature; never guess the temperature.",
         "strict": True,
         "input_schema": {
             "type": "object",
@@ -190,8 +195,9 @@ TOOLS = [
                 "around_date": {"type": "string", "format": "date", "description": "Center date, usually today or the trip date."},
                 "window_days": {"type": "integer", "description": "Days on each side of that date, e.g. 14."},
                 "species_group": {"type": "string", "enum": GROUP_ENUM},
-                "surface_temp_f": {"type": ["number", "null"],
-                                   "description": "Optional: only weeks whose average buoy surface temperature was close to this (e.g. today's reading). null = calendar match only."},
+                "surface_temp_f": {"type": "number",
+                                   "description": "Today's measured buoy surface temperature in F, from get_current_conditions. "
+                                                  "Only weeks whose average buoy surface temperature was close to this are returned."},
                 "temp_tolerance_f": {"type": ["number", "null"], "description": "Allowed difference in F for surface_temp_f (default 4)."},
             },
             "required": ["ports", "around_date", "window_days", "species_group", "surface_temp_f", "temp_tolerance_f"],
@@ -220,7 +226,7 @@ def run_tool(name: str, args: dict, as_of: str) -> str:
         return get_recent_reports(args["ports"], max(1, int(args["weeks_back"])), args["species_group"], as_of)
     if name == "find_similar_weeks":
         return find_similar_weeks(args["ports"], args["around_date"], max(1, int(args["window_days"])), args["species_group"], as_of,
-                                  args.get("surface_temp_f"), args.get("temp_tolerance_f"))
+                                  float(args["surface_temp_f"]), args.get("temp_tolerance_f"))
     if name == "get_current_conditions":
         return get_current_conditions(args["ports"], as_of)
     raise ValueError(f"unknown tool {name}")
