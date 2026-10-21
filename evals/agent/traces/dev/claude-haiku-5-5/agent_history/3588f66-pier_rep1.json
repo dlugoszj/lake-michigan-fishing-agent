@@ -1,0 +1,129 @@
+{
+ "case": {
+  "case_id": "3588f66-pier",
+  "method": "pier",
+  "as_of": "2023-05-02",
+  "question": "I fish from the pier for salmon. For this week, how good do you expect pier fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 0,
+   "South Haven": 0,
+   "Grand Haven": null,
+   "Muskegon": null
+  },
+  "report_id": "3588f66",
+  "report_date": "2023-05-03",
+  "prev_report_id": "3573537",
+  "prev_date": "2023-04-26",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 3749,
+   "output_tokens": 424,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0005869000000000001,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "list_ports",
+   "input": {}
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "list_ports",
+   "chars": 746,
+   "content": "Today is 2023-05-02. Ports with DNR reports (Lake Michigan, Southwest Lower Peninsula):\n- Muskegon: 27 weekly reports, 2022-04-06 to 2023-04-26 (latest is 6 days old)\n- St. Joseph: 26 weekly reports, 2022-04-06 to 2023-04-26 (latest is 6 days old)\n- South Haven: 26 weekly reports, 2022-04-06 to 2023-04-26 (latest is 6 days old)\n- Grand Haven: 22 weekly reports, 2022-04-06 to 2023-04-20 (latest is 12 days old)\n- Muskegon River: 3 weekly reports, 2022-10-19 to 2023-04-26 (latest is 6 days old)\n- St. Joseph River: 1 weekly reports, 2022-10-19 to 2022-10-19 (latest is 195 days old)\n- Holland: 1 weekly reports, 2022-09-14 to 2022-09-14 (latest is 230 days old)\n- Grand River: 1 weekly reports, 2022-10-19 to 2022-10-19 (latest is 195 days old)",
+   "is_error": false
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 1410,
+   "content": "Backtest mode (today is 2023-05-02): live data is unavailable; summary for the week before 2023-05-02:\n- St. Joseph: surface water that week (buoy 45026): avg 46 F, +0 F over the week; surface water near the pier (GLSEA satellite, cell ~2.5 km off the pierhead): avg 46 F, +1 F over the week, +1 F in the last 3 days; wind that week: avg 11 mph, gusts to 44 mph; upwelling wind (N to E, 8+ mph) 36 h in 7 days, 16 h in the last 3\n- South Haven: surface water that week (buoy 45168): avg 46 F, -1 F over the week; surface water near the pier (GLSEA satellite, cell ~1.8 km off the pierhead): avg 47 F, +1 F over the week, +1 F in the last 3 days; wind that week: avg 12 mph, gusts to 46 mph; upwelling wind (N to E, 8+ mph) 39 h in 7 days, 15 h in the last 3\n- Grand Haven: surface water that week (buoy 45029): avg 45 F, -3 F over the week; surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 45 F, -2 F over the week, -2 F in the last 3 days; wind that week: avg 12 mph, gusts to 47 mph; upwelling wind (N to E, 8+ mph) 33 h in 7 days, 25 h in the last 3\n- Muskegon: surface water that week (buoy 45029): avg 45 F, -3 F over the week; surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 46 F, +0 F over the week, -1 F in the last 3 days; wind that week: avg 11 mph, gusts to 46 mph; upwelling wind (N to E, 8+ mph) 33 h in 7 days, 23 h in the last 3",
+   "is_error": false
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_recent_reports",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ],
+    "weeks_back": 4,
+    "species_group": "salmon"
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_recent_reports",
+   "chars": 7818,
+   "content": "Reports for St. Joseph, South Haven, Grand Haven, Muskegon from 2023-04-04 to 2023-05-02 (salmon):\n## 2023-04-26 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3573537\n   surface water that week (buoy 45029): avg 45 F, +2 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 46 F, +0 F over the week, -1 F in the last 3 days\n   wind that week: avg 10 mph, gusts to 43 mph; upwelling wind (N to E, 8+ mph) 27 h in 7 days, 6 h in the last 3\n- coho / pier; quality 0 (slow)\n  evidence: \"Pier anglers found the action to be very slow for brown trout and coho salmon.\"\n- chinook / boat; water 30-60 ft; lures spoons (Chartreuse and green spoons); quality 1 (below average)\n  evidence: \"Boats trolling in 30 to 60 feet of water caught a few Chinook salmon. \u2026 Chartreuse and green spoons worked well for boat anglers.\"\n## 2023-04-26 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3573537\n   surface water that week (buoy 45168): avg 45 F, +4 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.8 km off the pierhead): avg 46 F, +2 F over the week, +0 F in the last 3 days\n   wind that week: avg 10 mph, gusts to 36 mph; upwelling wind (N to E, 8+ mph) 41 h in 7 days, 25 h in the last 3\n- coho / pier; quality 0 (slow)\n  evidence: \"Pier fishing was slow for coho.\"\n- salmon_unspecified / boat; quality 0 (slow)\n  evidence: \"Boat anglers targeting salmon also had slow fishing.\"\n## 2023-04-26 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3573537\n   surface water that week (buoy 45026): avg 44 F, +3 F over the week\n   surface water near the pier (GLSEA satellite, cell ~2.5 km off the pierhead): avg 46 F, +1 F over the week, -1 F in the last 3 days\n   wind that week: avg 9 mph, gusts to 42 mph; upwelling wind (N to E, 8+ mph) 31 h in 7 days, 22 h in the last 3\n- coho / boat; water 10+ ft; lures crankbaits, spoons (Small crank baits and spoons); quality 1 (below average)\n  evidence: \"Boat anglers targeting coho were catching a few fish. \u2026 The fish were spread out from 10 to 60 feet of water. \u2026 Anglers where targeting fish from 60 to well over 100 feet of water. \u2026 Small crank baits and spoons were working best.\"\n- chinook / boat; lures crankbaits, spoons (Small crank baits and spoons); quality 1 (below average)\n  evidence: \"Boats were also catching a few lake trout and an occasional Chinook salmon. \u2026 Small crank baits and spoons were working best.\"\n- coho / pier; lures spawn (fished on the bottom); quality 1 (below average)\n  evidence: \"Pier anglers were catching a few coho using spawn fished on the bottom.\"\n## 2023-04-20 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3561fa6\n   surface water that week (buoy 45029): avg 42 F, +2 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 43 F, +3 F over the week, +1 F in the last 3 days\n   wind that week: avg 13 mph, gusts to 43 mph; upwelling wind (N to E, 8+ mph) 32 h in 7 days, 31 h in the last 3\n- coho / unknown; quality 0 (slow)\n  evidence: \"Dirty water from the Grand River has slowed the action for brown trout and coho salmon.\"\n## 2023-04-20 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3561fa6\n   surface water that week (buoy 45029): avg 42 F, +2 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 45 F, +1 F over the week, +0 F in the last 3 days\n   wind that week: avg 13 mph, gusts to 43 mph; upwelling wind (N to E, 8+ mph) 39 h in 7 days, 37 h in the last 3\n- coho / pier; lures spawn; quality 0 (slow)\n  evidence: \"Brown trout and coho salmon action was slow for pier anglers. \u2026 A few were caught on spawn.\"\n- coho / boat; quality 0 (slow)\n  evidence: \"Boat anglers trolling the shoreline found the action to be slow for brown trout and coho salmon.\"\n## 2023-04-12 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3548e2b\n   surface water that week: no buoy data (buoys are out roughly Nov-Apr)\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 40 F, +2 F over the week, +2 F in the last 3 days\n   wind that week: avg 11 mph, gusts to 38 mph; upwelling wind (N to E, 8+ mph) 4 h in 7 days, 0 h in the last 3\n- coho / pier; lures spawn, spoons (orange spoons; orange, chartreuse, and pink were good colors in both spoons and body baits); quality 1 (below average)\n  evidence: \"Pier anglers were catching coho salmon, but the action slowed down compared to previous weeks. \u2026 Coho salmon were caught on spawn or while casting orange spoons. \u2026 Orange, chartreuse, and pink were good colors in both spoons and body baits.\"\n- coho / boat; lures spoons, other (orange, chartreuse, and pink were good colors in both spoons and body baits); quality - (not rated)\n  evidence: \"Boats trolling along the shoreline were catching a mix of coho salmon and brown trout. \u2026 Orange, chartreuse, and pink were good colors in both spoons and body baits.\"\n## 2023-04-12 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3548e2b\n   surface water that week: no buoy data (buoys are out roughly Nov-Apr)\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 42 F, +4 F over the week, +2 F in the last 3 days\n   wind that week: avg 11 mph, gusts to 39 mph; upwelling wind (N to E, 8+ mph) 7 h in 7 days, 0 h in the last 3\n- coho / pier; lures spawn; quality - (not rated)\n  evidence: \"Pier and shore anglers were catching coho salmon along with a few brown trout on spawn bags.\"\n- coho / shore; lures spawn; quality - (not rated)\n  evidence: \"Pier and shore anglers were catching coho salmon along with a few brown trout on spawn bags.\"\n- coho / boat; water up to 25 ft; lures spoons, other (orange or chartreuse); quality - (not rated)\n  evidence: \"A mix of brown trout and coho salmon were caught by boat anglers trolling inside of 25 feet of water. \u2026 Spoons and body baits worked well in either orange or chartreuse.\"\n## 2023-04-12 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3548e2b\n   surface water that week: no buoy data (buoys are out roughly Nov-Apr)\n   surface water near the pier (GLSEA satellite, cell ~1.8 km off the pierhead): avg 42 F, +0 F over the week, -1 F in the last 3 days\n   wind that week: avg 10 mph, gusts to 36 mph; upwelling wind (N to E, 8+ mph) 12 h in 7 days, 0 h in the last 3\n- coho / boat; quality 0 (slow)\n  evidence: \"Boat anglers targeting coho had slow fishing and there were no perch reports.\"\n- coho / unknown; lures spawn; quality 1 (below average)\n  evidence: \"There were a few coho and brown trout caught while fishing with spawn.\"\n## 2023-04-12 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3548e2b\n   surface water that week (buoy 45026): avg 42 F, +4 F over the week\n   surface water near the pier (GLSEA satellite, cell ~2.5 km off the pierhead): avg 42 F, -1 F over the week, -1 F in the last 3 days\n   wind that week: avg 9 mph, gusts to 35 mph; upwelling wind (N to E, 8+ mph) 9 h in 7 days, 0 h in the last 3\n- coho / pier; lures spawn (fished on the bottom); quality 2 (average)\n  evidence: \"Pier anglers and shore anglers were catching decent numbers of coho. \u2026 Most fish were caught on spawn fished on the bottom.\"\n- coho / shore; lures spawn (fished on the bottom); quality 2 (average)\n  evidence: \"Pier anglers and shore anglers were catching decent numbers of coho. \u2026 Most fish were caught on spawn fished on the bottom.\"\n- coho / boat; water 10-20 ft; quality 1 (below average)\n  evidence: \"Boat anglers were catching a few coho salmon. \u2026 The water was dirty, and the fish seemed to be very shallow. \u2026 Most fish were caught in 10 to 20 feet of water.\"",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 8737,
+   "output_tokens": 2555,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0021512,
+   "thinking_chars": 0,
+   "text_chars": 3345
+  },
+  {
+   "type": "answer",
+   "text": "## Recommendation\n\n- **Go to St. Joseph's pier.** It's the best of the four, rated **1 of 4 (below average)**.\n- **South Haven: 0 of 4 (slow).** Its latest pier report was slow for coho.\n- **Muskegon: 0 of 4 (slow).** Its latest pier report was also slow.\n- **Grand Haven: 0 of 4 (slow), low confidence.** Its only recent report is 12 days old and describes slow fishing from dirty water.\n- **If you go to St. Joseph,** fish spawn on the bottom. That is what caught the few pier coho in the latest report.\n\n## Why\n\n- St. Joseph was the only pier with a non-slow rating in the latest reports: a few coho on bottom-fished spawn (St. Joseph, 2023-04-26).\n- The other three piers were rated slow in their most recent reports (South Haven, Muskegon, and Grand Haven, April 20 and 26).\n- I'd expect the bite to stay slow this week because the pierhead water is about 46 F, below the 52-58 F range that NY DEC lists as preferred for Chinook and coho.\n\n## Evidence\n\n**Recent reports** (all salmon-related pier results from the last 4 weeks)\n- St. Joseph, 2023-04-26: \"Pier anglers were catching a few coho using spawn fished on the bottom.\" Rated 1.\n- South Haven, 2023-04-26: \"Pier fishing was slow for coho.\" Rated 0.\n- Muskegon, 2023-04-26: \"Pier anglers found the action to be very slow for brown trout and coho salmon.\" Rated 0.\n- Muskegon, 2023-04-20: \"A few were caught on spawn.\" Rated 0.\n- Grand Haven, 2023-04-20: \"Dirty water from the Grand River has slowed the action for brown trout and coho salmon.\" Rated 0. This is the only Grand Haven report from the last 4 weeks, and it has no pier-specific rating.\n- No report in the last 4 weeks mentioned a pier Chinook catch. The Chinook catches were from boats.\n\n**Past seasons:** I did not pull earlier seasons for this question.\n\n**Conditions now**\n- The conditions tool returned a summary for the week before May 2 rather than live readings. It is labeled as a backtest.\n- Pierhead surface water (GLSEA satellite, a cell 1-2.5 km off the pier, so it is satellite data, not a measurement at the pier): St. Joseph about 46 F, +1 F over the last 3 days. South Haven about 47 F. Grand Haven about 45 F, down 2 F over the last 3 days. Muskegon about 46 F, down 1 F.\n- Buoy surface water (measured, offshore): St. Joseph 46 F, South Haven 46 F, Grand Haven 45 F, Muskegon 45 F.\n- Upwelling-favorable wind in the last 3 days: St. Joseph 16 hours, South Haven 15, Grand Haven 25, Muskegon 23. Grand Haven and Muskegon saw more of this wind, but their reports stayed slow.\n- That week's gusts reached 44-47 mph at all four ports, so check the forecast before you go.\n\n## Caveats\n\n- The newest reports are from April 26 (6 days old) and Grand Haven's is from April 20 (12 days old). Treat these ratings as a guide to the start of the season, not current fishing.\n- The water and wind numbers come from the week before May 2 and are not live readings. The pierhead temperatures are satellite estimates, not measurements at the pier.\n- Grand Haven's rating rests on one 12-day-old report and a dirty-water note, so it is the least reliable of the four.\n\n## Sources\n\n- Muskegon, South Haven, St. Joseph, April 26 2023 bulletin: https://content.govdelivery.com/accounts/MIDNR/bulletins/3573537\n- Grand Haven, Muskegon, April 20 2023 bulletin: https://content.govdelivery.com/accounts/MIDNR/bulletins/3561fa6",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 12486,
+   "output_tokens": 2979,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0027381000000000003,
+   "seconds": 14.612686427004519
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 0,
+   "Grand Haven": 0,
+   "Muskegon": 0
+  },
+  "go_to": [
+   "St. Joseph's pier"
+  ]
+ }
+}

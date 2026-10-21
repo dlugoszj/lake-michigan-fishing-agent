@@ -1,0 +1,168 @@
+{
+ "case": {
+  "case_id": "32f6c54-boat",
+  "method": "boat",
+  "as_of": "2022-09-27",
+  "question": "I fish for salmon from a boat. For this week, how good do you expect boat fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 1,
+   "South Haven": 3,
+   "Grand Haven": null,
+   "Muskegon": 1
+  },
+  "report_id": "32f6c54",
+  "report_date": "2022-09-28",
+  "prev_report_id": "32e369d",
+  "prev_date": "2022-09-21",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 3749,
+   "output_tokens": 333,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0005414,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "list_ports",
+   "input": {}
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "list_ports",
+   "chars": 489,
+   "content": "Today is 2022-09-27. Ports with DNR reports (Lake Michigan, Southwest Lower Peninsula):\n- St. Joseph: 21 weekly reports, 2022-04-06 to 2022-09-21 (latest is 6 days old)\n- South Haven: 21 weekly reports, 2022-04-06 to 2022-09-21 (latest is 6 days old)\n- Muskegon: 19 weekly reports, 2022-04-06 to 2022-09-21 (latest is 6 days old)\n- Grand Haven: 19 weekly reports, 2022-04-06 to 2022-09-21 (latest is 6 days old)\n- Holland: 1 weekly reports, 2022-09-14 to 2022-09-14 (latest is 13 days old)",
+   "is_error": false
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_recent_reports",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ],
+    "weeks_back": 4,
+    "species_group": "salmon"
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_recent_reports",
+   "chars": 9927,
+   "content": "Reports for St. Joseph, South Haven, Grand Haven, Muskegon from 2022-08-30 to 2022-09-27 (salmon):\n## 2022-09-21 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32e369d\n   surface water that week (buoy 45029): avg 71 F, -0 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 71 F, +0 F over the week, +0 F in the last 3 days\n   wind that week: avg 10 mph, gusts to 36 mph; upwelling wind (N to E, 8+ mph) 13 h in 7 days, 10 h in the last 3\n- salmon_unspecified / boat; water 100-200 ft; fish 85-140 ft down; lures flies, spoons (white paddles with green or white flies; green spoons); quality 3 (good)\n  evidence: \"Boat anglers were finding good numbers of immature salmon 85 to 140 feet down in 100 to 200 feet of water. \u2026 White paddles with green or white flies worked very well along with green spoons.\"\n- salmon_unspecified / pier; lures spoons (glow spoons); quality 0 (slow)\n  evidence: \"Pier anglers found the salmon action to be slow. \u2026 A few were caught on glow spoons.\"\n## 2022-09-21 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32e369d\n   surface water that week (buoy 45029): avg 71 F, -0 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 71 F, +0 F over the week, +0 F in the last 3 days\n   wind that week: avg 10 mph, gusts to 38 mph; upwelling wind (N to E, 8+ mph) 21 h in 7 days, 12 h in the last 3\n- chinook / boat; water 130-210 ft; fish 85-130 ft down; lures rotators (white or green fly combinations); quality 3 (good)\n  evidence: \"Boat anglers were finding immature Chinook salmon along with a few lake trout 85 to 130 feet down in 130 to 210 feet of water. \u2026 Rotators with white or green fly combinations worked well.\"\n- salmon_unspecified / boat; quality 0 (slow)\n  evidence: \"Anglers trolling near the breakwalls found the salmon action to be very slow.\"\n- salmon_unspecified / pier; lures spoons; quality 0 (slow)\n  evidence: \"No salmon were reported from pier anglers casting spoons.\"\n## 2022-09-21 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32e369d\n   surface water that week (buoy 45168): avg 71 F, -1 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.8 km off the pierhead): avg 71 F, +0 F over the week, +0 F in the last 3 days\n   wind that week: avg 8 mph, gusts to 34 mph; upwelling wind (N to E, 8+ mph) 20 h in 7 days, 20 h in the last 3\n- salmon_unspecified / boat; water 80+ ft; lures spoons; quality 2 (average)\n  evidence: \"Salmon anglers reported that the best water was beyond 120 feet. \u2026 There were some decent numbers of fish caught in 80 to 100 feet of water also. \u2026 Most of these fish were caught on spoons.\"\n## 2022-09-21 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32e369d\n   surface water that week (buoy 45026): avg 70 F, -2 F over the week\n   surface water near the pier (GLSEA satellite, cell ~2.5 km off the pierhead): avg 71 F, -1 F over the week, -1 F in the last 3 days\n   wind that week: avg 7 mph, gusts to 33 mph; upwelling wind (N to E, 8+ mph) 13 h in 7 days, 13 h in the last 3\n- salmon_unspecified / boat; water 120 ft; quality 2 (average)\n  evidence: \"Salmon anglers had fair fishing. \u2026 The most productive water was around 120 feet.\"\n## 2022-09-14 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32cff90\n   surface water that week (buoy 45029): avg 72 F, -0 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 71 F, -1 F over the week, -1 F in the last 3 days\n   wind that week: avg 7 mph, gusts to 35 mph; upwelling wind (N to E, 8+ mph) 17 h in 7 days, 5 h in the last 3\n- salmon_unspecified / boat; water 120-210 ft; fish 55-110 ft down; lures spoons, flies (Spoons in green, yellow and orange; green and white flies); quality 3 (good)\n  evidence: \"The salmon action was decent 55 to 110 feet down in 120 to 210 feet of water. \u2026 Spoons in green, yellow and orange produced good numbers of salmon. \u2026 Green and white flies worked well deeper in the water column.\"\n- salmon_unspecified / pier; quality 0 (slow)\n  evidence: \"The pier action was slow for salmon.\"\n## 2022-09-14 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32cff90\n   surface water that week (buoy 45029): avg 72 F, -0 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 71 F, -1 F over the week, -1 F in the last 3 days\n   wind that week: avg 7 mph, gusts to 36 mph; upwelling wind (N to E, 8+ mph) 20 h in 7 days, 4 h in the last 3\n- salmon_unspecified / boat; water 100-200 ft; fish 55-100 ft down; lures spoons, flies (Green and orange spoons; green flies); quality 1 (below average)\n  evidence: \"Boat anglers were finding salmon 55 to 100 feet down in 100 to 200 feet of water. \u2026 Green and orange spoons worked well along with green flies. \u2026 At Muskegon Lake boat anglers were catching a few salmon while jigging and trolling near the sand docks.\"\n## 2022-09-14 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32cff90\n   surface water that week (buoy 45168): avg 72 F, -1 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.8 km off the pierhead): avg 72 F, -1 F over the week, -1 F in the last 3 days\n   wind that week: avg 6 mph, gusts to 39 mph; upwelling wind (N to E, 8+ mph) 10 h in 7 days, 8 h in the last 3\n- salmon_unspecified / boat; quality 2 (average)\n  evidence: \"Boat anglers targeting salmon had decent fishing when they could get out.\"\n- chinook / boat; water 110 ft; lures spoons; quality - (not rated)\n  evidence: \"The best water was around 110 feet of water. \u2026 Anglers were catching a mixed bag of Chinook, coho and steelhead. \u2026 Most of the fish were caught on spoons.\"\n- coho / boat; water 110 ft; lures spoons; quality - (not rated)\n  evidence: \"The best water was around 110 feet of water. \u2026 Anglers were catching a mixed bag of Chinook, coho and steelhead. \u2026 Most of the fish were caught on spoons.\"\n## 2022-09-14 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32cff90\n   surface water that week (buoy 45026): avg 72 F, -2 F over the week\n   surface water near the pier (GLSEA satellite, cell ~2.5 km off the pierhead): avg 72 F, -2 F over the week, -1 F in the last 3 days\n   wind that week: avg 6 mph, gusts to 37 mph; upwelling wind (N to E, 8+ mph) 8 h in 7 days, 4 h in the last 3\n- coho / boat; quality 1 (below average)\n  evidence: \"There were a couple of boats fishing the pier heads and caught a couple of coho and Chinook.\"\n- chinook / boat; quality 1 (below average)\n  evidence: \"There were a couple of boats fishing the pier heads and caught a couple of coho and Chinook.\"\n## 2022-09-07 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32bbcf0\n   surface water that week (buoy 45029): avg 73 F, -1 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 72 F, +0 F over the week, -1 F in the last 3 days\n   wind that week: avg 7 mph, gusts to 23 mph; upwelling wind (N to E, 8+ mph) 22 h in 7 days, 4 h in the last 3\n- salmon_unspecified / boat; water 40-120 ft; fish 40-85 ft down; lures spoons, flies (glow spoons and green or white flies); quality 2 (average)\n  evidence: \"Boats anglers found the salmon action to be fair in 40 to 120 feet of water. \u2026 The best action was 40 to 85 feet down on glow spoons and green or white flies.\"\n- salmon_unspecified / pier; quality 0 (slow)\n  evidence: \"The pier action was slow for salmon.\"\n## 2022-09-07 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32bbcf0\n   surface water that week (buoy 45029): avg 73 F, -1 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 72 F, +0 F over the week, -1 F in the last 3 days\n   wind that week: avg 8 mph, gusts to 25 mph; upwelling wind (N to E, 8+ mph) 40 h in 7 days, 14 h in the last 3\n- salmon_unspecified / boat; water 60-120 ft; fish 45-90 ft down; lures plugs, spoons, flies (glow plugs, orange or green spoons, and green flies); quality 2 (average)\n  evidence: \"The salmon action was fair. \u2026 The best action was 45 to 90 feet down in 60 to 120 feet of water. \u2026 A mix of glow plugs, orange or green spoons, and green flies were productive.\"\n- salmon_unspecified / pier; quality 0 (slow)\n  evidence: \"No salmon were reported from the breakwalls.\"\n## 2022-09-07 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32bbcf0\n   surface water that week (buoy 45168): avg 73 F, -1 F over the week\n   surface water near the pier (GLSEA satellite, cell ~1.8 km off the pierhead): avg 73 F, -1 F over the week, -1 F in the last 3 days\n   wind that week: avg 6 mph, gusts to 23 mph; upwelling wind (N to E, 8+ mph) 35 h in 7 days, 16 h in the last 3\n- salmon_unspecified / boat; water 40-120 ft; lures spoons, rotators, flies; quality 3 (good)\n  evidence: \"Salmon anglers reported pretty good fishing this week. \u2026 Fish were caught in 110 to 120 feet of water. \u2026 There were some good fish caught deeper also. \u2026 Fish were caught on spoons, rotators and flies. \u2026 The best water was around 40 feet of water.\"\n## 2022-09-07 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32bbcf0\n   surface water that week (buoy 45026): avg 74 F, +1 F over the week\n   surface water near the pier (GLSEA satellite, cell ~2.5 km off the pierhead): avg 74 F, -1 F over the week, -1 F in the last 3 days\n   wind that week: avg 5 mph, gusts to 23 mph; upwelling wind (N to E, 8+ mph) 14 h in 7 days, 6 h in the last 3\n- salmon_unspecified / boat; water 100 ft; lures spoons; quality 1 (below average)\n  evidence: \"Salmon anglers were catching fish when they could get on the lake. \u2026 The best water was around 100 feet of water. \u2026 Spoons were catching most of the fish.\"",
+   "is_error": false
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 1511,
+   "content": "Backtest mode (today is 2022-09-27): live data is unavailable; summary for the week before 2022-09-27:\n- St. Joseph: surface water that week (buoy 45026): avg 67 F, -4 F over the week; surface water near the pier (GLSEA satellite, cell ~2.5 km off the pierhead): avg 68 F, -5 F over the week, -3 F in the last 3 days; wind that week: avg 12 mph, gusts to 34 mph; upwelling wind (N to E, 8+ mph) 53 h in 7 days, 21 h in the last 3\n- South Haven: surface water that week (buoy 45168): avg 67 F, -6 F over the week, possible upwelling (sharp drop); surface water near the pier (GLSEA satellite, cell ~1.8 km off the pierhead): avg 68 F, -6 F over the week, -4 F in the last 3 days; wind that week: avg 13 mph, gusts to 34 mph; upwelling wind (N to E, 8+ mph) 59 h in 7 days, 27 h in the last 3\n- Grand Haven: surface water that week (buoy 45029): avg 62 F, -21 F over the week, possible upwelling (sharp drop); surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 68 F, -7 F over the week, -4 F in the last 3 days; wind that week: avg 12 mph, gusts to 36 mph; upwelling wind (N to E, 8+ mph) 62 h in 7 days, 37 h in the last 3\n- Muskegon: surface water that week (buoy 45029): avg 62 F, -21 F over the week, possible upwelling (sharp drop); surface water near the pier (GLSEA satellite, cell ~1.1 km off the pierhead): avg 68 F, -7 F over the week, -5 F in the last 3 days; wind that week: avg 11 mph, gusts to 36 mph; upwelling wind (N to E, 8+ mph) 58 h in 7 days, 33 h in the last 3",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 9512,
+   "output_tokens": 583,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0012427,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 2,
+   "name": "find_similar_weeks",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ],
+    "around_date": "2022-09-27",
+    "window_days": 21,
+    "species_group": "salmon",
+    "surface_temp_f": 65,
+    "temp_tolerance_f": 5
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 2,
+   "name": "find_similar_weeks",
+   "chars": 751,
+   "content": "Reports for St. Joseph, South Haven, Grand Haven, Muskegon within 21 days of September 27 in any year up to 2022-09-27, with that week's surface water within 5 F of 65 F (salmon):\n## 2022-09-21 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/32e369d\n   surface water that week (buoy 45026): avg 70 F, -2 F over the week\n   surface water near the pier (GLSEA satellite, cell ~2.5 km off the pierhead): avg 71 F, -1 F over the week, -1 F in the last 3 days\n   wind that week: avg 7 mph, gusts to 33 mph; upwelling wind (N to E, 8+ mph) 13 h in 7 days, 13 h in the last 3\n- salmon_unspecified / boat; water 120 ft; quality 2 (average)\n  evidence: \"Salmon anglers had fair fishing. \u2026 The most productive water was around 120 feet.\"",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 3,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 10438,
+   "output_tokens": 2837,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0024623,
+   "thinking_chars": 0,
+   "text_chars": 3517
+  },
+  {
+   "type": "answer",
+   "text": "## Recommendation\n\n- Go to **Grand Haven** by boat. Fish 100-200 ft of water, with lines about 85-140 ft down.\n- Run white or green fly combinations and green spoons, which the latest reports say worked.\n- **Muskegon** is the close second. Fish 130-210 ft of water with rotators in white or green fly combinations.\n- Skip South Haven and St. Joseph unless you're already there. Boat fishing was only fair at both.\n\n## Why\n\n- Grand Haven boats had the best recent report: the Sept 21 report rated them good, with fish 85-140 ft down in 100-200 ft of water (Grand Haven, 2026-09-21).\n- Muskegon boats were also rated good on Sept 21, at 85-130 ft down in 130-210 ft of water (Muskegon, 2022-09-21).\n- I'd expect the cold water pushed in by the north and east winds to hold the fish in those depths, but this is my inference, not something a report says.\n\n## Evidence\n\n**Ratings for boat salmon this week (0-4):**\n- Grand Haven: **3** (good). The Sept 21 report rated boats good (Grand Haven, 2022-09-21).\n- Muskegon: **3** (good). The Sept 21 report rated Chinook boats good (Muskegon, 2022-09-21). The same report said boats trolling near the breakwalls were slow.\n- South Haven: **2** (average). Best water was \"beyond 120 feet,\" with spoons producing most fish (South Haven, 2022-09-21).\n- St. Joseph: **2** (average). \"Salmon anglers had fair fishing\u2026 most productive water was around 120 feet\" (St. Joseph, 2022-09-21). That is a thin report.\n\n**Recent reports:**\n- Grand Haven, Sept 21: boats in 100-200 ft, fish 85-140 ft down, \"White paddles with green or white flies worked very well along with green spoons.\" The pier was slow (Grand Haven, 2022-09-21).\n- Muskegon, Sept 21: boats in 130-210 ft, fish 85-130 ft down, \"Rotators with white or green fly combinations worked well\" (Muskegon, 2022-09-21).\n\n**Past seasons:**\n- The similar-weeks search matched only one report: St. Joseph, Sept 21, rated average. It is not enough to show a typical pattern, so I'm not leaning on history.\n\n**Conditions now:**\n- The live feed was unavailable, so the conditions below are a summary of the week before today.\n- Buoy surface water at Grand Haven and Muskegon was about 62 F, down 21 F over the week. Satellite water near the piers was about 68 F, down 7 F (Grand Haven and Muskegon, week before 2022-09-27).\n- Upwelling-favorable wind (north to east, 8+ mph) blew 62 hours in Grand Haven's week and 37 hours in the last three days. The week's gusts reached 36 mph (Grand Haven, week before 2022-09-27).\n- General guidance (Michigan Sea Grant): a sharp drop in buoy temperature signals upwelling, which can bring salmon toward piers and river mouths. Chinook in early fall often hold in water of 55 F or less.\n\n## Caveats\n\n- The newest reports are from Sept 21, six days old. Conditions can change quickly this time of year.\n- The 21 F buoy drop at Grand Haven and Muskegon looks large next to the satellite's 7 F. Treat the buoy number with caution.\n- I don't have a forecast for this weekend. Check the wind before you go: gusts reached 36 mph this past week, which is rough for a small boat.\n- The South Haven and St. Joseph ratings rest on one or two report lines each.\n\n## Sources\n\n- Grand Haven and Muskegon, Sept 21 bulletin: https://content.govdelivery.com/accounts/MIDNR/bulletins/32e369d\n- South Haven and St. Joseph, Sept 21 bulletin: https://content.govdelivery.com/accounts/MIDNR/bulletins/32e369d\n- Sept 14 bulletin (Grand Haven, Muskegon): https://content.govdelivery.com/accounts/MIDNR/bulletins/32cff90",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 3,
+   "input_tokens": 23699,
+   "output_tokens": 3753,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0042464,
+   "seconds": 19.324536920001265
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 2,
+   "South Haven": 2,
+   "Grand Haven": 3,
+   "Muskegon": 3
+  },
+  "go_to": [
+   "Grand Haven",
+   "Muskegon"
+  ]
+ }
+}

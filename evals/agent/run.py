@@ -9,7 +9,7 @@ and the same two with conditions history on ("_history": GLSEA satellite water n
 whether that data helps.
 Each run: run_agent() as of the day before the answer-key report -> the final answer -> Haiku 5.5 reads
 the 0-4 rating the answer gives each port (null if it doesn't rate one). One row per (predictor, case, run)
-goes to results_<split>.jsonl as soon as it finishes, so a crash loses nothing and a re-run skips finished rows.
+goes to results_<split>_<model>.jsonl as soon as it finishes, so a crash loses nothing and a re-run skips finished rows.
 Each row records the git commit it ran on, so results from different agent versions are never mixed up silently.
 Full transcripts go to traces/; runs that fail before an answer go to errors.jsonl, never scored as zeros.
 """
@@ -88,7 +88,7 @@ def run_one(client, predictor: str, case: dict, rep: int, model: str, split: str
         errs = [e["message"] for e in events if e["type"] == "error"]
         raise RuntimeError("no answer: " + "; ".join(errs or ["unknown"]))
     read, reader_usage = read_ratings(client, answer)
-    trace_dir = TRACES / split / predictor
+    trace_dir = TRACES / split / model / predictor
     trace_dir.mkdir(parents=True, exist_ok=True)
     (trace_dir / f"{case['case_id']}_rep{rep}.json").write_text(json.dumps(
         {"case": case, "events": events, "read": read}, indent=1))
@@ -109,7 +109,7 @@ def main() -> None:
     args = ap.parse_args()
 
     cases = [json.loads(l) for l in cases_file(args.split).read_text().splitlines()]
-    RESULTS = results_file(args.split)
+    RESULTS = results_file(args.split, args.model)
     commit = git_commit()
     if commit.endswith("+dirty"):
         print(f"warning: agent code has uncommitted changes ({commit}); results won't map to a commit")
@@ -132,14 +132,15 @@ def main() -> None:
                 spent += row["agent_cost"] + row["reader_cost"]
                 msg = f"ok  {' '.join('-' if v is None else str(v) for v in row['ratings'].values())}  ${row['agent_cost']:.3f}"
             except Exception as e:  # recorded, not scored
-                out, line = ERRORS, {"predictor": p, "case_id": c["case_id"], "rep": k, "split": args.split, "commit": commit,
+                out, line = ERRORS, {"predictor": p, "case_id": c["case_id"], "rep": k, "split": args.split, "model": args.model,
+                                     "commit": commit,
                                      "error": f"{type(e).__name__}: {e}"}
                 msg = f"ERROR {line['error'][:120]}"
             with lock:
                 with out.open("a") as f:
                     f.write(json.dumps(line) + "\n")
             print(f"  {p:<17} {c['case_id']:<14} rep{k}  {msg}   (total ${spent:.2f})", flush=True)
-    print(f"\ndone, spent ${spent:.2f}. Score with: python -m evals.agent.score --split {args.split}")
+    print(f"\ndone, spent ${spent:.2f}. Score with: python -m evals.agent.score --split {args.split} --model {args.model}")
 
 
 if __name__ == "__main__":

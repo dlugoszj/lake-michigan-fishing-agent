@@ -1,0 +1,168 @@
+{
+ "case": {
+  "case_id": "3196cdd-boat",
+  "method": "boat",
+  "as_of": "2022-05-24",
+  "question": "I fish for salmon from a boat. For this week, how good do you expect boat fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 3,
+   "South Haven": 1,
+   "Grand Haven": 3,
+   "Muskegon": 2
+  },
+  "report_id": "3196cdd",
+  "report_date": "2022-05-25",
+  "prev_report_id": "3186585",
+  "prev_date": "2022-05-18",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 3519,
+   "output_tokens": 368,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0005359000000000001,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "list_ports",
+   "input": {}
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "list_ports",
+   "chars": 407,
+   "content": "Today is 2022-05-24. Ports with DNR reports (Lake Michigan, Southwest Lower Peninsula):\n- St. Joseph: 6 weekly reports, 2022-04-06 to 2022-05-18 (latest is 6 days old)\n- South Haven: 6 weekly reports, 2022-04-06 to 2022-05-18 (latest is 6 days old)\n- Muskegon: 6 weekly reports, 2022-04-06 to 2022-05-18 (latest is 6 days old)\n- Grand Haven: 6 weekly reports, 2022-04-06 to 2022-05-18 (latest is 6 days old)",
+   "is_error": false
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_recent_reports",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ],
+    "weeks_back": 8,
+    "species_group": "salmon"
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_recent_reports",
+   "chars": 9745,
+   "content": "Reports for St. Joseph, South Haven, Grand Haven, Muskegon from 2022-03-29 to 2022-05-24 (salmon):\n## 2022-05-18 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n   surface water that week (buoy 45029): avg 50 F, +6 F over the week\n- salmon_unspecified / boat; water 130-240 ft; fish 30-120 ft down; quality 3 (good)\n  evidence: \"The salmon action was good 30 to 120 feet down in 130 to 240 feet of water.\"\n- coho / pier; lures alewife, spoons (orange spoons); quality 1 (below average)\n  evidence: \"Pier anglers were catching a few coho salmon on alewives or while casting orange spoons.\"\n## 2022-05-18 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n   surface water that week (buoy 45029): avg 50 F, +6 F over the week\n- salmon_unspecified / boat; water 120-200 ft; fish 35-90 ft down; lures spoons, flies, meat rigs (Green and blue spoons; white flies); quality 3 (good)\n  evidence: \"Boats were doing well catching salmon 35 to 90 feet down in 120 to 200 feet of water. \u2026 Green and blue spoons were working well along with white flies. \u2026 A few salmon were caught on meat rigs.\"\n## 2022-05-18 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n   surface water that week (buoy 45168): avg 53 F, +5 F over the week\n- salmon_unspecified / boat; water 30+ ft; lures spoons; quality 2 (average)\n  evidence: \"Boat anglers targeting salmon had fair fishing. \u2026 The fish were spread out from 30 feet of water to deeper depths. \u2026 Most boats were trolling spoons.\"\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"Pier fishing remained slow but there was an occasional coho caught on spawn.\"\n## 2022-05-18 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n   surface water that week (buoy 45168): avg 53 F, +5 F over the week\n- coho / boat; water 40+ ft; lures spoons; quality 3 (good)\n  evidence: \"Boat anglers targeting salmon had good fishing. \u2026 Anglers were catching most fish on spoons. \u2026 Catches were mostly coho and steelhead. \u2026 Boats were fishing from 40 feet of water to well beyond 120 feet of water.\"\n- chinook / boat; water 40+ ft; lures spoons; quality 1 (below average)\n  evidence: \"Anglers were catching most fish on spoons. \u2026 There were a few Chinook and lake trout mixed in as well. \u2026 Boats were fishing from 40 feet of water to well beyond 120 feet of water.\"\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"Anglers were also catching an occasional coho. \u2026 Nightcrawlers were catching the catfish while spawn was catching the coho.\"\n## 2022-05-04 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3166173\n   surface water that week (buoy 45029): avg 42 F, +2 F over the week\n- chinook / boat; water 30-60 ft; quality - (not rated)\n  evidence: \"Boat anglers were catching chinook salmon along with a few coho salmon in 30 to 60 feet of water.\"\n- coho / boat; water 30-60 ft; quality 1 (below average)\n  evidence: \"Boat anglers were catching chinook salmon along with a few coho salmon in 30 to 60 feet of water.\"\n- salmon_unspecified / unknown; lures spoons, flies (orange, black/white and glow spoons; green and white flies); quality 1 (below average)\n  evidence: \"Salmon were caught on orange, black/white and glow spoons. \u2026 A few were caught on green and white flies.\"\n## 2022-05-04 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3166173\n   surface water that week (buoy 45168): avg 44 F, +0 F over the week\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"There were a few coho and steelhead caught while using spawn.\"\n- coho / boat; water 35-45 ft; quality 1 (below average)\n  evidence: \"The fishing has slowed down, but fish were still being caught. \u2026 Anglers were catching some coho and a few kings. \u2026 The fish seemed to be very scattered, but 35 to 45 feet of water was producing.\"\n- chinook / boat; water 35-45 ft; quality 1 (below average)\n  evidence: \"The fishing has slowed down, but fish were still being caught. \u2026 Anglers were catching some coho and a few kings. \u2026 The fish seemed to be very scattered, but 35 to 45 feet of water was producing.\"\n## 2022-05-04 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3166173\n   surface water that week (buoy 45026): avg 50 F, -0 F over the week\n- coho / boat; water 30 ft; quality 3 (good)\n  evidence: \"Boat anglers were making good catches of coho and a few kings. \u2026 The best depth was in 30 feet of water.\"\n- chinook / boat; water 60 ft; quality 1 (below average)\n  evidence: \"Boat anglers were making good catches of coho and a few kings. \u2026 There were a few kings deeper around 60 feet of water but most of the fish were caught in shallower water.\"\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"Pier fishing was difficult due to the rough weather. \u2026 There were a few coho being caught on spawn.\"\n## 2022-04-27 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3155afc\n   surface water that week (buoy 45029): avg 41 F, +2 F over the week\n- coho / boat; water up to 40 ft; quality 1 (below average)\n  evidence: \"A few coho were caught by boats trolling inside of 40 feet of water.\"\n- coho / pier; lures spoons (Orange spoons); quality 0 (slow)\n  evidence: \"Pier anglers were finding the brown trout and coho salmon action to be slow. \u2026 Orange spoons were working best for coho salmon.\"\n## 2022-04-27 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3155afc\n   surface water that week (buoy 45168): avg 43 F, +2 F over the week\n- coho / boat; water 20-30 ft; lures crankbaits (small); quality 1 (below average)\n  evidence: \"Boat anglers were catching some coho and a few kings. \u2026 Most boats were south of the piers in 20 to 30 feet of water. \u2026 Boat anglers were using small crankbaits.\"\n- chinook / boat; water 20-30 ft; lures crankbaits (small); quality 1 (below average)\n  evidence: \"Boat anglers were catching some coho and a few kings. \u2026 Most boats were south of the piers in 20 to 30 feet of water. \u2026 Boat anglers were using small crankbaits.\"\n## 2022-04-27 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3155afc\n   surface water that week (buoy 45168): avg 43 F, +2 F over the week\n- coho / boat; water 20-40 ft; lures crankbaits, spoons (small); quality - (not rated)\n  evidence: \"Boat anglers were catching coho salmon. \u2026 Anglers were trolling from 20 to 40 feet of water. \u2026 Most anglers were using small crankbaits and spoons.\"\n- chinook / boat; water 20-40 ft; lures crankbaits, spoons (small); quality 1 (below average)\n  evidence: \"There were also some kings up to 15 pounds and an occasional steelhead caught. \u2026 Anglers were trolling from 20 to 40 feet of water. \u2026 Most anglers were using small crankbaits and spoons.\"\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"Pier anglers were catching a few coho. \u2026 Fish were caught on spawn.\"\n## 2022-04-20 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3145666\n   surface water that week (buoy 45168): avg 42 F, +2 F over the week\n- coho / pier; quality 0 (slow)\n  evidence: \"Pier fishing was very slow for coho and trout.\"\n## 2022-04-20 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3145666\n   surface water that week (buoy 45168): avg 42 F, +2 F over the week\n- coho / pier; lures spawn; quality 0 (slow)\n  evidence: \"Pier fishing was slow for coho but some were caught on spawn.\"\n- coho / boat; lures crankbaits; quality 1 (below average)\n  evidence: \"There were a few coho caught by trollers while using crankbaits.\"\n## 2022-04-13 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/31352ef\n   surface water that week: no buoy data (buoys are out roughly Nov-Apr)\n- coho / boat; quality 0 (slow)\n  evidence: \"Boat anglers targeting coho had slow fishing.\"\n## 2022-04-13 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/31352ef\n   surface water that week: no buoy data (buoys are out roughly Nov-Apr)\n- coho / boat; water 18-30 ft; lures crankbaits (small); quality 3 (good)\n  evidence: \"Boat anglers were catching good numbers of coho. \u2026 Trolling small crankbaits from 18 to 30 feet of water was working best. \u2026 Most fish were caught south of the piers.\"\n- coho / pier; lures other (skein fished on the bottom); quality 1 (below average)\n  evidence: \"Pier anglers were catching a few coho. \u2026 Anglers were doing best using skein fished on the bottom.\"\n## 2022-04-06 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/31256af\n   surface water that week: no buoy data (buoys are out roughly Nov-Apr)\n- salmon_unspecified / boat; quality 0 (slow)\n  evidence: \"Boat anglers had slow action while targeting salmon.\"\n- salmon_unspecified / pier; quality 0 (slow)\n  evidence: \"Pier anglers had slow fishing action for salmon.\"\n## 2022-04-06 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/31256af\n   surface water that week: no buoy data (buoys are out roughly Nov-Apr)\n- coho / boat; water 18-30 ft; lures crankbaits; quality 3 (good)\n  evidence: \"Boat anglers were catching good numbers of coho. \u2026 Boat anglers were having success in 18 to 30 feet of water. \u2026 Most fish were caught while trolling crankbaits. \u2026 Catches were mainly coho with an occasional brown trout or king.\"\n- chinook / boat; lures crankbaits; quality 1 (below average)\n  evidence: \"Most fish were caught while trolling crankbaits. \u2026 Catches were mainly coho with an occasional brown trout or king.\"\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"Pier anglers were also catching a few coho. \u2026 Almost all fish were caught on spawn.\"",
+   "is_error": false
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 426,
+   "content": "Backtest mode (today is 2022-05-24): live data is unavailable; summary for the week before 2022-05-24:\n- St. Joseph: surface water that week (buoy 45168): avg 53 F, -4 F over the week\n- South Haven: surface water that week (buoy 45168): avg 53 F, -4 F over the week\n- Grand Haven: surface water that week (buoy 45029): avg 52 F, -3 F over the week\n- Muskegon: surface water that week (buoy 45029): avg 52 F, -3 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 8410,
+   "output_tokens": 532,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.001107,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 2,
+   "name": "find_similar_weeks",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ],
+    "around_date": "2022-05-24",
+    "window_days": 21,
+    "species_group": "salmon",
+    "surface_temp_f": 52.5,
+    "temp_tolerance_f": 4
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 2,
+   "name": "find_similar_weeks",
+   "chars": 3416,
+   "content": "Reports for St. Joseph, South Haven, Grand Haven, Muskegon within 21 days of May 24 in any year up to 2022-05-24, with that week's surface water within 4 F of 52 F (salmon):\n## 2022-05-18 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n   surface water that week (buoy 45029): avg 50 F, +6 F over the week\n- salmon_unspecified / boat; water 130-240 ft; fish 30-120 ft down; quality 3 (good)\n  evidence: \"The salmon action was good 30 to 120 feet down in 130 to 240 feet of water.\"\n- coho / pier; lures alewife, spoons (orange spoons); quality 1 (below average)\n  evidence: \"Pier anglers were catching a few coho salmon on alewives or while casting orange spoons.\"\n## 2022-05-18 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n   surface water that week (buoy 45029): avg 50 F, +6 F over the week\n- salmon_unspecified / boat; water 120-200 ft; fish 35-90 ft down; lures spoons, flies, meat rigs (Green and blue spoons; white flies); quality 3 (good)\n  evidence: \"Boats were doing well catching salmon 35 to 90 feet down in 120 to 200 feet of water. \u2026 Green and blue spoons were working well along with white flies. \u2026 A few salmon were caught on meat rigs.\"\n## 2022-05-18 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n   surface water that week (buoy 45168): avg 53 F, +5 F over the week\n- salmon_unspecified / boat; water 30+ ft; lures spoons; quality 2 (average)\n  evidence: \"Boat anglers targeting salmon had fair fishing. \u2026 The fish were spread out from 30 feet of water to deeper depths. \u2026 Most boats were trolling spoons.\"\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"Pier fishing remained slow but there was an occasional coho caught on spawn.\"\n## 2022-05-18 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n   surface water that week (buoy 45168): avg 53 F, +5 F over the week\n- coho / boat; water 40+ ft; lures spoons; quality 3 (good)\n  evidence: \"Boat anglers targeting salmon had good fishing. \u2026 Anglers were catching most fish on spoons. \u2026 Catches were mostly coho and steelhead. \u2026 Boats were fishing from 40 feet of water to well beyond 120 feet of water.\"\n- chinook / boat; water 40+ ft; lures spoons; quality 1 (below average)\n  evidence: \"Anglers were catching most fish on spoons. \u2026 There were a few Chinook and lake trout mixed in as well. \u2026 Boats were fishing from 40 feet of water to well beyond 120 feet of water.\"\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"Anglers were also catching an occasional coho. \u2026 Nightcrawlers were catching the catfish while spawn was catching the coho.\"\n## 2022-05-04 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3166173\n   surface water that week (buoy 45026): avg 50 F, -0 F over the week\n- coho / boat; water 30 ft; quality 3 (good)\n  evidence: \"Boat anglers were making good catches of coho and a few kings. \u2026 The best depth was in 30 feet of water.\"\n- chinook / boat; water 60 ft; quality 1 (below average)\n  evidence: \"Boat anglers were making good catches of coho and a few kings. \u2026 There were a few kings deeper around 60 feet of water but most of the fish were caught in shallower water.\"\n- coho / pier; lures spawn; quality 1 (below average)\n  evidence: \"Pier fishing was difficult due to the rough weather. \u2026 There were a few coho being caught on spawn.\"",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 3,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 10356,
+   "output_tokens": 3295,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0026831000000000003,
+   "thinking_chars": 0,
+   "text_chars": 3307
+  },
+  {
+   "type": "answer",
+   "text": "## Recommendation\n\n- **Go to Muskegon for boat salmon.** I'd expect it to be good, about 3 of 4.\n- **Grand Haven is a close second, also about 3.** Pick it if Muskegon's wind or travel doesn't work.\n- **St. Joseph and South Haven are about 2 of 4, average at best.** St. Joseph's coho were good, but its Chinook were not.\n- **Run spoons 35-90 ft down over 120-200 ft of water off Muskegon.** Green and blue spoons, and white flies if you have them.\n\n## Why\n\n- Muskegon and Grand Haven were the only ports whose boat salmon fishing was rated good in the newest report (Muskegon, 2022-05-18; Grand Haven, 2022-05-18).\n- The Muskegon boats were catching fish 35-90 ft down in 120-200 ft of water, using green and blue spoons (Muskegon, 2022-05-18).\n- St. Joseph's boat coho were rated good, but its Chinook only below average, and South Haven's boats had fair fishing (St. Joseph, 2022-05-18; South Haven, 2022-05-18).\n- I'd expect the buoy water, which cooled about 3 F in the week before today, to keep fish in the 52-58 F range that the NY DEC guidance gives for Chinook and coho (general guidance).\n\n## Evidence\n\n**Recent reports**\n- Muskegon, 2022-05-18: \"Boats were doing well catching salmon 35 to 90 feet down in 120 to 200 feet of water.\" Lures were green and blue spoons and white flies, with a few fish on meat rigs. Rated 3.\n- Grand Haven, 2022-05-18: \"The salmon action was good 30 to 120 feet down in 130 to 240 feet of water.\" Rated 3. The pier coho were below average.\n- St. Joseph, 2022-05-18: Boat coho \"had good fishing\" on spoons from 40 ft to well beyond 120 ft. Boat Chinook were below average, with \"a few Chinook\" mixed in.\n- South Haven, 2022-05-18: \"Boat anglers targeting salmon had fair fishing,\" with fish \"spread out from 30 feet of water to deeper depths.\" Most boats trolled spoons. Rated 2.\n- The earlier May 4 reports were mostly below average, except St. Joseph boats catching good coho at 30 ft (St. Joseph, 2022-05-04).\n\n**Past seasons**\n- The similar-weeks search, matched to a 52 F buoy and a 21-day window around today, returned only the 2022 reports already listed above. It found no earlier-season comparisons, so I have no history to add.\n\n**Conditions now**\n- The live conditions data was unavailable, so these figures are the summary for the week before 2022-05-24: buoy surface water averaged 53 F at St. Joseph and South Haven and 52 F at Grand Haven and Muskegon, each down 3-4 F over the week (measured buoy data).\n- A drop like this can mean upwelling, which is the general guidance from Michigan Sea Grant. I have no pierhead or cold-layer model reading, and no wind forecast, so I can't judge the wind.\n\n## Caveats\n\n- The newest report is 6 days old (2022-05-18). Treat these ratings as a guide to the week, not a current report.\n- Live conditions were unavailable, so I could not check today's wind or water. Check the wind forecast before you go, and use the pier or river if it's rough.\n- Grand Haven and Muskegon reports often say \"salmon\" without naming Chinook or coho, so the Chinook picture at those ports is less clear.\n\n## Sources\n\n- Michigan DNR weekly report, May 18, 2022: https://content.govdelivery.com/accounts/MIDNR/bulletins/3186585\n- Michigan DNR weekly report, May 4, 2022: https://content.govdelivery.com/accounts/MIDNR/bulletins/3166173",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 3,
+   "input_tokens": 22285,
+   "output_tokens": 4195,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.004326,
+   "seconds": 20.91081504599424
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 2,
+   "South Haven": 2,
+   "Grand Haven": 3,
+   "Muskegon": 3
+  },
+  "go_to": [
+   "Muskegon",
+   "Grand Haven"
+  ]
+ }
+}

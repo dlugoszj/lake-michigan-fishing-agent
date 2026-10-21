@@ -1,0 +1,115 @@
+{
+ "case": {
+  "case_id": "3f0b284-boat",
+  "method": "boat",
+  "as_of": "2025-09-02",
+  "question": "I fish for salmon from a boat. For this week, how good do you expect boat fishing for salmon to be at each of St. Joseph, South Haven, Grand Haven and Muskegon? Rate each port 0-4 (0 slow, 1 below average, 2 average, 3 good, 4 excellent) and say which you'd go to.",
+  "truth": {
+   "St. Joseph": 1,
+   "South Haven": 0,
+   "Grand Haven": 0,
+   "Muskegon": 1
+  },
+  "report_id": "3f0b284",
+  "report_date": "2025-09-03",
+  "prev_report_id": "3efbfed",
+  "prev_date": "2025-08-27",
+  "split": "dev"
+ },
+ "events": [
+  {
+   "type": "model_call",
+   "turn": 1,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 3519,
+   "output_tokens": 317,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0005104,
+   "thinking_chars": 0,
+   "text_chars": 0
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_recent_reports",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ],
+    "weeks_back": 4,
+    "species_group": "salmon"
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_recent_reports",
+   "chars": 9552,
+   "content": "Reports for St. Joseph, South Haven, Grand Haven, Muskegon from 2025-08-05 to 2025-09-02 (salmon):\n## 2025-08-27 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3efbfed\n   surface water that week (buoy 45161): avg 60 F, -6 F over the week, possible upwelling (sharp drop)\n- salmon_unspecified / boat; water up to 80 ft; lures spoons, plugs (Glow spoons and glow plugs); quality 2 (average)\n  evidence: \"Boat anglers caught decent numbers of salmon from the pierheads out to 80 feet of water. \u2026 Glow spoons and glow plugs worked best.\"\n- salmon_unspecified / pier; lures alewife, spoons (on alewives and while casting glow spoons); quality - (not rated)\n  evidence: \"Pier anglers caught salmon on alewives and while casting glow spoons.\"\n## 2025-08-27 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3efbfed\n   surface water that week (buoy 45161): avg 60 F, -6 F over the week, possible upwelling (sharp drop)\n- salmon_unspecified / unknown; water up to 80 ft; lures plugs, spoons (glow plugs and glow spoons); quality 3 (good)\n  evidence: \"Anglers caught salmon from inside the basin out to 80 feet of water. \u2026 Glow plugs and glow spoons worked well.\"\n- salmon_unspecified / pier; lures spoons (glow spoons); quality 1 (below average)\n  evidence: \"Pier anglers caught a few salmon while casting glow spoons.\"\n## 2025-08-27 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3efbfed\n   surface water that week (buoy 45168): avg 68 F, +0 F over the week\n- chinook / boat; water 35+ ft; lures spoons; quality 2 (average)\n  evidence: \"Boat anglers targeting salmon had fair success this week. \u2026 Quite a few fish were caught, but conditions were challenging. \u2026 Fish were taken from 35 feet of water out to well past 120 feet of water, mostly on spoons. \u2026 The catch consisted primarily of Chinook salmon and coho salmon.\"\n- coho / boat; water 35+ ft; lures spoons; quality 2 (average)\n  evidence: \"Boat anglers targeting salmon had fair success this week. \u2026 Quite a few fish were caught, but conditions were challenging. \u2026 Fish were taken from 35 feet of water out to well past 120 feet of water, mostly on spoons. \u2026 The catch consisted primarily of Chinook salmon and coho salmon.\"\n- coho / pier; lures other, spoons, shrimp (spinners and spoons, as well as shrimp fished under bobbers); quality 2 (average)\n  evidence: \"Pier fishing was decent as well. \u2026 Anglers were catching coho salmon and steelhead, using spinners and spoons, as well as shrimp fished under bobbers.\"\n## 2025-08-27 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3efbfed\n   surface water that week (buoy 45026): avg 70 F, +7 F over the week\n- salmon_unspecified / boat; water 70 ft; lures spoons; quality 2 (average)\n  evidence: \"Boat anglers had decent salmon fishing this week. \u2026 The fish were very spread out, with most boats targeting around 70 feet of water. \u2026 Most fish were caught on spoons.\"\n## 2025-08-20 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3eeac7b\n   surface water that week (buoy 45161): avg 74 F, -4 F over the week\n- salmon_unspecified / boat; water 80-220 ft; fish 50-100 ft down; lures spoons, plugs, flasher/fly (glow spoons, glow plugs, flasher flies); quality 3 (good)\n  evidence: \"Salmon action was good, but the fish were scattered. \u2026 The most success was found 50 to 100 feet down in 80 to 220 feet of water. \u2026 A mix of glow spoons, glow plugs, and flasher flies all worked well.\"\n- salmon_unspecified / pier; quality 0 (slow)\n  evidence: \"Pier anglers were unsuccessful targeting salmon.\"\n## 2025-08-20 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3eeac7b\n   surface water that week (buoy 45161): avg 74 F, -4 F over the week\n- salmon_unspecified / boat; water 80-230 ft; fish 50-100 ft down; lures plugs, flasher/fly (green flasher-fly combinations); quality 2 (average)\n  evidence: \"Boats continued to find decent numbers of salmon. \u2026 Anglers targeted 80 to 110 feet of water early in the morning and slid out to 180 to 230 feet later in the day. \u2026 Most of the fish were caught 50 to 100 feet down on plugs and green flasher-fly combinations.\"\n## 2025-08-20 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3eeac7b\n   surface water that week (buoy 45168): avg 76 F, -5 F over the week\n- salmon_unspecified / boat; water 65+ ft; quality 0 (slow)\n  evidence: \"Salmon fishing was slow. \u2026 The fish were very scattered. \u2026 Anglers fished from 65 feet of water out to well past 120 feet of water.\"\n- chinook / unknown; quality 1 (below average)\n  evidence: \"The catch included a few Chinook salmon and some lake trout.\"\n## 2025-08-20 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3eeac7b\n   surface water that week (buoy 45026): avg 76 F, -7 F over the week\n- salmon_unspecified / boat; water 100+ ft; quality 0 (slow)\n  evidence: \"Salmon fishing was unsuccessful this week. \u2026 Boats had been fishing mostly beyond 100 feet of water.\"\n## 2025-08-13 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3edac95\n   surface water that week (buoy 45161): avg 72 F, +8 F over the week\n- salmon_unspecified / boat; water 100-180 ft; fish 60-110 ft down; lures meat rigs, spoons (Green or yellow meat rigs; glow spoons); quality 3 (good)\n  evidence: \"Salmon action was good for boat anglers. \u2026 The best action was 60 to 110 feet down in 100 to 180 feet of water. \u2026 Green or yellow meat rigs worked well, along with glow spoons.\"\n- salmon_unspecified / pier; quality 0 (slow)\n  evidence: \"Pier action had slowed down significantly for salmon due to the warmer water temperatures.\"\n## 2025-08-13 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3edac95\n   surface water that week (buoy 45161): avg 72 F, +8 F over the week\n- salmon_unspecified / boat; water 90-160 ft; fish 60-100 ft down; lures plugs, meat rigs, spoons (Glow plugs, green meat rigs, and glow spoons); quality 2 (average)\n  evidence: \"Boat anglers continued to find decent action for salmon. \u2026 The best action was 60 to 100 feet down in 90 to 160 feet of water. \u2026 Glow plugs, green meat rigs, and glow spoons worked well.\"\n- salmon_unspecified / pier; quality 0 (slow)\n  evidence: \"Pier anglers casting for salmon were unsuccessful.\"\n## 2025-08-13 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3edac95\n   surface water that week (buoy 45168): avg 76 F, +3 F over the week\n- salmon_unspecified / boat; water 120 ft; quality 0 (slow)\n  evidence: \"Salmon anglers had a tough week. \u2026 The best waters were around 120 feet of water. \u2026 The fish that were caught were decent-sized; there just hadn\u2019t been many caught.\"\n## 2025-08-13 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3edac95\n   surface water that week (buoy 45026): avg 76 F, +2 F over the week\n- salmon_unspecified / unknown; quality 0 (slow)\n  evidence: \"Salmon fishing slowed down this week. \u2026 The best waters were very deep, but overall, the fishing was slow.\"\n## 2025-08-06 \u00b7 Grand Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3ecb2c3\n   surface water that week (buoy 45161): avg 65 F, -8 F over the week, possible upwelling (sharp drop)\n- salmon_unspecified / boat; water up to 130 ft; lures meat rigs, spoons, plugs (glow spoons and glow plugs); quality 1 (below average)\n  evidence: \"Boat anglers found the salmon to be scattered from the pierheads out 130 feet of water. \u2026 A mix of meat rigs, glow spoons and glow plugs have all worked well.\"\n- salmon_unspecified / pier; lures alewife, spoons (glow spoons); quality 1 (below average)\n  evidence: \"Pier anglers caught a few salmon on alewife or while casting glow spoons.\"\n## 2025-08-06 \u00b7 Muskegon \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3ecb2c3\n   surface water that week (buoy 45161): avg 65 F, -8 F over the week, possible upwelling (sharp drop)\n- salmon_unspecified / boat; water 50-120 ft; lures spoons, plugs (Green and blue glow spoons; glow plugs); quality 2 (average)\n  evidence: \"Anglers found fair numbers of salmon in 50 to 120 feet of water. \u2026 Green and blue glow spoons worked well along with glow plugs.\"\n- salmon_unspecified / pier; lures spoons; quality 0 (slow)\n  evidence: \"Pier anglers tried casting spoons for salmon but were unsuccessful.\"\n## 2025-08-06 \u00b7 South Haven \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3ecb2c3\n   surface water that week (buoy 45168): avg 64 F, +2 F over the week, possible upwelling (sharp drop)\n- salmon_unspecified / boat; water 45+ ft; lures spoons; quality 3 (good)\n  evidence: \"Boat anglers targeting salmon reported success. \u2026 The fish spread out significantly. \u2026 Salmon were caught from 45 feet of water out to well beyond 120 feet of water. \u2026 The most productive water appeared to be around 70 feet, with most of the boats fishing north of the piers. \u2026 Spoons caught most of the fish.\"\n## 2025-08-06 \u00b7 St. Joseph \u00b7 https://content.govdelivery.com/accounts/MIDNR/bulletins/3ecb2c3\n   surface water that week (buoy 45026): avg 68 F, +7 F over the week, possible upwelling (sharp drop)\n- chinook / boat; lures spoons; quality - (not rated)\n  evidence: \"Spoons were catching most of the Chinook salmon and coho salmon.\"\n- coho / boat; lures spoons; quality - (not rated)\n  evidence: \"Spoons were catching most of the Chinook salmon and coho salmon.\"\n- chinook / pier; lures shrimp; quality 1 (below average)\n  evidence: \"They caught steelhead and the occasional Chinook salmon using shrimp.\"",
+   "is_error": false
+  },
+  {
+   "type": "tool_call",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "input": {
+    "ports": [
+     "St. Joseph",
+     "South Haven",
+     "Grand Haven",
+     "Muskegon"
+    ]
+   }
+  },
+  {
+   "type": "tool_result",
+   "turn": 1,
+   "name": "get_current_conditions",
+   "chars": 426,
+   "content": "Backtest mode (today is 2025-09-02): live data is unavailable; summary for the week before 2025-09-02:\n- St. Joseph: surface water that week (buoy 45026): avg 72 F, -0 F over the week\n- South Haven: surface water that week (buoy 45168): avg 70 F, +0 F over the week\n- Grand Haven: surface water that week (buoy 45161): avg 65 F, +9 F over the week\n- Muskegon: surface water that week (buoy 45161): avg 65 F, +9 F over the week",
+   "is_error": false
+  },
+  {
+   "type": "model_call",
+   "turn": 2,
+   "model": "claude-haiku-5-5",
+   "input_tokens": 8160,
+   "output_tokens": 2790,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.002211,
+   "thinking_chars": 0,
+   "text_chars": 3999
+  },
+  {
+   "type": "answer",
+   "text": "## Recommendation\n- **Go to Muskegon by boat.** My expected rating is **3 (good)**.\n- **Grand Haven is the next choice**, expected **2 (average)**. South Haven and St. Joseph are expected to be **2** and **1\u20132**. I'd expect St. Joseph to be the weakest.\n- **Fish 80 feet of water or deeper, out from the pierheads.** Run glow plugs or glow spoons, and green meat rigs or flasher-fly rigs if you're near the bottom of the range.\n- Start in about 80\u2013110 feet and move out to 180\u2013230 feet if the fish aren't there. Expected ratings are my inference from the last few weeks of reports, not a forecast.\n\n## Why\n- Muskegon's newest boat report was the best of the four: the Aug 27 report rated boats good (3) in water out to 80 feet, with glow plugs and glow spoons working well (Muskegon, 2025-08-27).\n- Grand Haven's boat fishing has been average to good for three weeks, with 3 on Aug 20 and 2 on Aug 27, so it's the reliable second choice (Grand Haven, 2025-08-20; Grand Haven, 2025-08-27).\n- St. Joseph and South Haven have been slow more often than not, with boat ratings of 0 on Aug 13 and Aug 20 (St. Joseph, 2025-08-20; South Haven, 2025-08-13).\n- I'd expect the bite to be deeper and more scattered than in early August. The fish were 50\u2013100 feet down in the latest good reports, and the water has warmed (Grand Haven, 2025-08-20).\n\n## Evidence\n**Recent reports** (newest is Aug 27, six days before today)\n- **Muskegon, Aug 27:** boat quality 3. \"Anglers caught salmon from inside the basin out to 80 feet of water\u2026 Glow plugs and glow spoons worked well.\" Water up to 80 ft.\n- **Grand Haven, Aug 27:** boat quality 2. \"Boat anglers caught decent numbers of salmon from the pierheads out to 80 feet of water.\" Glow spoons and glow plugs were best.\n- **South Haven, Aug 27:** boat quality 2. Fish came from 35 feet \"out to well past 120 feet,\" mostly on spoons. The report called conditions challenging.\n- **St. Joseph, Aug 27:** boat quality 2. \"Most boats targeting around 70 feet of water\u2026 Most fish were caught on spoons.\" Fish were \"very spread out.\"\n- **Grand Haven, Aug 20:** boat quality 3. Best fish were \"50 to 100 feet down in 80 to 220 feet of water,\" on glow spoons, glow plugs and flasher flies.\n- **Muskegon, Aug 20:** boat quality 2. Most fish were \"50 to 100 feet down\" on plugs and green flasher-fly rigs.\n- **South Haven, Aug 20:** boat quality 0. \"Salmon fishing was slow\u2026 very scattered.\"\n- **St. Joseph, Aug 20:** boat quality 0. \"Boats had been fishing mostly beyond 100 feet of water.\"\n- **Piers:** slow to poor at Grand Haven and Muskegon through August, so I'd stay off the piers for now (Grand Haven, 2025-08-20; Muskegon, 2025-08-13).\n\n**Past seasons:** I didn't pull historical matches for this question, so I have no historical comparison here.\n\n**Conditions now** (from the tool's backtest summary, not live data)\n- St. Joseph buoy: 72 F, flat over the week.\n- South Haven buoy: 70 F, flat over the week.\n- Grand Haven and Muskegon buoy: 65 F, up 9 F over the week.\n- Live modeled cold-layer depth and wind forecast were not available, so I can't say where the 55 F water is or whether wind will be a problem.\n\n## Caveats\n- **Report age:** the newest report is from Aug 27, six days ago. Fall conditions can change within a week.\n- **Current water:** the buoy readings are summarized from the week before today, not live. The 9 F rise at Grand Haven and Muskegon is a warming trend, not an upwelling sign.\n- **No wind forecast:** check the wind before you go. For a small boat, strong wind or big waves should send you to the pier or the river instead.\n- **Ratings are estimates:** the expected 0\u20134 ratings are my inference from the last 3\u20134 weeks of reports.\n\n## Sources\n- Michigan DNR, Aug 27 bulletin: https://content.govdelivery.com/accounts/MIDNR/bulletins/3efbfed\n- Michigan DNR, Aug 20 bulletin: https://content.govdelivery.com/accounts/MIDNR/bulletins/3eeac7b\n- Michigan DNR, Aug 13 bulletin: https://content.govdelivery.com/accounts/MIDNR/bulletins/3edac95",
+   "truncated": false
+  },
+  {
+   "type": "done",
+   "model_calls": 2,
+   "input_tokens": 11679,
+   "output_tokens": 3107,
+   "cache_write_tokens": 0,
+   "cache_read_tokens": 0,
+   "cost": 0.0027214,
+   "seconds": 14.92284039399965
+  }
+ ],
+ "read": {
+  "ratings": {
+   "St. Joseph": 1,
+   "South Haven": 2,
+   "Grand Haven": 2,
+   "Muskegon": 3
+  },
+  "go_to": [
+   "Muskegon"
+  ]
+ }
+}

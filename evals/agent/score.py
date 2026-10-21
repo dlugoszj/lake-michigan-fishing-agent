@@ -1,6 +1,7 @@
 """Score every predictor on the backtest cases (no API calls).
 
-  python -m evals.agent.score                    # dev: baselines, plus agent results in results_dev.jsonl
+  python -m evals.agent.score                    # dev: baselines, plus Sonnet 5.5 agent results (results_dev_<model>.jsonl)
+  python -m evals.agent.score --model claude-haiku-5-5
   python -m evals.agent.score --split test
   python -m evals.agent.score --pilot            # the first 10-week pilot (results_pilot.jsonl)
 
@@ -76,10 +77,11 @@ def table(title: str, keys: list, cases: dict, preds: dict, good_at: int) -> Non
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", choices=SPLITS, default="dev")
+    ap.add_argument("--model", default="claude-sonnet-5-5", help="the agent model whose results to score")
     ap.add_argument("--pilot", action="store_true", help="score the first 10-week pilot instead")
     args = ap.parse_args()
     cases_path = HERE / "cases_pilot.jsonl" if args.pilot else cases_file(args.split)
-    results = HERE / "results_pilot.jsonl" if args.pilot else results_file(args.split)
+    results = HERE / "results_pilot.jsonl" if args.pilot else results_file(args.split, args.model)
     cases = {c["case_id"]: c for c in map(json.loads, cases_path.read_text().splitlines())}
     preds = load_predictions(cases, results)
     weeks = len({c["report_id"] for c in cases.values()})

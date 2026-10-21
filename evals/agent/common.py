@@ -28,8 +28,9 @@ def cases_file(split: str) -> Path:
     return HERE / f"cases_{split}.jsonl"
 
 
-def results_file(split: str) -> Path:
-    return HERE / f"results_{split}.jsonl"
+def results_file(split: str, model: str) -> Path:
+    """One file per split and agent model, so runs on different models are never mixed or skipped as done."""
+    return HERE / f"results_{split}_{model}.jsonl"
 
 
 def conn() -> sqlite3.Connection:
