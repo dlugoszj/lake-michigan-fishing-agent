@@ -10,5 +10,6 @@ REPORTS = DATA / "reports.json"     # one row per bulletin (id, url, date, title
 CHUNKS = DATA / "chunks.jsonl"      # one row per (report, region, port) paragraph
 RAW = DATA / "raw"                  # downloaded bulletin HTML
 CACHE = DATA / "cache"              # NDBC buoy files (not committed)
+RUNS_DB = DATA / "runs.db"          # every agent run: web, CLI and eval (agent/runlog.py; not committed)
 
 LABELS = ROOT / "evals" / "extraction" / "labels"  # hand labels for the extraction eval

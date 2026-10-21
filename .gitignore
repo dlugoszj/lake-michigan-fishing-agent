@@ -2,4 +2,5 @@
 __pycache__/
 .env
 cache/
+data/runs.db
 .DS_Store

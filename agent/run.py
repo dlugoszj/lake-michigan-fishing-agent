@@ -17,6 +17,7 @@ from datetime import date
 import anthropic
 from dotenv import load_dotenv
 
+from agent import runlog
 from agent.tools import TOOLS, run_tool
 from config.models import AGENT_DEFAULT_CLI, AGENT_MODELS
 from config.pricing import cost, usage_tokens
@@ -141,7 +142,9 @@ def main() -> None:
     ap.add_argument("--today", default=date.today().isoformat(), help="treat this as today; later reports are invisible")
     args = ap.parse_args()
 
-    for e in run_agent(args.question, args.today, args.model):
+    settings = {"report_tools": True, "conditions_history": False}
+    for e in runlog.logged(run_agent(args.question, args.today, args.model, **settings), source="cli",
+                           question=args.question, as_of=args.today, model=args.model, settings=settings):
         if e["type"] == "model_call":
             print(f"  [call {e['turn']}: {e['input_tokens']:,} in + {e['cache_read_tokens']:,} cache read + "
                   f"{e['cache_write_tokens']:,} cache write / {e['output_tokens']:,} out · ${e['cost']:.3f} · "

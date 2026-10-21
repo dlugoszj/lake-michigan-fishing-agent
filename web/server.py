@@ -14,6 +14,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from agent import runlog
 from agent.run import run_agent
 from config.models import AGENT_DEFAULT_WEB, AGENT_MODELS
 
@@ -47,9 +48,12 @@ def ask(req: AskRequest):
     if not req.question.strip():
         raise HTTPException(400, "empty question")
 
+    as_of, settings = req.today or date.today().isoformat(), {"report_tools": True, "conditions_history": False}
+
     def events():
         try:
-            for e in run_agent(req.question, req.today or date.today().isoformat(), req.model):
+            for e in runlog.logged(run_agent(req.question, as_of, req.model, **settings), source="web",
+                                   question=req.question, as_of=as_of, model=req.model, settings=settings):
                 yield f"data: {json.dumps(e)}\n\n"
         except Exception as ex:  # e.g. API key missing, network error
             yield f"data: {json.dumps({'type': 'error', 'message': str(ex)})}\n\n"

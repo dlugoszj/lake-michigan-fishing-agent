@@ -11,11 +11,12 @@ Each run: run_agent() as of the day before the answer-key report -> the final an
 the 0-4 rating the answer gives each port (null if it doesn't rate one). One row per (predictor, case, run)
 goes to results_<split>_<model>.jsonl as soon as it finishes, so a crash loses nothing and a re-run skips finished rows.
 Each row records the git commit it ran on, so results from different agent versions are never mixed up silently.
-Full transcripts go to traces/; runs that fail before an answer go to errors.jsonl, never scored as zeros.
+Every run's full transcript goes to data/runs.db (source 'eval', see agent/runlog.py) and its row here records
+the run_id; traces/ holds the transcripts of earlier runs (pilot, first Haiku dev run) as files.
+Runs that fail before an answer go to errors.jsonl, never scored as zeros.
 """
 import argparse
 import json
-import subprocess
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -24,12 +25,12 @@ from typing import Optional
 import anthropic
 from pydantic import BaseModel, Field
 
+from agent import runlog
 from agent.run import run_agent
 from config.pricing import cost, usage_tokens
 from evals.agent.common import HERE, PORTS, SPLITS, cases_file, results_file
 
 ERRORS = HERE / "errors.jsonl"
-TRACES = HERE / "traces"
 PREDICTORS = {  # name -> run_agent settings
     "agent": {"report_tools": True, "conditions_history": False},
     "agent_no_reports": {"report_tools": False, "conditions_history": False},
@@ -66,34 +67,30 @@ def read_ratings(client: anthropic.Anthropic, answer: str) -> tuple[dict, dict]:
     return {"ratings": ratings, "go_to": r.go_to}, usage_tokens(resp.usage)
 
 
-def git_commit() -> str:
-    """Short commit id, '+dirty' if agent/ or conditions/ have uncommitted changes."""
-    sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
-    dirty = subprocess.run(["git", "status", "--porcelain", "agent", "conditions"], capture_output=True, text=True).stdout.strip()
-    return sha + ("+dirty" if dirty else "")
-
-
-def run_one(client, predictor: str, case: dict, rep: int, model: str, split: str, commit: str) -> dict:
+def run_one(client, predictor: str, case: dict, rep: int, model: str, split: str, commit: str, run_id: str) -> dict:
     t0 = time.monotonic()
     events, answer, done = [], None, None
-    for e in run_agent(case["question"], case["as_of"], model, **PREDICTORS[predictor]):
-        events.append(e)
-        if e["type"] == "answer":
-            answer = e["text"]
-        elif e["type"] == "done":
-            done = e
-        if time.monotonic() - t0 > CASE_TIMEOUT_S:
-            raise TimeoutError(f"case took over {CASE_TIMEOUT_S}s")
+    settings = PREDICTORS[predictor]
+    stream = runlog.logged(run_agent(case["question"], case["as_of"], model, **settings), source="eval",
+                           question=case["question"], as_of=case["as_of"], model=model, settings=settings, run_id=run_id,
+                           meta={"split": split, "case_id": case["case_id"], "predictor": predictor, "rep": rep})
+    try:
+        for e in stream:
+            events.append(e)
+            if e["type"] == "answer":
+                answer = e["text"]
+            elif e["type"] == "done":
+                done = e
+            if time.monotonic() - t0 > CASE_TIMEOUT_S:
+                raise TimeoutError(f"case took over {CASE_TIMEOUT_S}s")
+    finally:
+        stream.close()  # saves the run now, also on a timeout
     if not answer:
         errs = [e["message"] for e in events if e["type"] == "error"]
         raise RuntimeError("no answer: " + "; ".join(errs or ["unknown"]))
     read, reader_usage = read_ratings(client, answer)
-    trace_dir = TRACES / split / model / predictor
-    trace_dir.mkdir(parents=True, exist_ok=True)
-    (trace_dir / f"{case['case_id']}_rep{rep}.json").write_text(json.dumps(
-        {"case": case, "events": events, "read": read}, indent=1))
     return {"predictor": predictor, "case_id": case["case_id"], "rep": rep, "status": "ok", "model": model,
-            "commit": commit, **PREDICTORS[predictor],
+            "commit": commit, "run_id": run_id, **settings,
             **read, "agent_cost": done["cost"], "reader_cost": cost(READER_MODEL, **reader_usage),
             "model_calls": done["model_calls"],
             "tool_calls": sum(e["type"] == "tool_call" for e in events), "seconds": round(time.monotonic() - t0, 1)}
@@ -110,7 +107,7 @@ def main() -> None:
 
     cases = [json.loads(l) for l in cases_file(args.split).read_text().splitlines()]
     RESULTS = results_file(args.split, args.model)
-    commit = git_commit()
+    commit = runlog.git_commit()
     if commit.endswith("+dirty"):
         print(f"warning: agent code has uncommitted changes ({commit}); results won't map to a commit")
     done = set()
@@ -123,9 +120,11 @@ def main() -> None:
     client = anthropic.Anthropic()
     lock, spent = threading.Lock(), 0.0
     with ThreadPoolExecutor(args.workers) as pool:
-        futs = {pool.submit(run_one, client, p, c, k, args.model, args.split, commit): (p, c, k) for p, c, k in jobs}
+        jobs = [(p, c, k, runlog.new_id()) for p, c, k in jobs]
+        futs = {pool.submit(run_one, client, p, c, k, args.model, args.split, commit, rid): (p, c, k, rid)
+                for p, c, k, rid in jobs}
         for fut in as_completed(futs):
-            p, c, k = futs[fut]
+            p, c, k, rid = futs[fut]
             try:
                 row = fut.result()
                 out, line = RESULTS, row
@@ -133,7 +132,7 @@ def main() -> None:
                 msg = f"ok  {' '.join('-' if v is None else str(v) for v in row['ratings'].values())}  ${row['agent_cost']:.3f}"
             except Exception as e:  # recorded, not scored
                 out, line = ERRORS, {"predictor": p, "case_id": c["case_id"], "rep": k, "split": args.split, "model": args.model,
-                                     "commit": commit,
+                                     "commit": commit, "run_id": rid,
                                      "error": f"{type(e).__name__}: {e}"}
                 msg = f"ERROR {line['error'][:120]}"
             with lock:
